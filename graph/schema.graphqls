@@ -3,7 +3,7 @@
 # https://gqlgen.com/getting-started/
 
 type Query {
-  users(limit:Int=10, offset:Int=0): [GetUser!]!
+  users(limit: Int = 10, offset: Int = 0): [GetUser!]!
 }
 
 type GetUser {
@@ -26,4 +26,8 @@ type User {
   long: Float
   lat: Float
   user_type: Int
+}
+
+type Mutation {
+  createUser(input: User!): GetUser!
 }
