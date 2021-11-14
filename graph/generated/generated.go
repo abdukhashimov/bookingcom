@@ -43,9 +43,15 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	GetUser struct {
-		CreatedAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
+		FirstName   func(childComplexity int) int
+		ID          func(childComplexity int) int
+		LastName    func(childComplexity int) int
+		Lat         func(childComplexity int) int
+		Long        func(childComplexity int) int
+		PhoneNumber func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
+		UserType    func(childComplexity int) int
 	}
 
 	Query struct {
@@ -89,6 +95,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.GetUser.CreatedAt(childComplexity), true
 
+	case "GetUser.first_name":
+		if e.complexity.GetUser.FirstName == nil {
+			break
+		}
+
+		return e.complexity.GetUser.FirstName(childComplexity), true
+
 	case "GetUser.id":
 		if e.complexity.GetUser.ID == nil {
 			break
@@ -96,12 +109,47 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.GetUser.ID(childComplexity), true
 
+	case "GetUser.last_name":
+		if e.complexity.GetUser.LastName == nil {
+			break
+		}
+
+		return e.complexity.GetUser.LastName(childComplexity), true
+
+	case "GetUser.lat":
+		if e.complexity.GetUser.Lat == nil {
+			break
+		}
+
+		return e.complexity.GetUser.Lat(childComplexity), true
+
+	case "GetUser.long":
+		if e.complexity.GetUser.Long == nil {
+			break
+		}
+
+		return e.complexity.GetUser.Long(childComplexity), true
+
+	case "GetUser.phone_number":
+		if e.complexity.GetUser.PhoneNumber == nil {
+			break
+		}
+
+		return e.complexity.GetUser.PhoneNumber(childComplexity), true
+
 	case "GetUser.updated_at":
 		if e.complexity.GetUser.UpdatedAt == nil {
 			break
 		}
 
 		return e.complexity.GetUser.UpdatedAt(childComplexity), true
+
+	case "GetUser.user_type":
+		if e.complexity.GetUser.UserType == nil {
+			break
+		}
+
+		return e.complexity.GetUser.UserType(childComplexity), true
 
 	case "Query.users":
 		if e.complexity.Query.Users == nil {
@@ -221,6 +269,12 @@ type GetUser {
   id: String
   created_at: String
   updated_at: String
+  first_name: String
+  last_name: String
+  phone_number: String!
+  long: Float
+  lat: Float
+  user_type: Int
 }
 
 type User {
@@ -387,6 +441,201 @@ func (ec *executionContext) _GetUser_updated_at(ctx context.Context, field graph
 	res := resTmp.(*string)
 	fc.Result = res
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetUser_first_name(ctx context.Context, field graphql.CollectedField, obj *model.GetUser) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GetUser",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FirstName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetUser_last_name(ctx context.Context, field graphql.CollectedField, obj *model.GetUser) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GetUser",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LastName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetUser_phone_number(ctx context.Context, field graphql.CollectedField, obj *model.GetUser) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GetUser",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PhoneNumber, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetUser_long(ctx context.Context, field graphql.CollectedField, obj *model.GetUser) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GetUser",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Long, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetUser_lat(ctx context.Context, field graphql.CollectedField, obj *model.GetUser) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GetUser",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Lat, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GetUser_user_type(ctx context.Context, field graphql.CollectedField, obj *model.GetUser) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GetUser",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_users(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1872,6 +2121,21 @@ func (ec *executionContext) _GetUser(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._GetUser_created_at(ctx, field, obj)
 		case "updated_at":
 			out.Values[i] = ec._GetUser_updated_at(ctx, field, obj)
+		case "first_name":
+			out.Values[i] = ec._GetUser_first_name(ctx, field, obj)
+		case "last_name":
+			out.Values[i] = ec._GetUser_last_name(ctx, field, obj)
+		case "phone_number":
+			out.Values[i] = ec._GetUser_phone_number(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "long":
+			out.Values[i] = ec._GetUser_long(ctx, field, obj)
+		case "lat":
+			out.Values[i] = ec._GetUser_lat(ctx, field, obj)
+		case "user_type":
+			out.Values[i] = ec._GetUser_user_type(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

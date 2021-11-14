@@ -3,9 +3,15 @@
 package model
 
 type GetUser struct {
-	ID        *string `json:"id"`
-	CreatedAt *string `json:"created_at"`
-	UpdatedAt *string `json:"updated_at"`
+	ID          *string  `json:"id"`
+	CreatedAt   *string  `json:"created_at"`
+	UpdatedAt   *string  `json:"updated_at"`
+	FirstName   *string  `json:"first_name"`
+	LastName    *string  `json:"last_name"`
+	PhoneNumber string   `json:"phone_number"`
+	Long        *float64 `json:"long"`
+	Lat         *float64 `json:"lat"`
+	UserType    *int     `json:"user_type"`
 }
 
 type User struct {
