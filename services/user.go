@@ -6,6 +6,8 @@ import (
 	"context"
 	"encoding/json"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type UserService struct {
@@ -49,6 +51,8 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 	updatedAt := time.Now()
 	payload.CreatedAt = &createdAt
 	payload.UpdatedAt = &updatedAt
+	payload.ID = uuid.NewString()
+
 	err := modelToStruct(req, &payload)
 	if err != nil {
 		return nil, err

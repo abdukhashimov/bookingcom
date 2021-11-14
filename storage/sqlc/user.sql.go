@@ -5,7 +5,8 @@ package sqlc
 
 import (
 	"context"
-	"time"
+
+	"abdukhashimov/mybron.uz/storage/custom"
 )
 
 const createUser = `-- name: CreateUser :one
@@ -26,16 +27,16 @@ RETURNING id, first_name, last_name, phone_number, is_verified, long, lat, user_
 `
 
 type CreateUserParams struct {
-	ID          string     `json:"id"`
-	FirstName   *string    `json:"first_name"`
-	LastName    *string    `json:"last_name"`
-	PhoneNumber string     `json:"phone_number"`
-	IsVerified  *bool      `json:"is_verified"`
-	Long        *float64   `json:"long"`
-	Lat         *float64   `json:"lat"`
-	UserType    int32      `json:"user_type"`
-	CreatedAt   *time.Time `json:"created_at"`
-	UpdatedAt   *time.Time `json:"updated_at"`
+	ID          string      `json:"id"`
+	FirstName   *string     `json:"first_name"`
+	LastName    *string     `json:"last_name"`
+	PhoneNumber string      `json:"phone_number"`
+	IsVerified  *bool       `json:"is_verified"`
+	Long        *float64    `json:"long"`
+	Lat         *float64    `json:"lat"`
+	UserType    int32       `json:"user_type"`
+	CreatedAt   custom.Time `json:"created_at"`
+	UpdatedAt   custom.Time `json:"updated_at"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -162,15 +163,15 @@ WHERE id = $9
 `
 
 type UpdateUserParams struct {
-	FirstName   *string    `json:"first_name"`
-	LastName    *string    `json:"last_name"`
-	PhoneNumber string     `json:"phone_number"`
-	IsVerified  *bool      `json:"is_verified"`
-	Long        *float64   `json:"long"`
-	Lat         *float64   `json:"lat"`
-	UserType    int32      `json:"user_type"`
-	UpdatedAt   *time.Time `json:"updated_at"`
-	ID          string     `json:"id"`
+	FirstName   *string     `json:"first_name"`
+	LastName    *string     `json:"last_name"`
+	PhoneNumber string      `json:"phone_number"`
+	IsVerified  *bool       `json:"is_verified"`
+	Long        *float64    `json:"long"`
+	Lat         *float64    `json:"lat"`
+	UserType    int32       `json:"user_type"`
+	UpdatedAt   custom.Time `json:"updated_at"`
+	ID          string      `json:"id"`
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
