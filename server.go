@@ -54,7 +54,7 @@ func main() {
 		5432,
 		"postgres",
 		"postgres",
-		"sample_db",
+		"booking",
 		"disable",
 	)
 
