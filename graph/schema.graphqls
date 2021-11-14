@@ -10,6 +10,12 @@ type GetUser {
   id: String
   created_at: String
   updated_at: String
+  first_name: String
+  last_name: String
+  phone_number: String!
+  long: Float
+  lat: Float
+  user_type: Int
 }
 
 type User {
