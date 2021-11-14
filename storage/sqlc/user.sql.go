@@ -28,16 +28,16 @@ RETURNING id, first_name, last_name, phone_number, is_verified, long, lat, user_
 `
 
 type CreateUserParams struct {
-	ID          custom.NullString `json:"id"`
-	FirstName   sql.NullString    `json:"first_name"`
-	LastName    sql.NullString    `json:"last_name"`
-	PhoneNumber custom.NullString `json:"phone_number"`
+	ID          string            `json:"id"`
+	FirstName   custom.NullString `json:"first_name"`
+	LastName    custom.NullString `json:"last_name"`
+	PhoneNumber string            `json:"phone_number"`
 	IsVerified  sql.NullBool      `json:"is_verified"`
 	Long        sql.NullFloat64   `json:"long"`
 	Lat         sql.NullFloat64   `json:"lat"`
 	UserType    int32             `json:"user_type"`
-	CreatedAt   sql.NullTime      `json:"created_at"`
-	UpdatedAt   sql.NullTime      `json:"updated_at"`
+	CreatedAt   custom.NullTime   `json:"created_at"`
+	UpdatedAt   custom.NullTime   `json:"updated_at"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -74,7 +74,7 @@ DELETE FROM users
 WHERE id = $1
 `
 
-func (q *Queries) DeleteUser(ctx context.Context, id custom.NullString) error {
+func (q *Queries) DeleteUser(ctx context.Context, id string) error {
 	_, err := q.db.ExecContext(ctx, deleteUser, id)
 	return err
 }
@@ -86,7 +86,7 @@ WHERE id = $1
 LIMIT 1
 `
 
-func (q *Queries) GetUser(ctx context.Context, id custom.NullString) (User, error) {
+func (q *Queries) GetUser(ctx context.Context, id string) (User, error) {
 	row := q.db.QueryRowContext(ctx, getUser, id)
 	var i User
 	err := row.Scan(
@@ -164,15 +164,15 @@ WHERE id = $9
 `
 
 type UpdateUserParams struct {
-	FirstName   sql.NullString    `json:"first_name"`
-	LastName    sql.NullString    `json:"last_name"`
-	PhoneNumber custom.NullString `json:"phone_number"`
+	FirstName   custom.NullString `json:"first_name"`
+	LastName    custom.NullString `json:"last_name"`
+	PhoneNumber string            `json:"phone_number"`
 	IsVerified  sql.NullBool      `json:"is_verified"`
 	Long        sql.NullFloat64   `json:"long"`
 	Lat         sql.NullFloat64   `json:"lat"`
 	UserType    int32             `json:"user_type"`
-	UpdatedAt   sql.NullTime      `json:"updated_at"`
-	ID          custom.NullString `json:"id"`
+	UpdatedAt   custom.NullTime   `json:"updated_at"`
+	ID          string            `json:"id"`
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {

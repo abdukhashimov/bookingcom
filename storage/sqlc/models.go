@@ -9,19 +9,19 @@ import (
 )
 
 type User struct {
-	ID          custom.NullString `json:"id"`
-	FirstName   sql.NullString    `json:"first_name"`
-	LastName    sql.NullString    `json:"last_name"`
-	PhoneNumber custom.NullString `json:"phone_number"`
+	ID          string            `json:"id"`
+	FirstName   custom.NullString `json:"first_name"`
+	LastName    custom.NullString `json:"last_name"`
+	PhoneNumber string            `json:"phone_number"`
 	IsVerified  sql.NullBool      `json:"is_verified"`
 	Long        sql.NullFloat64   `json:"long"`
 	Lat         sql.NullFloat64   `json:"lat"`
 	UserType    int32             `json:"user_type"`
-	CreatedAt   sql.NullTime      `json:"created_at"`
-	UpdatedAt   sql.NullTime      `json:"updated_at"`
+	CreatedAt   custom.NullTime   `json:"created_at"`
+	UpdatedAt   custom.NullTime   `json:"updated_at"`
 }
 
 type UserType struct {
-	ID   int32          `json:"id"`
-	Name sql.NullString `json:"name"`
+	ID   int32             `json:"id"`
+	Name custom.NullString `json:"name"`
 }

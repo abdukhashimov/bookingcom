@@ -10,3 +10,7 @@ packages:
 overrides:
   - go_type: "abdukhashimov/mybron.uz/storage/custom.NullString"
     db_type: "pg_catalog.varchar"
+    nullable: true
+  - go_type: "abdukhashimov/mybron.uz/storage/custom.NullTime"
+    db_type: "pg_catalog.timestamp"
+    nullable: true
