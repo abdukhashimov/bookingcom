@@ -7,4 +7,6 @@ packages:
     emit_prepared_queries: false
     emit_interface: false
     emit_exact_table_names: false
-
+overrides:
+  - go_type: "abdukhashimov/mybron.uz/storage/custom.NullString"
+    db_type: "pg_catalog.varchar"

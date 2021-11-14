@@ -1,4 +1,4 @@
-package sqlc
+package custom
 
 import (
 	"database/sql"
