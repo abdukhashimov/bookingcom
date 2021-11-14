@@ -10,7 +10,7 @@ import (
 	"fmt"
 )
 
-func (r *queryResolver) Users(ctx context.Context) ([]*model.GetUser, error) {
+func (r *queryResolver) Users(ctx context.Context, limti *int, offset *int) ([]*model.GetUser, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
