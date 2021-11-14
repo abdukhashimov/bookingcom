@@ -1,8 +1,10 @@
 package services
 
 import (
+	"abdukhashimov/mybron.uz/graph/model"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
+	"encoding/json"
 	"time"
 )
 
@@ -16,8 +18,26 @@ func NewUserService(db *sqlc.Queries) *UserService {
 	}
 }
 
-func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]sqlc.User, error) {
-	return u.db.GetUsers(ctx, req)
+func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.GetUser, error) {
+	var (
+		res []*model.GetUser
+	)
+
+	users, err := u.db.GetUsers(ctx, req)
+	if err != nil {
+		return res, err
+	}
+
+	bytes, err := json.Marshal(users)
+	if err != nil {
+		return res, err
+	}
+	err = json.Unmarshal(bytes, &res)
+	if err != nil {
+		return res, err
+	}
+
+	return res, nil
 }
 
 func (u *UserService) Create(ctx context.Context, req sqlc.CreateUserParams) (sqlc.User, error) {

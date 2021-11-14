@@ -6,12 +6,18 @@ package graph
 import (
 	"abdukhashimov/mybron.uz/graph/generated"
 	"abdukhashimov/mybron.uz/graph/model"
+	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
-	"fmt"
 )
 
-func (r *queryResolver) Users(ctx context.Context, limti *int, offset *int) ([]*model.GetUser, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.GetUser, error) {
+	return r.Services.UserService.GetAll(
+		ctx,
+		sqlc.GetUsersParams{
+			Limit:  limit,
+			Offset: offset,
+		},
+	)
 }
 
 // Query returns generated.QueryResolver implementation.
