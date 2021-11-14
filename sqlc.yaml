@@ -28,6 +28,8 @@ overrides:
       type: "float64"
       pointer: true
     nullable: true
-  - go_type: "abdukhashimov/mybron.uz/storage/custom.NullTime"
+  - go_type:
+      type: "time.Time"
+      pointer: true
     db_type: "pg_catalog.timestamp"
     nullable: true

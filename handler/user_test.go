@@ -16,13 +16,27 @@ var (
 )
 
 func createUser(t *testing.T) sqlc.User {
+	firstName := faker.FirstName()
+	lastName := faker.LastName()
+	isVerified := false
+	long, lat := faker.Longitude(), faker.Latitude()
+
 	user, err := userHandler.Create(
 		context.Background(),
 		sqlc.CreateUserParams{
-			ID: faker.UUIDHyphenated(),
+			ID:          faker.UUIDHyphenated(),
+			FirstName:   &firstName,
+			LastName:    &lastName,
+			PhoneNumber: faker.Word(),
+			IsVerified:  &isVerified,
+			Long:        &long,
+			Lat:         &lat,
+			UserType:    1,
 		},
 	)
+
 	if err != nil {
+		t.Error("Failed to create user")
 		panic(err)
 	}
 
@@ -31,6 +45,7 @@ func createUser(t *testing.T) sqlc.User {
 
 func TestGetAllUsers(t *testing.T) {
 	userHandler = handler.NewUserHandler(queries)
+	createUser(t)
 	users, err := userHandler.GetAll(context.Background(), sqlc.GetUsersParams{
 		Offset: 0,
 		Limit:  10,
