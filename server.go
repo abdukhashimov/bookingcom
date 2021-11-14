@@ -24,13 +24,14 @@ const defaultPort = "8080"
 func graphqlHandler(queries *sqlc.Queries) gin.HandlerFunc {
 	// NewExecutableSchema and Config are in the generated.go file
 	// Resolver is in the resolver.go file
+	resolver := graph.NewResolver(
+		logger.New("info", "graphql-test"),
+		services.NewServices(queries),
+	)
 
 	h := handler.NewDefaultServer(generated.NewExecutableSchema(
 		generated.Config{
-			Resolvers: &graph.Resolver{
-				Log:      logger.New("info", "graphql-test"),
-				Services: services.NewServices(queries),
-			},
+			Resolvers: &resolver,
 		}),
 	)
 

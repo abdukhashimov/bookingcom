@@ -10,6 +10,13 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	Services *services.Services
-	Log      logger.Logger
+	services *services.Services
+	log      logger.Logger
+}
+
+func NewResolver(log logger.Logger, services *services.Services) Resolver {
+	return Resolver{
+		log:      log,
+		services: services,
+	}
 }

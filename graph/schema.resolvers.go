@@ -6,17 +6,29 @@ package graph
 import (
 	"abdukhashimov/mybron.uz/graph/generated"
 	"abdukhashimov/mybron.uz/graph/model"
+	"abdukhashimov/mybron.uz/logger"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"fmt"
 )
 
+func (r *mutationResolver) logErrorAndInfo(res interface{}, err error) {
+	if err != nil {
+		r.log.Error("create user request failed", logger.Error(err))
+	} else {
+		r.log.Info("create user request success", logger.Any("response", res))
+	}
+}
+
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	return r.Services.UserService.Create(ctx, input)
+	r.log.Info("create user request", logger.Any("payload", input))
+	res, err := r.services.UserService.Create(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
-	return r.Services.UserService.GetAll(ctx, sqlc.GetUsersParams{
+	return r.services.UserService.GetAll(ctx, sqlc.GetUsersParams{
 		Offset: int32(*offset),
 		Limit:  int32(*limit),
 	})
