@@ -3,7 +3,7 @@
 # https://gqlgen.com/getting-started/
 
 type Query {
-  users: [GetUser!]!
+  users(limti:Int=10, offset:Int=0): [GetUser!]!
 }
 
 type GetUser {
