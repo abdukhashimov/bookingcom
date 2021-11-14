@@ -65,3 +65,7 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 
 	return &response, nil
 }
+
+func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.NewUser) (*model.User, error) {
+	return nil, nil
+}
