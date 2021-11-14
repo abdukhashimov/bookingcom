@@ -4,7 +4,6 @@ import (
 	"abdukhashimov/mybron.uz/graph/model"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
-	"encoding/json"
 	"time"
 
 	"github.com/google/uuid"
@@ -30,11 +29,7 @@ func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*m
 		return res, err
 	}
 
-	bytes, err := json.Marshal(users)
-	if err != nil {
-		return res, err
-	}
-	err = json.Unmarshal(bytes, &res)
+	err = modelToStruct(users, &res)
 	if err != nil {
 		return res, err
 	}
