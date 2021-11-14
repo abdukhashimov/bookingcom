@@ -40,10 +40,29 @@ func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*m
 	return res, nil
 }
 
-func (u *UserService) Create(ctx context.Context, req sqlc.CreateUserParams) (sqlc.User, error) {
+func (u *UserService) Create(ctx context.Context, req *model.NewUser) (*model.User, error) {
+	var (
+		payload  sqlc.CreateUserParams
+		response model.User
+	)
 	createdAt := time.Now()
 	updatedAt := time.Now()
-	req.CreatedAt = &createdAt
-	req.UpdatedAt = &updatedAt
-	return u.db.CreateUser(ctx, req)
+	payload.CreatedAt = &createdAt
+	payload.UpdatedAt = &updatedAt
+	err := modelToStruct(req, &payload)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := u.db.CreateUser(ctx, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	err = modelToStruct(res, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
 }

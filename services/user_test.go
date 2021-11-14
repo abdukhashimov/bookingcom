@@ -1,6 +1,7 @@
 package services_test
 
 import (
+	"abdukhashimov/mybron.uz/graph/model"
 	"abdukhashimov/mybron.uz/services"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
@@ -15,23 +16,18 @@ var (
 	userHandler *services.UserService
 )
 
-func createUser(t *testing.T) sqlc.User {
+func createUser(t *testing.T) *model.User {
 	firstName := faker.FirstName()
 	lastName := faker.LastName()
-	isVerified := false
 	long, lat := faker.Longitude(), faker.Latitude()
 
 	user, err := userHandler.Create(
 		context.Background(),
-		sqlc.CreateUserParams{
-			ID:          faker.UUIDHyphenated(),
-			FirstName:   &firstName,
-			LastName:    &lastName,
-			PhoneNumber: faker.Word(),
-			IsVerified:  &isVerified,
-			Long:        &long,
-			Lat:         &lat,
-			UserType:    1,
+		&model.NewUser{
+			FirstName: firstName,
+			LastName:  lastName,
+			Long:      &long,
+			Lat:       &lat,
 		},
 	)
 
