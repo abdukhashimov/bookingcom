@@ -67,5 +67,31 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 }
 
 func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.NewUser) (*model.User, error) {
-	return nil, nil
+	var (
+		payload  sqlc.UpdateUserParams
+		response model.User
+	)
+
+	payload.ID = *id
+	err := modelToStruct(req, &payload)
+	if err != nil {
+		return nil, err
+	}
+
+	err = u.db.UpdateUser(ctx, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	userDb, err := u.db.GetUser(ctx, payload.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	err = modelToStruct(userDb, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response, nil
 }
