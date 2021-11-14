@@ -26,6 +26,8 @@ input NewUser {
   lat: Float
 }
 
+
 type Mutation {
   createUser(input: NewUser!): User!
+  updateUser(id: String, input: NewUser): User!
 }

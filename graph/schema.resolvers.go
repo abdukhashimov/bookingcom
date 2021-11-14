@@ -12,19 +12,15 @@ import (
 	"fmt"
 )
 
-func (r *mutationResolver) logErrorAndInfo(res interface{}, err error) {
-	if err != nil {
-		r.log.Error("create user request failed", logger.Error(err))
-	} else {
-		r.log.Info("create user request success", logger.Any("response", res))
-	}
-}
-
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	r.log.Info("create user request", logger.Any("payload", input))
 	res, err := r.services.UserService.Create(ctx, input)
 	r.logErrorAndInfo(res, err)
 	return res, err
+}
+
+func (r *mutationResolver) UpdateUser(ctx context.Context, id *string, input *model.NewUser) (*model.User, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
@@ -49,6 +45,13 @@ type queryResolver struct{ *Resolver }
 //  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //    it when you're done.
 //  - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *mutationResolver) logErrorAndInfo(res interface{}, err error) {
+	if err != nil {
+		r.log.Error("create user request failed", logger.Error(err))
+	} else {
+		r.log.Info("create user request success", logger.Any("response", res))
+	}
+}
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewUser) (*model.User, error) {
 	panic(fmt.Errorf("not implemented"))
 }
