@@ -3,25 +3,23 @@
 package sqlc
 
 import (
-	"database/sql"
-
 	"abdukhashimov/mybron.uz/storage/custom"
 )
 
 type User struct {
-	ID          string            `json:"id"`
-	FirstName   custom.NullString `json:"first_name"`
-	LastName    custom.NullString `json:"last_name"`
-	PhoneNumber string            `json:"phone_number"`
-	IsVerified  sql.NullBool      `json:"is_verified"`
-	Long        sql.NullFloat64   `json:"long"`
-	Lat         sql.NullFloat64   `json:"lat"`
-	UserType    int32             `json:"user_type"`
-	CreatedAt   custom.NullTime   `json:"created_at"`
-	UpdatedAt   custom.NullTime   `json:"updated_at"`
+	ID          string          `json:"id"`
+	FirstName   *string         `json:"first_name"`
+	LastName    *string         `json:"last_name"`
+	PhoneNumber string          `json:"phone_number"`
+	IsVerified  *bool           `json:"is_verified"`
+	Long        *float64        `json:"long"`
+	Lat         *float64        `json:"lat"`
+	UserType    int32           `json:"user_type"`
+	CreatedAt   custom.NullTime `json:"created_at"`
+	UpdatedAt   custom.NullTime `json:"updated_at"`
 }
 
 type UserType struct {
-	ID   int32             `json:"id"`
-	Name custom.NullString `json:"name"`
+	ID   int32   `json:"id"`
+	Name *string `json:"name"`
 }

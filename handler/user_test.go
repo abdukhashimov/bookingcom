@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/bxcodec/faker/v3"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,6 +16,17 @@ var (
 )
 
 func createUser(t *testing.T) sqlc.User {
+	user, err := userHandler.Create(
+		context.Background(),
+		sqlc.CreateUserParams{
+			ID: faker.UUIDHyphenated(),
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	return user
 }
 
 func TestGetAllUsers(t *testing.T) {
