@@ -40,7 +40,7 @@ func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*m
 	return res, nil
 }
 
-func (u *UserService) Create(ctx context.Context, req *model.NewUser) (*model.User, error) {
+func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.User, error) {
 	var (
 		payload  sqlc.CreateUserParams
 		response model.User

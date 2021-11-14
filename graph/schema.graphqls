@@ -27,5 +27,5 @@ input NewUser {
 }
 
 type Mutation {
-  createTodo(input: NewUser!): User!
+  createUser(input: NewUser!): User!
 }

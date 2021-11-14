@@ -23,7 +23,7 @@ func createUser(t *testing.T) *model.User {
 
 	user, err := userHandler.Create(
 		context.Background(),
-		&model.NewUser{
+		model.NewUser{
 			FirstName: firstName,
 			LastName:  lastName,
 			Long:      &long,
