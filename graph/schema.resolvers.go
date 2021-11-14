@@ -14,8 +14,8 @@ func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*
 	return r.Services.UserService.GetAll(
 		ctx,
 		sqlc.GetUsersParams{
-			Limit:  limit,
-			Offset: offset,
+			Limit:  int32(*limit),
+			Offset: int32(*offset),
 		},
 	)
 }
