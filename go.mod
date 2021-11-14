@@ -7,6 +7,7 @@ require (
 	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/lib/pq v1.10.4
 	github.com/stretchr/testify v1.7.0
+	github.com/vektah/gqlparser/v2 v2.2.0
 )
 
 require (
@@ -23,7 +24,6 @@ require (
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/urfave/cli/v2 v2.1.1 // indirect
 	github.com/vektah/dataloaden v0.2.1-0.20190515034641-a19b9a6e7c9e // indirect
-	github.com/vektah/gqlparser/v2 v2.2.0 // indirect
 	golang.org/x/mod v0.3.0 // indirect
 	golang.org/x/tools v0.0.0-20210106214847-113979e3529a // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
