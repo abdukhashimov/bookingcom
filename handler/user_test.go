@@ -10,8 +10,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	userHandler *handler.UserService
+)
+
+func createUser(t *testing.T) sqlc.User {
+}
+
 func TestGetAllUsers(t *testing.T) {
-	userHandler := handler.NewUserHandler(queries)
+	userHandler = handler.NewUserHandler(queries)
 	users, err := userHandler.GetAll(context.Background(), sqlc.GetUsersParams{
 		Offset: 0,
 		Limit:  10,
