@@ -5,12 +5,12 @@ CREATE TABLE "user_type" (
 
 CREATE TABLE "users" (
   "id" varchar UNIQUE NOT NULL,
-  "first_name" varchar NOT NULL,
-  "last_name" varchar NOT NULL,
+  "first_name" varchar,
+  "last_name" varchar,
   "phone_number" varchar NOT NULL,
   "is_verified" boolean DEFAULT 'false',
   "location" varchar,
-  "user_type" integer,
+  "user_type" integer NOT NULL,
   "created_at" timestamp,
   "updated_at" timestamp
 );
