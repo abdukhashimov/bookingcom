@@ -18,9 +18,9 @@ func NewUserService(db *sqlc.Queries) *UserService {
 	}
 }
 
-func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.GetUser, error) {
+func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.User, error) {
 	var (
-		res []*model.GetUser
+		res []*model.User
 	)
 
 	users, err := u.db.GetUsers(ctx, req)

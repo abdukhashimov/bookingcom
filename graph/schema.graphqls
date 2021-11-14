@@ -3,11 +3,11 @@
 # https://gqlgen.com/getting-started/
 
 type Query {
-  users(limit: Int = 10, offset: Int = 0): [GetUser!]!
+  users(limit: Int = 10, offset: Int = 0): [User!]!
 }
 
-type GetUser {
-  id: String
+type User {
+  id: String!
   created_at: String
   updated_at: String
   first_name: String
@@ -18,16 +18,14 @@ type GetUser {
   user_type: Int
 }
 
-type User {
-  first_name: String
-  last_name: String
+input NewUser {
+  first_name: String!
+  last_name: String!
   phone_number: String!
-  is_verified: Boolean!
   long: Float
   lat: Float
-  user_type: Int
 }
 
 type Mutation {
-  createUser(input: User!): GetUser!
+  createTodo(input: NewUser!): User!
 }
