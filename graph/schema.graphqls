@@ -3,7 +3,21 @@
 # https://gqlgen.com/getting-started/
 
 type Query {
+  users: [GetUser!]!
 }
 
-type Mutation {
+type GetUser {
+  id: String
+  created_at: String
+  updated_at: String
+}
+
+type User {
+  first_name: String
+  last_name: String
+  phone_number: String!
+  is_verified: Boolean!
+  long: Float
+  lat: Float
+  user_type: Int
 }

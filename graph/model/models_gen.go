@@ -2,19 +2,18 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
-}
-
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
+type GetUser struct {
+	ID        *string `json:"id"`
+	CreatedAt *string `json:"created_at"`
+	UpdatedAt *string `json:"updated_at"`
 }
 
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	FirstName   *string  `json:"first_name"`
+	LastName    *string  `json:"last_name"`
+	PhoneNumber string   `json:"phone_number"`
+	IsVerified  bool     `json:"is_verified"`
+	Long        *float64 `json:"long"`
+	Lat         *float64 `json:"lat"`
+	UserType    *int     `json:"user_type"`
 }
