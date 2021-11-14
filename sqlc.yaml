@@ -1,2 +1,10 @@
 version: "1"
-packages: []
+packages:
+  - path: "./storage/sqlc"
+    queries: "./storage/queries"
+    schema: "./migrations/1_user_table.up.sql"
+    emit_json_tags: true
+    emit_prepared_queries: false
+    emit_interface: false
+    emit_exact_table_names: false
+
