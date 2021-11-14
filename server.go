@@ -1,16 +1,20 @@
 package main
 
 import (
-	"abdukhashimov/mybron.uz/graph"
-	"abdukhashimov/mybron.uz/graph/generated"
-	"abdukhashimov/mybron.uz/storage/sqlc"
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
+	"abdukhashimov/mybron.uz/graph"
+	"abdukhashimov/mybron.uz/graph/generated"
+	"abdukhashimov/mybron.uz/logger"
+	"abdukhashimov/mybron.uz/services"
+	"abdukhashimov/mybron.uz/storage/sqlc"
+	"database/sql"
+
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
 
@@ -24,9 +28,8 @@ func graphqlHandler(queries *sqlc.Queries) gin.HandlerFunc {
 	h := handler.NewDefaultServer(generated.NewExecutableSchema(
 		generated.Config{
 			Resolvers: &graph.Resolver{
-				Queries:  queries,
-				Services: services.NewMainService(queries),
 				Log:      logger.New("info", "graphql-test"),
+				Services: services.NewServices(queries),
 			},
 		}),
 	)

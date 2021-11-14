@@ -1,4 +1,4 @@
-package handler
+package services
 
 import (
 	"abdukhashimov/mybron.uz/storage/sqlc"
@@ -10,7 +10,7 @@ type UserService struct {
 	db *sqlc.Queries
 }
 
-func NewUserHandler(db *sqlc.Queries) *UserService {
+func NewUserService(db *sqlc.Queries) *UserService {
 	return &UserService{
 		db: db,
 	}

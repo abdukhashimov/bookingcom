@@ -1,4 +1,4 @@
-package handler_test
+package services_test
 
 import (
 	"abdukhashimov/mybron.uz/storage/sqlc"

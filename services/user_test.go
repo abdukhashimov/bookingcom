@@ -1,7 +1,7 @@
-package handler_test
+package services_test
 
 import (
-	"abdukhashimov/mybron.uz/handler"
+	"abdukhashimov/mybron.uz/services"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"fmt"
@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	userHandler *handler.UserService
+	userHandler *services.UserService
 )
 
 func createUser(t *testing.T) sqlc.User {
@@ -44,7 +44,7 @@ func createUser(t *testing.T) sqlc.User {
 }
 
 func TestGetAllUsers(t *testing.T) {
-	userHandler = handler.NewUserHandler(queries)
+	userHandler = services.NewUserService(queries)
 	createUser(t)
 	users, err := userHandler.GetAll(context.Background(), sqlc.GetUsersParams{
 		Offset: 0,
