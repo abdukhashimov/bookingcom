@@ -56,7 +56,7 @@ func (a *auth) MiddleWare() gin.HandlerFunc {
 
 		if authorization == "" {
 			a.log.Warn(noAuthTokenMessage)
-			a.makeStatusHeader(c, http.StatusUnauthorized, noAuthTokenMessage, errors.New(noAuthTokenMessage))
+			// a.makeStatusHeader(c, http.StatusUnauthorized, noAuthTokenMessage, errors.New(noAuthTokenMessage))
 			return
 		}
 
