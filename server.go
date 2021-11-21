@@ -24,12 +24,12 @@ import (
 const defaultPort = "8080"
 
 // Defining the Graphql handler
-func graphqlHandler(queries *sqlc.Queries) gin.HandlerFunc {
+func graphqlHandler(queries *sqlc.Queries, jwt jwt.Jwt) gin.HandlerFunc {
 	// NewExecutableSchema and Config are in the generated.go file
 	// Resolver is in the resolver.go file
 	resolver := graph.NewResolver(
 		logger.New("info", "graphql-test"),
-		services.NewServices(queries),
+		services.NewServices(queries, jwt),
 	)
 
 	h := handler.NewDefaultServer(generated.NewExecutableSchema(
@@ -84,7 +84,7 @@ func main() {
 	// Setting up Gin
 	r := gin.New()
 	r.Use(auth.MiddleWare())
-	r.POST("/query", graphqlHandler(queries))
+	r.POST("/query", graphqlHandler(queries, jwt))
 	r.GET("/", playgroundHandler())
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	r.Run()

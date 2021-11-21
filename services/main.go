@@ -1,6 +1,7 @@
 package services
 
 import (
+	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"encoding/json"
 )
@@ -9,9 +10,9 @@ type Services struct {
 	UserService *UserService
 }
 
-func NewServices(db *sqlc.Queries) *Services {
+func NewServices(db *sqlc.Queries, jwt jwt.Jwt) *Services {
 	return &Services{
-		UserService: NewUserService(db),
+		UserService: NewUserService(db, jwt),
 	}
 }
 

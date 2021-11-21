@@ -2,6 +2,7 @@ package services
 
 import (
 	"abdukhashimov/mybron.uz/graph/model"
+	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"time"
@@ -10,12 +11,14 @@ import (
 )
 
 type UserService struct {
-	db *sqlc.Queries
+	db  *sqlc.Queries
+	jwt jwt.Jwt
 }
 
-func NewUserService(db *sqlc.Queries) *UserService {
+func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	return &UserService{
-		db: db,
+		db:  db,
+		jwt: jwt,
 	}
 }
 
