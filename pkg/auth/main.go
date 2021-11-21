@@ -2,12 +2,14 @@ package auth
 
 import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
+	"abdukhashimov/mybron.uz/pkg/logger"
 	"context"
 	"net/http"
 )
 
 type Auth struct {
 	jwt jwt.Jwt
+	log logger.Logger
 }
 
 func (a *Auth) MiddleWare() func(http.Handler) http.Handler {
