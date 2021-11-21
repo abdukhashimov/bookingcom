@@ -49,6 +49,8 @@ func (j *Jwt) ParseToken(tokenStr string) (TokenPayload, error) {
 		token   *jwt.Token
 	)
 
+	j.log.Debug("parsing jwt token", logger.Any("token", tokenStr))
+
 	token, err = jwt.Parse(
 		tokenStr,
 		func(token *jwt.Token) (interface{}, error) {
@@ -58,8 +60,12 @@ func (j *Jwt) ParseToken(tokenStr string) (TokenPayload, error) {
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		payload = claims["payload"].(TokenPayload)
+
+		j.log.Debug("parsed the token", logger.Any("payload", payload))
 		return payload, err
 	} else {
+		j.log.Warn("failed to parse token", logger.Error(err))
+
 		return TokenPayload{}, err
 	}
 }
