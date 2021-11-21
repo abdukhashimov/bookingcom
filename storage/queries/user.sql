@@ -4,6 +4,9 @@ FROM users
 WHERE id = $1
 LIMIT 1;
 
+-- name: GetUserByPhoneNumber :one
+SELECT * from users WHERE phone_number = $1 LIMIT 1;
+
 -- name: GetUsers :many
 SELECT *
 FROM users
