@@ -52,10 +52,10 @@ func (a *auth) makeStatusHeader(c *gin.Context, statusCode int, message string, 
 func (a *auth) MiddleWare() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authorization := c.Request.Header.Get("Authorization")
-		a.log.Debug("auth middleware is running", logger.String("Authorization", authorization))
+		// a.log.Debug("auth middleware is running", logger.String("Authorization", authorization))
 
 		if authorization == "" {
-			a.log.Warn(noAuthTokenMessage)
+			// a.log.Warn(noAuthTokenMessage)
 			// a.makeStatusHeader(c, http.StatusUnauthorized, noAuthTokenMessage, errors.New(noAuthTokenMessage))
 			return
 		}
