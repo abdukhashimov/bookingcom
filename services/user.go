@@ -5,6 +5,7 @@ import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -27,6 +28,21 @@ func (u *UserService) Login(ctx context.Context, req *model.LoginParams) (*model
 		res model.LoginResponse
 		err error
 	)
+	userDB, err := u.db.GetUserByPhoneNumber(ctx, req.PhoneNumber)
+	if err != nil {
+		return &res, errors.New("invalid credentials")
+	}
+
+	token, err := u.jwt.GenerateToken(jwt.TokenPayload{
+		UserID: userDB.ID,
+	})
+
+	if err != nil {
+		return &res, err
+	}
+
+	res.Token = token
+	res.RefreshToken = "no refresh token for now!"
 
 	return &res, err
 }
