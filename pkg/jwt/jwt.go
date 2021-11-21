@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"abdukhashimov/mybron.uz/config"
+	"abdukhashimov/mybron.uz/pkg/logger"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -9,6 +10,7 @@ import (
 
 type Jwt struct {
 	cfg *config.Config
+	log logger.Logger
 }
 
 type TokenPayload struct {
@@ -21,6 +23,8 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 		err         error
 	)
 
+	j.log.Info("generating jwt token...", logger.Any("payload", payload))
+
 	token := jwt.New(jwt.SigningMethodES256)
 	claims := token.Claims.(jwt.MapClaims)
 
@@ -31,6 +35,9 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 	).Unix()
 
 	tokenString, err = token.SignedString(j.cfg.JWTSecretKey)
+	if err != nil {
+		j.log.Warn("failed to generate jwt token", logger.Error(err))
+	}
 
 	return tokenString, err
 }
