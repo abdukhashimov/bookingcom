@@ -13,6 +13,13 @@ type Jwt struct {
 	log logger.Logger
 }
 
+func NewJwt(cfg *config.Config, log logger.Logger) Jwt {
+	return Jwt{
+		cfg: cfg,
+		log: log,
+	}
+}
+
 type TokenPayload struct {
 	UserID string `json:"user_id"`
 }
