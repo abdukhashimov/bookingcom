@@ -23,7 +23,7 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 		err         error
 	)
 
-	j.log.Info("generating jwt token...", logger.Any("payload", payload))
+	j.log.Debug("generating jwt token...", logger.Any("payload", payload))
 
 	token := jwt.New(jwt.SigningMethodES256)
 	claims := token.Claims.(jwt.MapClaims)
