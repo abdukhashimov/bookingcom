@@ -19,6 +19,11 @@ func NewUserService(db *sqlc.Queries) *UserService {
 	}
 }
 
+func (u *UserService) Login(ctx context.Context, req model.LoginParams) (model.LoginResponse, error) {
+
+	return model.LoginResponse{}, nil
+}
+
 func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.User, error) {
 	var (
 		res []*model.User
