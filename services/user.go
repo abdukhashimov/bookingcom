@@ -42,6 +42,7 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 		payload  sqlc.CreateUserParams
 		response model.User
 	)
+
 	createdAt := time.Now()
 	updatedAt := time.Now()
 	payload.CreatedAt = &createdAt
