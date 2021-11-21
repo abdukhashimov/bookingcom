@@ -7,13 +7,16 @@ import (
 )
 
 type Config struct {
-	JWTSecretKey string
+	JWTSecretKey    string
+	TokenExpireHour int
 }
 
 func NewConfig() *Config {
 	config := Config{}
 
 	config.JWTSecretKey = cast.ToString(getOrReturnDefault("JWT_SECRET", "this_is_secret_key"))
+	config.TokenExpireHour = cast.ToInt(getOrReturnDefault("TOKEN_EXPIRE_HOUR", 24))
+
 	return &config
 }
 
