@@ -28,7 +28,7 @@ func graphqlHandler(queries *sqlc.Queries, jwt jwt.Jwt) gin.HandlerFunc {
 	// NewExecutableSchema and Config are in the generated.go file
 	// Resolver is in the resolver.go file
 	resolver := graph.NewResolver(
-		logger.New("info", "graphql-test"),
+		logger.New("info", "mybron.uz-resolver"),
 		services.NewServices(queries, jwt),
 	)
 
