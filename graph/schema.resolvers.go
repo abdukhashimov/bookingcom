@@ -57,9 +57,9 @@ type queryResolver struct{ *Resolver }
 //  - You have helper methods in this file. Move them out to keep these resolver files clean.
 func (r *mutationResolver) logErrorAndInfo(res interface{}, err error) {
 	if err != nil {
-		r.log.Error("create user request failed", logger.Error(err))
+		r.log.Error("request failed", logger.Error(err))
 	} else {
-		r.log.Info("create user request success", logger.Any("response", res))
+		r.log.Info("request success", logger.Any("response", res))
 	}
 }
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewUser) (*model.User, error) {
