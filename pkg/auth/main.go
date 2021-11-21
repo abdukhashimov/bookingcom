@@ -3,37 +3,49 @@ package auth
 import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
-	"context"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-type Auth struct {
+type auth struct {
 	jwt jwt.Jwt
 	log logger.Logger
 }
 
-func (a *Auth) MiddleWare() func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-			authorizationHeader := r.Header.Get("Authorization")
-			a.log.Debug("auth middleware is running", logger.String("Authorization", authorizationHeader))
+// ResponseModel ...
+type ResponseModel struct {
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Error   interface{} `json:"error"`
+	Data    interface{} `json:"data"`
+}
 
-			if authorizationHeader == "" {
-				a.log.Warn("no authorization header is provided")
-				next.ServeHTTP(rw, r)
-				return
-			}
+type ErrorModel struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Error   error  `json:"error"`
+}
 
-			tokenPayload, err := a.jwt.ParseToken(authorizationHeader)
-			if err != nil {
-				a.log.Warn("authorization token is invalid")
-				http.Error(rw, "Authorization token is invalid", http.StatusForbidden)
-				return
-			}
+func NewAuth(jwt jwt.Jwt, log logger.Logger) auth {
+	return auth{
+		jwt: jwt,
+		log: log,
+	}
+}
 
-			ctx := context.WithValue(r.Context(), tokenPayload, tokenPayload)
-			r = r.WithContext(ctx)
-			next.ServeHTTP(rw, r)
-		})
+func (a *auth) makeStatusHeader(c *gin.Context, statusCode int, message string, err error) {
+	a.log.Error(message, logger.Int("code", statusCode), logger.Any("error", err))
+	c.JSON(statusCode, ErrorModel{
+		Code:    statusCode,
+		Message: message,
+		Error:   err,
+	})
+}
+
+func (a *auth) MiddleWare() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		c.Next()
+		return
 	}
 }

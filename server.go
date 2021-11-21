@@ -5,8 +5,11 @@ import (
 	"log"
 	"os"
 
+	"abdukhashimov/mybron.uz/config"
 	"abdukhashimov/mybron.uz/graph"
 	"abdukhashimov/mybron.uz/graph/generated"
+	"abdukhashimov/mybron.uz/pkg/auth"
+	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/services"
 	"abdukhashimov/mybron.uz/storage/sqlc"
@@ -50,6 +53,9 @@ func playgroundHandler() gin.HandlerFunc {
 }
 
 func main() {
+	cfg := config.NewConfig()
+	customLogger := logger.New("info", "mybron-uz")
+
 	conStr := fmt.Sprintf("host=%s port=%v user=%s password=%s dbname=%s sslmode=%s",
 		"localhost",
 		5432,
@@ -72,8 +78,12 @@ func main() {
 		port = defaultPort
 	}
 
+	jwt := jwt.NewJwt(cfg, customLogger)
+	auth := auth.NewAuth(jwt, customLogger)
+
 	// Setting up Gin
 	r := gin.New()
+	r.Use(auth.MiddleWare())
 	r.POST("/query", graphqlHandler(queries))
 	r.GET("/", playgroundHandler())
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
