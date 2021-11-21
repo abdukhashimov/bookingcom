@@ -3,8 +3,15 @@ package auth
 import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
+	"errors"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	noAuthTokenMessage = "no authorization header is provided"
+	authTokenIsInvalid = "authorization token is invalid"
 )
 
 type auth struct {
@@ -44,7 +51,23 @@ func (a *auth) makeStatusHeader(c *gin.Context, statusCode int, message string, 
 
 func (a *auth) MiddleWare() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		authorization := c.Request.Header.Get("Authorization")
+		a.log.Debug("auth middleware is running", logger.String("Authorization", authorization))
 
+		if authorization == "" {
+			a.log.Warn(noAuthTokenMessage)
+			a.makeStatusHeader(c, http.StatusUnauthorized, noAuthTokenMessage, errors.New(noAuthTokenMessage))
+			return
+		}
+
+		tokenPayload, err := a.jwt.ParseToken(authorization)
+		if err != nil {
+			a.log.Warn(authTokenIsInvalid)
+			a.makeStatusHeader(c, http.StatusForbidden, authTokenIsInvalid, errors.New(authTokenIsInvalid))
+			return
+		}
+
+		c.Set("auth", tokenPayload)
 		c.Next()
 		return
 	}
