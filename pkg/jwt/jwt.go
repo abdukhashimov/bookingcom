@@ -41,7 +41,7 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 		time.Hour * time.Duration(j.cfg.TokenExpireHour),
 	).Unix()
 
-	tokenString, err = token.SignedString(j.cfg.JWTSecretKey)
+	tokenString, err = token.SignedString([]byte(j.cfg.JWTSecretKey))
 	if err != nil {
 		j.log.Warn("failed to generate jwt token", logger.Error(err))
 	}
