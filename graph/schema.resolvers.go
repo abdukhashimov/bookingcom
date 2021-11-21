@@ -27,7 +27,10 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id *string, input *mo
 }
 
 func (r *mutationResolver) Login(ctx context.Context, input *model.LoginParams) (*model.LoginResponse, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("login request", logger.Any("payload", input))
+	res, err := r.services.UserService.Login(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
