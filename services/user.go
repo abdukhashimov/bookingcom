@@ -73,7 +73,10 @@ func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.New
 		response model.User
 	)
 
+	updatedAt := time.Now()
 	payload.ID = *id
+	payload.UpdatedAt = &updatedAt
+
 	err := modelToStruct(req, &payload)
 	if err != nil {
 		return nil, err
