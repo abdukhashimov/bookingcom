@@ -1,7 +1,7 @@
 package graph
 
 import (
-	"abdukhashimov/mybron.uz/logger"
+	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/services"
 )
 

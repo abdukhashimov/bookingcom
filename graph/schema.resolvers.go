@@ -6,7 +6,7 @@ package graph
 import (
 	"abdukhashimov/mybron.uz/graph/generated"
 	"abdukhashimov/mybron.uz/graph/model"
-	"abdukhashimov/mybron.uz/logger"
+	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"fmt"
