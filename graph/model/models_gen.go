@@ -2,6 +2,17 @@
 
 package model
 
+type LoginParams struct {
+	PhoneNumber   string `json:"phone_number"`
+	OtpCode       string `json:"otp_code"`
+	PasscodeToken string `json:"passcode_token"`
+}
+
+type LoginResponse struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
 type NewUser struct {
 	FirstName   string   `json:"first_name"`
 	LastName    string   `json:"last_name"`

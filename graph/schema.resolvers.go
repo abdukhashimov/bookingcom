@@ -26,6 +26,10 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, id *string, input *mo
 	return res, err
 }
 
+func (r *mutationResolver) Login(ctx context.Context, input *model.LoginParams) (*model.LoginResponse, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
 	return r.services.UserService.GetAll(ctx, sqlc.GetUsersParams{
 		Offset: int32(*offset),
