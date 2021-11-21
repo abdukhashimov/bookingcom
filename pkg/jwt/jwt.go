@@ -43,6 +43,23 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 }
 
 func (j *Jwt) ParseToken(tokenStr string) (TokenPayload, error) {
+	var (
+		payload TokenPayload
+		err     error
+		token   *jwt.Token
+	)
 
-	return TokenPayload{}, nil
+	token, err = jwt.Parse(
+		tokenStr,
+		func(token *jwt.Token) (interface{}, error) {
+			return j.cfg.JWTSecretKey, nil
+		},
+	)
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		payload = claims["payload"].(TokenPayload)
+		return payload, err
+	} else {
+		return TokenPayload{}, err
+	}
 }
