@@ -40,6 +40,10 @@ func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*
 	})
 }
 
+func (r *queryResolver) User(ctx context.Context) (*model.User, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
