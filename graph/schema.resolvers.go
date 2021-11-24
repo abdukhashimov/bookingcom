@@ -6,6 +6,7 @@ package graph
 import (
 	"abdukhashimov/mybron.uz/graph/generated"
 	"abdukhashimov/mybron.uz/graph/model"
+	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
@@ -41,7 +42,11 @@ func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*
 }
 
 func (r *queryResolver) UserMe(ctx context.Context) (*model.User, error) {
-	return r.services.UserService.GetUserByID(ctx)
+	userInfo, _ := ctx.Value("key").(jwt.TokenPayload)
+	r.log.Info("user me request", logger.Any("user_id", userInfo))
+	res, err := r.services.UserService.GetUserByID(ctx)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 // Mutation returns generated.MutationResolver implementation.
@@ -54,6 +59,14 @@ type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 
 func (r *mutationResolver) logErrorAndInfo(res interface{}, err error) {
+	if err != nil {
+		r.log.Error("request failed", logger.Error(err))
+	} else {
+		r.log.Info("request success", logger.Any("response", res))
+	}
+}
+
+func (r *queryResolver) logErrorAndInfo(res interface{}, err error) {
 	if err != nil {
 		r.log.Error("request failed", logger.Error(err))
 	} else {
