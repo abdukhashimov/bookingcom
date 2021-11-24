@@ -41,12 +41,7 @@ func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*
 }
 
 func (r *queryResolver) UserMe(ctx context.Context) (*model.User, error) {
-	var (
-		user model.User
-		err  error
-	)
-	fmt.Println(ctx.Value("auth"))
-	return &user, err
+	return r.services.UserService.GetUserByID(ctx)
 }
 
 // Mutation returns generated.MutationResolver implementation.

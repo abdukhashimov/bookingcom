@@ -23,6 +23,28 @@ func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	}
 }
 
+func (u *UserService) GetUserByID(ctx context.Context) (*model.User, error) {
+	var (
+		res model.User
+	)
+
+	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
+	if !ok {
+		return &res, errors.New("failed to parse auth")
+	}
+	userDb, err := u.db.GetUser(ctx, userInfo.UserID)
+	if err != nil {
+		return &res, err
+	}
+
+	err = modelToStruct(userDb, &res)
+	if err != nil {
+		return &res, err
+	}
+
+	return &res, nil
+}
+
 func (u *UserService) Login(ctx context.Context, req *model.LoginParams) (*model.LoginResponse, error) {
 	var (
 		res model.LoginResponse
