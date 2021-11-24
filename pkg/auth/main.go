@@ -68,7 +68,7 @@ func (a *auth) MiddleWare() gin.HandlerFunc {
 			return
 		}
 
-		ctx := context.WithValue(c, "key", tokenPayload)
+		ctx := context.WithValue(c, "auth", tokenPayload)
 		c.Request = c.Request.WithContext(ctx)
 		c.Next()
 	}
