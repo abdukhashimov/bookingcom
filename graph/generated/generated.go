@@ -55,8 +55,8 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		User  func(childComplexity int) int
-		Users func(childComplexity int, limit *int, offset *int) int
+		UserMe func(childComplexity int) int
+		Users  func(childComplexity int, limit *int, offset *int) int
 	}
 
 	User struct {
@@ -79,7 +79,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error)
-	User(ctx context.Context) (*model.User, error)
+	UserMe(ctx context.Context) (*model.User, error)
 }
 
 type executableSchema struct {
@@ -147,12 +147,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(*string), args["input"].(*model.NewUser)), true
 
-	case "Query.user":
-		if e.complexity.Query.User == nil {
+	case "Query.userMe":
+		if e.complexity.Query.UserMe == nil {
 			break
 		}
 
-		return e.complexity.Query.User(childComplexity), true
+		return e.complexity.Query.UserMe(childComplexity), true
 
 	case "Query.users":
 		if e.complexity.Query.Users == nil {
@@ -299,7 +299,7 @@ var sources = []*ast.Source{
 
 type Query {
   users(limit: Int = 10, offset: Int = 0): [User!]!
-  user: User!
+  userMe: User!
 }
 
 type User {
@@ -715,7 +715,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 	return ec.marshalNUser2ᚕᚖabdukhashimovᚋmybronᚗuzᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_user(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Query_userMe(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -733,7 +733,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().User(rctx)
+		return ec.resolvers.Query().UserMe(rctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2441,7 +2441,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}
 				return res
 			})
-		case "user":
+		case "userMe":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
 				defer func() {
@@ -2449,7 +2449,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_user(ctx, field)
+				res = ec._Query_userMe(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
