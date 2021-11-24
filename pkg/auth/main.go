@@ -3,6 +3,7 @@ package auth
 import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
+	"context"
 	"errors"
 	"net/http"
 
@@ -67,6 +68,8 @@ func (a *auth) MiddleWare() gin.HandlerFunc {
 			return
 		}
 
+		ctx := context.WithValue(c, "auth", tokenPayload)
+		c.Request.WithContext(ctx)
 		c.Set("auth", tokenPayload)
 		c.Next()
 		return

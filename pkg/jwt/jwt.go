@@ -32,11 +32,11 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 
 	j.log.Debug("generating jwt token...", logger.Any("payload", payload))
 
-	token := jwt.New(jwt.SigningMethodHS512)
+	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 
 	// set claims
-	claims["payload"] = payload
+	claims["user_id"] = payload.UserID
 	claims["expires_at"] = time.Now().Add(
 		time.Hour * time.Duration(j.cfg.TokenExpireHour),
 	).Unix()
@@ -61,12 +61,12 @@ func (j *Jwt) ParseToken(tokenStr string) (TokenPayload, error) {
 	token, err = jwt.Parse(
 		tokenStr,
 		func(token *jwt.Token) (interface{}, error) {
-			return j.cfg.JWTSecretKey, nil
+			return []byte(j.cfg.JWTSecretKey), nil
 		},
 	)
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		payload = claims["payload"].(TokenPayload)
+		payload.UserID = claims["user_id"].(string)
 
 		j.log.Debug("parsed the token", logger.Any("payload", payload))
 		return payload, err
