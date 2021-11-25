@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/pkg/errors"
 )
 
 type Jwt struct {
@@ -38,7 +39,7 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 	// set claims
 	claims["user_id"] = payload.UserID
 	claims["expires_at"] = time.Now().Add(
-		time.Hour * time.Duration(j.cfg.TokenExpireHour),
+		time.Second * time.Duration(j.cfg.TokenExpireHour),
 	).Unix()
 
 	tokenString, err = token.SignedString([]byte(j.cfg.JWTSecretKey))
@@ -66,8 +67,12 @@ func (j *Jwt) ParseToken(tokenStr string) (TokenPayload, error) {
 	)
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		payload.UserID = claims["user_id"].(string)
+		expires := int64(claims["expires_at"].(float64))
+		if expires < time.Now().Unix() {
+			return TokenPayload{}, errors.New("token is expired")
+		}
 
+		payload.UserID = claims["user_id"].(string)
 		j.log.Debug("parsed the token", logger.Any("payload", payload))
 		return payload, err
 	} else {

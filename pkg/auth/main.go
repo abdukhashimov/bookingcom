@@ -4,8 +4,6 @@ import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
 	"context"
-	"errors"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -57,14 +55,12 @@ func (a *auth) MiddleWare() gin.HandlerFunc {
 
 		if authorization == "" {
 			// a.log.Warn(noAuthTokenMessage)
-			// a.makeStatusHeader(c, http.StatusUnauthorized, noAuthTokenMessage, errors.New(noAuthTokenMessage))
 			return
 		}
 
 		tokenPayload, err := a.jwt.ParseToken(authorization)
 		if err != nil {
 			a.log.Warn(authTokenIsInvalid)
-			a.makeStatusHeader(c, http.StatusForbidden, authTokenIsInvalid, errors.New(authTokenIsInvalid))
 			return
 		}
 
