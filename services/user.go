@@ -3,9 +3,11 @@ package services
 import (
 	"abdukhashimov/mybron.uz/graph/model"
 	"abdukhashimov/mybron.uz/pkg/jwt"
+	"abdukhashimov/mybron.uz/pkg/messages"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -23,13 +25,41 @@ func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	}
 }
 
+func (u *UserService) UpdateMe(ctx context.Context, req *model.UpdateUser) (*model.UpdateResponse, error) {
+	var (
+		res     model.UpdateResponse
+		payload sqlc.UpdateUserParams
+	)
+
+	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
+	if !ok {
+		return &res, errors.New(messages.ErrorAuthFailed)
+	}
+
+	err := modelToStruct(req, &payload)
+	if err != nil {
+		return &res, errors.New(messages.ErrorFailedToParseJSON)
+	}
+
+	userDB, err := u.db.GetUser(ctx, userInfo.UserID)
+	if err != nil {
+		return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
+	}
+
+	fmt.Println(userDB)
+	fmt.Println(payload)
+	modelToStruct(userDB, &payload)
+	fmt.Println(payload)
+	return &res, nil
+}
+
 func (u *UserService) GetUserByID(ctx context.Context) (*model.User, error) {
 	var (
 		res model.User
 	)
 	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
 	if !ok {
-		return &res, errors.New("code:401,message:authentication failed")
+		return &res, errors.New(messages.ErrorAuthFailed)
 	}
 	userDb, err := u.db.GetUser(ctx, userInfo.UserID)
 	if err != nil {
