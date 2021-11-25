@@ -39,7 +39,7 @@ func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
 	// set claims
 	claims["user_id"] = payload.UserID
 	claims["expires_at"] = time.Now().Add(
-		time.Second * time.Duration(j.cfg.TokenExpireHour),
+		time.Hour * time.Duration(j.cfg.TokenExpireHour),
 	).Unix()
 
 	tokenString, err = token.SignedString([]byte(j.cfg.JWTSecretKey))
