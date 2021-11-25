@@ -7,6 +7,10 @@ type Query {
   userMe: User!
 }
 
+type UpdateResponse {
+  id: String!
+}
+
 type User {
   id: String!
   created_at: String
@@ -27,6 +31,13 @@ input NewUser {
   lat: Float
 }
 
+type UpdateUser {
+  first_name: String
+  last_name: String
+  long: Float
+  lat: Float
+}
+
 input LoginParams {
   phone_number: String!
   otp_code: String!
@@ -42,4 +53,5 @@ type Mutation {
   createUser(input: NewUser!): User!
   updateUser(id: String, input: NewUser): User!
   login(input: LoginParams): LoginResponse!
+  updateMe(input: UpdateUser!):UpdateResponse!
 }
