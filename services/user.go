@@ -27,10 +27,9 @@ func (u *UserService) GetUserByID(ctx context.Context) (*model.User, error) {
 	var (
 		res model.User
 	)
-
 	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
 	if !ok {
-		return &res, errors.New("failed to parse auth")
+		return &res, errors.New("code:401,message:authentication failed")
 	}
 	userDb, err := u.db.GetUser(ctx, userInfo.UserID)
 	if err != nil {

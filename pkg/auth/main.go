@@ -26,26 +26,11 @@ type ResponseModel struct {
 	Data    interface{} `json:"data"`
 }
 
-type ErrorModel struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Error   error  `json:"error"`
-}
-
 func NewAuth(jwt jwt.Jwt, log logger.Logger) auth {
 	return auth{
 		jwt: jwt,
 		log: log,
 	}
-}
-
-func (a *auth) makeStatusHeader(c *gin.Context, statusCode int, message string, err error) {
-	a.log.Error(message, logger.Int("code", statusCode), logger.Any("error", err))
-	c.JSON(statusCode, ErrorModel{
-		Code:    statusCode,
-		Message: message,
-		Error:   err,
-	})
 }
 
 func (a *auth) MiddleWare() gin.HandlerFunc {
