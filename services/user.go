@@ -8,6 +8,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/google/uuid"
@@ -41,15 +42,25 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		return &res, errors.New(messages.ErrorFailedToParseJSON)
 	}
 
-	userDB, err := u.db.GetUser(ctx, userInfo.UserID)
-	if err != nil {
-		return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
-	}
+	// userDB, err := u.db.GetUser(ctx, userInfo.UserID)
+	// if err != nil {
+	// 	return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
+	// }
 
-	fmt.Println(userDB)
-	fmt.Println(payload)
-	modelToStruct(userDB, &payload)
-	fmt.Println(payload)
+	// TODO: Need to find the way to update the object without hard codedly writing it!
+	v := reflect.ValueOf(payload)
+	typeOfS := v.Type()
+
+	for i := 0; i < v.NumField(); i++ {
+		fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Name, v.Field(i).Interface())
+	}
+	payload.ID = userInfo.UserID
+	// err = u.db.UpdateUser(ctx, payload)
+	// if err != nil {
+	// 	return &res, errors.New(messages.ErrorFailedToUpdateDBObject)
+	// }
+
+	res.ID = userInfo.UserID
 	return &res, nil
 }
 
