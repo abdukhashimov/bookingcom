@@ -25,7 +25,7 @@ func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	}
 }
 
-func (u *UserService) UpdateMe(ctx context.Context, req *model.UpdateUser) (*model.UpdateResponse, error) {
+func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*model.UpdateResponse, error) {
 	var (
 		res     model.UpdateResponse
 		payload sqlc.UpdateUserParams
