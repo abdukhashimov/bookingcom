@@ -42,18 +42,23 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		return &res, errors.New(messages.ErrorFailedToParseJSON)
 	}
 
-	userDB, err := u.db.GetUser(ctx, userInfo.UserID)
-	if err != nil {
-		return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
-	}
+	// userDB, err := u.db.GetUser(ctx, userInfo.UserID)
+	// if err != nil {
+	// 	return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
+	// }
 
 	// TODO: Need to find the way to update the object without hard codedly writing it!
 	v := reflect.ValueOf(payload)
-	typeOfS := v.Type()
-	rv := reflect.ValueOf(&userDB).Elem()
-	fmt.Printf("%+v", userDB)
+	// typeOfS := v.Type()
+	// rv := reflect.ValueOf(&userDB).Elem()
 	for i := 0; i < v.NumField(); i++ {
-		fmt.Println("Database: ", typeOfS.Field(i).Name, rv.FieldByName(typeOfS.Field(i).Name))
+		// fmt.Println("Database: ", typeOfS.Field(i).Name, rv.FieldByName(typeOfS.Field(i).Name).Type())
+		field := v.Field(i).Interface()
+		if reflect.TypeOf(field).Kind().String() == "ptr" {
+			fmt.Println("IF: ", reflect.ValueOf(field).IsNil())
+		} else {
+			fmt.Println("ELSE: ", reflect.ValueOf(field).IsZero())
+		}
 		// fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Name, v.Field(i).Interface())
 	}
 
