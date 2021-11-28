@@ -26,10 +26,17 @@ func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	}
 }
 
+type Sample struct {
+	Hello struct {
+		Name string `json:"name"`
+	}
+	Helloo string `json:"helloo"`
+}
+
 func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*model.UpdateResponse, error) {
 	var (
 		res     model.UpdateResponse
-		payload sqlc.UpdateUserParams
+		payload Sample
 	)
 
 	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
@@ -37,10 +44,12 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		return &res, errors.New(messages.ErrorAuthFailed)
 	}
 
-	err := modelToStruct(req, &payload)
-	if err != nil {
-		return &res, errors.New(messages.ErrorFailedToParseJSON)
-	}
+	// payload.Hello.Name = "Madiyor"
+	payload.Helloo = "Madiyor"
+	// err := modelToStruct(req, &payload)
+	// if err != nil {
+	// 	return &res, errors.New(messages.ErrorFailedToParseJSON)
+	// }
 
 	// userDB, err := u.db.GetUser(ctx, userInfo.UserID)
 	// if err != nil {
@@ -62,7 +71,7 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		// fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Name, v.Field(i).Interface())
 	}
 
-	payload.ID = userInfo.UserID
+	// payload.ID = userInfo.UserID
 	// err = u.db.UpdateUser(ctx, payload)
 	// if err != nil {
 	// 	return &res, errors.New(messages.ErrorFailedToUpdateDBObject)

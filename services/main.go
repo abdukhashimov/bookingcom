@@ -4,6 +4,7 @@ import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"encoding/json"
+	"reflect"
 )
 
 type Services struct {
@@ -27,5 +28,29 @@ func modelToStruct(input interface{}, output interface{}) error {
 		return err
 	}
 
+	return nil
+}
+
+func makeObjectPatch(input interface{}, output interface{}) error {
+	value := reflect.ValueOf(input)
+	types := value.Type()
+	reflectValue := reflect.ValueOf(&output).Elem()
+
+	for i := 0; i < value.NumField(); i++ {
+		field := value.Field(i).Interface()
+		if reflect.TypeOf(field).Kind().String() == "ptr" {
+			if reflect.ValueOf(field).IsNil() {
+				// need to assign it from output
+			} else {
+				// just go on
+			}
+		} else {
+			if reflect.ValueOf(field).IsZero() {
+				// need to assign it from output
+			} else {
+				// just go on
+			}
+		}
+	}
 	return nil
 }
