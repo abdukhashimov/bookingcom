@@ -8,8 +8,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"reflect"
-	"time"
 
 	"github.com/google/uuid"
 )
@@ -26,17 +24,10 @@ func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	}
 }
 
-type Sample struct {
-	Hello struct {
-		Name string `json:"name"`
-	}
-	Helloo string `json:"helloo"`
-}
-
 func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*model.UpdateResponse, error) {
 	var (
 		res     model.UpdateResponse
-		payload Sample
+		payload sqlc.UpdateUserParams
 	)
 
 	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
@@ -44,38 +35,23 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		return &res, errors.New(messages.ErrorAuthFailed)
 	}
 
-	// payload.Hello.Name = "Madiyor"
-	payload.Helloo = "Madiyor"
-	// err := modelToStruct(req, &payload)
-	// if err != nil {
-	// 	return &res, errors.New(messages.ErrorFailedToParseJSON)
-	// }
-
-	// userDB, err := u.db.GetUser(ctx, userInfo.UserID)
-	// if err != nil {
-	// 	return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
-	// }
-
-	// TODO: Need to find the way to update the object without hard codedly writing it!
-	v := reflect.ValueOf(payload)
-	// typeOfS := v.Type()
-	// rv := reflect.ValueOf(&userDB).Elem()
-	for i := 0; i < v.NumField(); i++ {
-		// fmt.Println("Database: ", typeOfS.Field(i).Name, rv.FieldByName(typeOfS.Field(i).Name).Type())
-		field := v.Field(i).Interface()
-		if reflect.TypeOf(field).Kind().String() == "ptr" {
-			fmt.Println("IF: ", reflect.ValueOf(field).IsNil())
-		} else {
-			fmt.Println("ELSE: ", reflect.ValueOf(field).IsZero())
-		}
-		// fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Name, v.Field(i).Interface())
+	err := modelToStruct(req, &payload)
+	if err != nil {
+		return &res, errors.New(messages.ErrorFailedToParseJSON)
 	}
 
-	// payload.ID = userInfo.UserID
-	// err = u.db.UpdateUser(ctx, payload)
-	// if err != nil {
-	// 	return &res, errors.New(messages.ErrorFailedToUpdateDBObject)
-	// }
+	userDB, err := u.db.GetUser(ctx, userInfo.UserID)
+	if err != nil {
+		return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
+	}
+
+	fmt.Printf("%+v", payload)
+	err = modelToStruct(userDB, &payload)
+	if err != nil {
+		return &res, err
+	}
+	payload.ID = userInfo.UserID
+	fmt.Printf("%+v", payload)
 
 	res.ID = userInfo.UserID
 	return &res, nil
@@ -150,10 +126,6 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 		response model.User
 	)
 
-	createdAt := time.Now()
-	updatedAt := time.Now()
-	payload.CreatedAt = &createdAt
-	payload.UpdatedAt = &updatedAt
 	payload.ID = uuid.NewString()
 
 	err := modelToStruct(req, &payload)
@@ -180,9 +152,7 @@ func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.New
 		response model.User
 	)
 
-	updatedAt := time.Now()
 	payload.ID = *id
-	payload.UpdatedAt = &updatedAt
 
 	err := modelToStruct(req, &payload)
 	if err != nil {
