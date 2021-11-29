@@ -12,6 +12,6 @@ CREATE TABLE "users" (
   "long" FLOAT,
   "lat" FLOAT,
   "user_type" integer NOT NULL,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp NOT NULL DEFAULT NOW(),
+  "updated_at" timestamp NOT NULL DEFAULT NOW()
 );
