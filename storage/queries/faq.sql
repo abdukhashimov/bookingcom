@@ -1,10 +1,10 @@
--- name: GeeFaq :one
+-- name: GetFaq :one
 SELECT *
 FROM faq
 WHERE slug = @slug and lang = @lang
 LIMIT 1;
 
--- name: GeteFaq :many
+-- name: GetAllFaq :many
 SELECT *
 FROM faq
 WHERE lang = @lang

@@ -69,35 +69,7 @@ func (q *Queries) DeleteFaq(ctx context.Context, id string) error {
 	return err
 }
 
-const geeFaq = `-- name: GeeFaq :one
-SELECT id, question, answer, slug, lang, active, created_at, updated_at
-FROM faq
-WHERE slug = $1 and lang = $2
-LIMIT 1
-`
-
-type GeeFaqParams struct {
-	Slug string `json:"slug"`
-	Lang string `json:"lang"`
-}
-
-func (q *Queries) GeeFaq(ctx context.Context, arg GeeFaqParams) (Faq, error) {
-	row := q.db.QueryRowContext(ctx, geeFaq, arg.Slug, arg.Lang)
-	var i Faq
-	err := row.Scan(
-		&i.ID,
-		&i.Question,
-		&i.Answer,
-		&i.Slug,
-		&i.Lang,
-		&i.Active,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-	)
-	return i, err
-}
-
-const geteFaq = `-- name: GeteFaq :many
+const getAllFaq = `-- name: GetAllFaq :many
 SELECT id, question, answer, slug, lang, active, created_at, updated_at
 FROM faq
 WHERE lang = $1
@@ -105,14 +77,14 @@ ORDER BY created_at desc
 LIMIT $3 OFFSET $2
 `
 
-type GeteFaqParams struct {
+type GetAllFaqParams struct {
 	Lang   string `json:"lang"`
 	Offset int32  `json:"offset_"`
 	Limit  int32  `json:"limit_"`
 }
 
-func (q *Queries) GeteFaq(ctx context.Context, arg GeteFaqParams) ([]Faq, error) {
-	rows, err := q.db.QueryContext(ctx, geteFaq, arg.Lang, arg.Offset, arg.Limit)
+func (q *Queries) GetAllFaq(ctx context.Context, arg GetAllFaqParams) ([]Faq, error) {
+	rows, err := q.db.QueryContext(ctx, getAllFaq, arg.Lang, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -141,6 +113,34 @@ func (q *Queries) GeteFaq(ctx context.Context, arg GeteFaqParams) ([]Faq, error)
 		return nil, err
 	}
 	return items, nil
+}
+
+const getFaq = `-- name: GetFaq :one
+SELECT id, question, answer, slug, lang, active, created_at, updated_at
+FROM faq
+WHERE slug = $1 and lang = $2
+LIMIT 1
+`
+
+type GetFaqParams struct {
+	Slug string `json:"slug"`
+	Lang string `json:"lang"`
+}
+
+func (q *Queries) GetFaq(ctx context.Context, arg GetFaqParams) (Faq, error) {
+	row := q.db.QueryRowContext(ctx, getFaq, arg.Slug, arg.Lang)
+	var i Faq
+	err := row.Scan(
+		&i.ID,
+		&i.Question,
+		&i.Answer,
+		&i.Slug,
+		&i.Lang,
+		&i.Active,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
 }
 
 const updateFaq = `-- name: UpdateFaq :exec
