@@ -474,7 +474,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "graph/faq.graphql", Input: `input CreateFAQ {
+	{Name: "graph/graphql/faq.graphql", Input: `input CreateFAQ {
   question: String!
   answer: String!
   active: Boolean!
@@ -505,7 +505,7 @@ type GetAllResp {
 }
 
 `, BuiltIn: false},
-	{Name: "graph/schema.graphql", Input: `# GraphQL schema example
+	{Name: "graph/graphql/schema.graphql", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
 
