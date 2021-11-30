@@ -61,11 +61,11 @@ func (q *Queries) CreateFaq(ctx context.Context, arg CreateFaqParams) (Faq, erro
 
 const deleteFaq = `-- name: DeleteFaq :exec
 DELETE FROM faq
-WHERE id = $1
+WHERE slug = $1
 `
 
-func (q *Queries) DeleteFaq(ctx context.Context, id string) error {
-	_, err := q.db.ExecContext(ctx, deleteFaq, id)
+func (q *Queries) DeleteFaq(ctx context.Context, slug string) error {
+	_, err := q.db.ExecContext(ctx, deleteFaq, slug)
 	return err
 }
 

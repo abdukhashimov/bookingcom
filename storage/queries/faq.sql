@@ -35,4 +35,4 @@ WHERE slug = @slug and lang = @lang;
 
 -- name: DeleteFaq :exec
 DELETE FROM faq
-WHERE id = $1;
+WHERE slug = $1;
