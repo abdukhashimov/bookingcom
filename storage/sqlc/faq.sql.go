@@ -28,8 +28,8 @@ type CreateFaqParams struct {
 	ID        string       `json:"id"`
 	Question  *string      `json:"question"`
 	Answer    *string      `json:"answer"`
-	Slug      *string      `json:"slug"`
-	Lang      *string      `json:"lang"`
+	Slug      string       `json:"slug"`
+	Lang      string       `json:"lang"`
 	Active    sql.NullBool `json:"active"`
 	CreatedAt time.Time    `json:"created_at"`
 	UpdatedAt time.Time    `json:"updated_at"`
@@ -78,8 +78,8 @@ LIMIT 1
 `
 
 type GeeFaqParams struct {
-	Slug *string `json:"slug"`
-	Lang *string `json:"lang"`
+	Slug string `json:"slug"`
+	Lang string `json:"lang"`
 }
 
 func (q *Queries) GeeFaq(ctx context.Context, arg GeeFaqParams) (Faq, error) {
@@ -107,9 +107,9 @@ LIMIT $3 OFFSET $2
 `
 
 type GeteFaqParams struct {
-	Lang   *string `json:"lang"`
-	Offset int32   `json:"offset_"`
-	Limit  int32   `json:"limit_"`
+	Lang   string `json:"lang"`
+	Offset int32  `json:"offset_"`
+	Limit  int32  `json:"limit_"`
 }
 
 func (q *Queries) GeteFaq(ctx context.Context, arg GeteFaqParams) ([]Faq, error) {
@@ -158,8 +158,8 @@ type UpdateFaqParams struct {
 	Answer    *string      `json:"answer"`
 	Active    sql.NullBool `json:"active"`
 	UpdatedAt time.Time    `json:"updated_at"`
-	Slug      *string      `json:"slug"`
-	Lang      *string      `json:"lang"`
+	Slug      string       `json:"slug"`
+	Lang      string       `json:"lang"`
 }
 
 func (q *Queries) UpdateFaq(ctx context.Context, arg UpdateFaqParams) error {
