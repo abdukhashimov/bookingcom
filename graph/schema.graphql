@@ -2,11 +2,6 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Query {
-  users(limit: Int = 10, offset: Int = 0): [User!]!
-  userMe: User!
-}
-
 type UpdateResponse {
   id: String!
 }
@@ -53,5 +48,17 @@ type Mutation {
   createUser(input: NewUser!): User!
   updateUser(id: String, input: NewUser): User!
   login(input: LoginParams): LoginResponse!
-  updateMe(input: UpdateUser!):UpdateResponse!
+  updateMe(input: UpdateUser!): UpdateResponse!
+
+  createFaq(input: CreateFAQ!): FAQ!
+  updateFaq(input: UpdateFAQ!): FAQ!
+  deleteFaq(slug: String!): String!
+}
+
+type Query {
+  users(limit: Int = 10, offset: Int = 0): [User!]!
+  userMe: User!
+
+  faqs(lang: String!, limit: Int = 1, offset: Int = 10): GetAllResp!
+  faq(slug: String!, lang: String!): FAQ!
 }

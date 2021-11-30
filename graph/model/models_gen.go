@@ -2,6 +2,28 @@
 
 package model
 
+type CreateFaq struct {
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
+	Active   bool   `json:"active"`
+}
+
+type Faq struct {
+	ID        string  `json:"id"`
+	Question  string  `json:"question"`
+	Answer    string  `json:"answer"`
+	Active    bool    `json:"active"`
+	Slug      string  `json:"slug"`
+	Lang      string  `json:"lang"`
+	CreatedAt *string `json:"created_at"`
+	UpdatedAt *string `json:"updated_at"`
+}
+
+type GetAllResp struct {
+	Faqs  []*Faq `json:"faqs"`
+	Count *int   `json:"count"`
+}
+
 type LoginParams struct {
 	PhoneNumber   string `json:"phone_number"`
 	OtpCode       string `json:"otp_code"`
@@ -19,6 +41,14 @@ type NewUser struct {
 	PhoneNumber string   `json:"phone_number"`
 	Long        *float64 `json:"long"`
 	Lat         *float64 `json:"lat"`
+}
+
+type UpdateFaq struct {
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
+	Active   bool   `json:"active"`
+	Slug     string `json:"slug"`
+	Lang     string `json:"lang"`
 }
 
 type UpdateResponse struct {

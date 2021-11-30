@@ -6,6 +6,17 @@ import (
 	"time"
 )
 
+type Faq struct {
+	ID        string    `json:"id"`
+	Question  *string   `json:"question"`
+	Answer    *string   `json:"answer"`
+	Slug      string    `json:"slug"`
+	Lang      string    `json:"lang"`
+	Active    *bool     `json:"active"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 type User struct {
 	ID          string    `json:"id"`
 	FirstName   *string   `json:"first_name"`

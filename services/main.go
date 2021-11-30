@@ -7,13 +7,23 @@ import (
 )
 
 type Services struct {
-	UserService *UserService
+	userService *userService
+	faqService  *faqService
 }
 
 func NewServices(db *sqlc.Queries, jwt jwt.Jwt) *Services {
 	return &Services{
-		UserService: NewUserService(db, jwt),
+		userService: NewUserService(db, jwt),
+		faqService:  NewFaqService(db, jwt),
 	}
+}
+
+func (s *Services) UserService() *userService {
+	return s.userService
+}
+
+func (s *Services) FaqService() *faqService {
+	return s.faqService
 }
 
 func modelToStruct(input interface{}, output interface{}) error {

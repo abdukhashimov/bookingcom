@@ -12,19 +12,19 @@ import (
 	"github.com/google/uuid"
 )
 
-type UserService struct {
+type userService struct {
 	db  *sqlc.Queries
 	jwt jwt.Jwt
 }
 
-func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
-	return &UserService{
+func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *userService {
+	return &userService{
 		db:  db,
 		jwt: jwt,
 	}
 }
 
-func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*model.UpdateResponse, error) {
+func (u *userService) UpdateMe(ctx context.Context, req model.UpdateUser) (*model.UpdateResponse, error) {
 	var (
 		res     model.UpdateResponse
 		payload sqlc.UpdateUserParams
@@ -51,7 +51,7 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 	return &res, nil
 }
 
-func (u *UserService) GetUserByID(ctx context.Context) (*model.User, error) {
+func (u *userService) GetUserByID(ctx context.Context) (*model.User, error) {
 	var (
 		res model.User
 	)
@@ -72,7 +72,7 @@ func (u *UserService) GetUserByID(ctx context.Context) (*model.User, error) {
 	return &res, nil
 }
 
-func (u *UserService) Login(ctx context.Context, req *model.LoginParams) (*model.LoginResponse, error) {
+func (u *userService) Login(ctx context.Context, req *model.LoginParams) (*model.LoginResponse, error) {
 	var (
 		res model.LoginResponse
 		err error
@@ -96,7 +96,7 @@ func (u *UserService) Login(ctx context.Context, req *model.LoginParams) (*model
 	return &res, err
 }
 
-func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.User, error) {
+func (u *userService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.User, error) {
 	var (
 		res []*model.User
 	)
@@ -114,7 +114,7 @@ func (u *UserService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*m
 	return res, nil
 }
 
-func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.User, error) {
+func (u *userService) Create(ctx context.Context, req model.NewUser) (*model.User, error) {
 	var (
 		payload  sqlc.CreateUserParams
 		response model.User
@@ -140,7 +140,7 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 	return &response, nil
 }
 
-func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.NewUser) (*model.User, error) {
+func (u *userService) UpdateUser(ctx context.Context, id *string, req *model.NewUser) (*model.User, error) {
 	var (
 		payload  sqlc.UpdateUserParams
 		response model.User

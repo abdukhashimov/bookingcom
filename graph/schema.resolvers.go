@@ -15,34 +15,46 @@ import (
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	r.log.Info("create user request", logger.Any("payload", input))
-	res, err := r.services.UserService.Create(ctx, input)
+	res, err := r.services.UserService().Create(ctx, input)
 	r.logErrorAndInfo(res, err)
 	return res, err
 }
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, id *string, input *model.NewUser) (*model.User, error) {
 	r.log.Info("update user request", logger.Any("payload", input))
-	res, err := r.services.UserService.UpdateUser(ctx, id, input)
+	res, err := r.services.UserService().UpdateUser(ctx, id, input)
 	r.logErrorAndInfo(res, err)
 	return res, err
 }
 
 func (r *mutationResolver) Login(ctx context.Context, input *model.LoginParams) (*model.LoginResponse, error) {
 	r.log.Info("login request", logger.Any("payload", input))
-	res, err := r.services.UserService.Login(ctx, input)
+	res, err := r.services.UserService().Login(ctx, input)
 	r.logErrorAndInfo(res, err)
 	return res, err
 }
 
 func (r *mutationResolver) UpdateMe(ctx context.Context, input model.UpdateUser) (*model.UpdateResponse, error) {
 	r.log.Info("update request", logger.Any("payload", input))
-	res, err := r.services.UserService.UpdateMe(ctx, input)
+	res, err := r.services.UserService().UpdateMe(ctx, input)
 	r.logErrorAndInfo(res, err)
 	return res, err
 }
 
+func (r *mutationResolver) CreateFaq(ctx context.Context, input model.CreateFaq) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateFaq(ctx context.Context, input model.UpdateFaq) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) DeleteFaq(ctx context.Context, slug string) (string, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
-	return r.services.UserService.GetAll(ctx, sqlc.GetUsersParams{
+	return r.services.UserService().GetAll(ctx, sqlc.GetUsersParams{
 		Offset: int32(*offset),
 		Limit:  int32(*limit),
 	})
@@ -51,9 +63,17 @@ func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*
 func (r *queryResolver) UserMe(ctx context.Context) (*model.User, error) {
 	userInfo, _ := ctx.Value("key").(jwt.TokenPayload)
 	r.log.Info("user me request", logger.Any("user_id", userInfo))
-	res, err := r.services.UserService.GetUserByID(ctx)
+	res, err := r.services.UserService().GetUserByID(ctx)
 	r.logErrorAndInfo(res, err)
 	return res, err
+}
+
+func (r *queryResolver) Faqs(ctx context.Context, lang string, limit *int, offset *int) (*model.GetAllResp, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Faq(ctx context.Context, slug string, lang string) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Mutation returns generated.MutationResolver implementation.
@@ -84,7 +104,4 @@ func (r *queryResolver) logErrorAndInfo(res interface{}, err error) {
 	} else {
 		r.log.Info("request success", logger.Any("response", res))
 	}
-}
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewUser) (*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
 }
