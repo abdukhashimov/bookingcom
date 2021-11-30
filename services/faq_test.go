@@ -27,6 +27,8 @@ func createFAQ(t *testing.T) *model.Faq {
 
 func TestCreateFAQ(t *testing.T) {
 	faq := createFAQ(t)
+	log.Info("assert created slug length")
+	assert.GreaterOrEqual(t, len(faq.Slug), 1)
 	deleteFaq(t, faq.Slug)
 }
 
