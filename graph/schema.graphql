@@ -60,5 +60,5 @@ type Query {
   userMe: User!
 
   faqs(page: Int = 1, offset: Int = 10): GetAllResp!
-  faq(slug: String!, lang: String = "ru"): FAQ!
+  faq(slug: String!, lang: String!): FAQ!
 }

@@ -72,7 +72,7 @@ func (r *queryResolver) Faqs(ctx context.Context, page *int, offset *int) (*mode
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *queryResolver) Faq(ctx context.Context, slug string, lang *string) (*model.Faq, error) {
+func (r *queryResolver) Faq(ctx context.Context, slug string, lang string) (*model.Faq, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

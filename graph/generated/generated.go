@@ -75,7 +75,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Faq    func(childComplexity int, slug string, lang *string) int
+		Faq    func(childComplexity int, slug string, lang string) int
 		Faqs   func(childComplexity int, page *int, offset *int) int
 		UserMe func(childComplexity int) int
 		Users  func(childComplexity int, limit *int, offset *int) int
@@ -111,7 +111,7 @@ type QueryResolver interface {
 	Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error)
 	UserMe(ctx context.Context) (*model.User, error)
 	Faqs(ctx context.Context, page *int, offset *int) (*model.GetAllResp, error)
-	Faq(ctx context.Context, slug string, lang *string) (*model.Faq, error)
+	Faq(ctx context.Context, slug string, lang string) (*model.Faq, error)
 }
 
 type executableSchema struct {
@@ -307,7 +307,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Faq(childComplexity, args["slug"].(string), args["lang"].(*string)), true
+		return e.complexity.Query.Faq(childComplexity, args["slug"].(string), args["lang"].(string)), true
 
 	case "Query.faqs":
 		if e.complexity.Query.Faqs == nil {
@@ -567,7 +567,7 @@ type Query {
   userMe: User!
 
   faqs(page: Int = 1, offset: Int = 10): GetAllResp!
-  faq(slug: String!, lang: String = "ru"): FAQ!
+  faq(slug: String!, lang: String!): FAQ!
 }
 `, BuiltIn: false},
 }
@@ -718,10 +718,10 @@ func (ec *executionContext) field_Query_faq_args(ctx context.Context, rawArgs ma
 		}
 	}
 	args["slug"] = arg0
-	var arg1 *string
+	var arg1 string
 	if tmp, ok := rawArgs["lang"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lang"))
-		arg1, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		arg1, err = ec.unmarshalNString2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1665,7 +1665,7 @@ func (ec *executionContext) _Query_faq(ctx context.Context, field graphql.Collec
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Faq(rctx, args["slug"].(string), args["lang"].(*string))
+		return ec.resolvers.Query().Faq(rctx, args["slug"].(string), args["lang"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
