@@ -59,13 +59,18 @@ func TestGetAllFaq(t *testing.T) {
 
 func TestUpdateFaq(t *testing.T) {
 	faq := createFAQ(t)
-	err := servcesObj.FaqService().UpdateFaq(context.Background(), model.UpdateFaq{
+	updated, err := servcesObj.FaqService().UpdateFaq(context.Background(), model.UpdateFaq{
 		Question: "updated",
 		Answer:   "updated",
 		Active:   false,
 		Slug:     faq.Slug,
 		Lang:     faq.Lang,
 	})
+
+	assert.NoError(t, err, "failed to update faq")
+	assert.Equal(t, faq.Question, updated.Question, "updated fields failed to match: question")
+	assert.Equal(t, faq.Answer, updated.Answer, "updated fields failed to match: answer")
+	assert.Equal(t, updated.Active, false, "updated fields failed to match: answer")
 
 	deleteFaq(t, faq.Slug)
 }
