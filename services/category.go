@@ -61,17 +61,75 @@ func (c *categoryService) CreateCategory(ctx context.Context, req model.CreateCa
 }
 
 func (c *categoryService) UpdateCategory(ctx context.Context, req model.UpdateCategory) (*model.Category, error) {
-	return nil, nil
+	var (
+		response model.Category
+		payload  sqlc.UpdateCategoryParams
+	)
+
+	err := modelToStruct(req, &payload)
+	if err != nil {
+		return &response, err
+	}
+
+	err = c.db.UpdateCategory(ctx, payload)
+	if err != nil {
+		return &response, err
+	}
+
+	faqDb, err := c.db.GetCategory(context.Background(), sqlc.GetCategoryParams{
+		Slug: req.Slug,
+		Lang: req.Lang,
+	})
+
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(faqDb, &response)
+	return &response, err
 }
 
 func (c *categoryService) DeleteCategory(ctx context.Context, slug string) (string, error) {
-	return "", nil
+	err := c.db.DeleteCategory(ctx, slug)
+	return "", err
 }
 
 func (c *categoryService) GetCategory(ctx context.Context, slug, lang string) (*model.Category, error) {
-	return nil, nil
+	var (
+		response model.Category
+	)
+
+	res, err := c.db.GetCategory(ctx, sqlc.GetCategoryParams{
+		Slug: slug,
+		Lang: lang,
+	})
+
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(res, &response)
+
+	return &response, err
 }
 
 func (c *categoryService) GetAllCategory(ctx context.Context, lang string, limit, offset *int) (*model.GetAllCategory, error) {
-	return nil, nil
+	var (
+		response model.GetAllCategory
+		err      error
+	)
+
+	res, err := c.db.GetAllFaq(ctx, sqlc.GetAllFaqParams{
+		Lang:   lang,
+		Limit:  int32(*limit),
+		Offset: int32(*offset),
+	})
+
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(res, &response.Categories)
+
+	return &response, err
 }
