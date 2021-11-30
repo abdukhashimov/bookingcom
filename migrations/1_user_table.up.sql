@@ -23,6 +23,6 @@ CREATE TABLE "faq" (
   "slug" varchar,
   "lang" varchar,
   "active" bool DEFAULT 'false',
-  "created_at" timestamp,
-  "udpated_at" timestamp
+  "created_at" timestamp NOT NULL DEFAULT NOW(),
+  "udpated_at" timestamp NOT NULL DEFAULT NOW()
 );

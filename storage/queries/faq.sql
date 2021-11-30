@@ -1,11 +1,8 @@
 -- name: GeeFaq :one
 SELECT *
 FROM faq
-WHERE id = $1
+WHERE slug = @slug and lang = @lang
 LIMIT 1;
-
--- name: GetUserByPhoneNeFaq :one
-SELECT * from faq WHERE phone_number = $1 LIMIT 1;
 
 -- name: GeteFaq :many
 SELECT *
