@@ -4,6 +4,7 @@ import (
 	"abdukhashimov/mybron.uz/config"
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/pkg/logger"
+	"abdukhashimov/mybron.uz/services"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"database/sql"
 	"fmt"
@@ -18,7 +19,7 @@ var (
 	err          error
 	queries      *sqlc.Queries
 	cfg          *config.Config
-	services     services.Services
+	svs          *services.Services
 	log          logger.Logger
 )
 
@@ -41,6 +42,6 @@ func TestMain(m *testing.M) {
 	}
 
 	queries = sqlc.New(postgresConn)
-	services = services.NewServices(queries, jwt.NewJwt(cfg, log))
+	svs = services.NewServices(queries, jwt.NewJwt(cfg, log))
 	os.Exit(m.Run())
 }
