@@ -31,11 +31,9 @@ RETURNING *;
 UPDATE faq
 SET question = COALESCE(@question, question),
     answer = COALESCE(@answer, answer),
-    slug = COALESCE(@slug, '', slug),
-    lang = COALESCE(@lang, lang),
     active = COALESCE(@active, active),
     updated_at = COALESCE(@updated_at, updated_at)
-WHERE id = @id;
+WHERE slug = @slug and lang = @lang;
 
 -- name: DeleteFaq :exec
 DELETE FROM faq
