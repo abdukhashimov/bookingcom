@@ -172,9 +172,9 @@ func (q *Queries) GetUsers(ctx context.Context, arg GetUsersParams) ([]User, err
 
 const updateUser = `-- name: UpdateUser :exec
 UPDATE users
-SET first_name = COALESCE($1, first_name),
-    last_name = COALESCE($2, last_name),
-    phone_number = COALESCE($3, phone_number),
+SET first_name = COALESCE(NULLIF($1,''), first_name),
+    last_name = COALESCE(NULLIF($2,''), last_name),
+    phone_number = COALESCE(NULLIF($3,''), phone_number),
     is_verified = COALESCE($4, is_verified),
     long = COALESCE($5, long),
     lat = COALESCE($6, lat),
@@ -184,22 +184,22 @@ WHERE id = $9
 `
 
 type UpdateUserParams struct {
-	FirstName   *string   `json:"first_name"`
-	LastName    *string   `json:"last_name"`
-	PhoneNumber string    `json:"phone_number"`
-	IsVerified  *bool     `json:"is_verified"`
-	Long        *float64  `json:"long"`
-	Lat         *float64  `json:"lat"`
-	UserType    int32     `json:"user_type"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	ID          string    `json:"id"`
+	Column1    interface{} `json:"column_1"`
+	Column2    interface{} `json:"column_2"`
+	Column3    interface{} `json:"column_3"`
+	IsVerified *bool       `json:"is_verified"`
+	Long       *float64    `json:"long"`
+	Lat        *float64    `json:"lat"`
+	UserType   int32       `json:"user_type"`
+	UpdatedAt  time.Time   `json:"updated_at"`
+	ID         string      `json:"id"`
 }
 
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
 	_, err := q.db.ExecContext(ctx, updateUser,
-		arg.FirstName,
-		arg.LastName,
-		arg.PhoneNumber,
+		arg.Column1,
+		arg.Column2,
+		arg.Column3,
 		arg.IsVerified,
 		arg.Long,
 		arg.Lat,

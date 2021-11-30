@@ -40,8 +40,9 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		return &res, errors.New(messages.ErrorFailedToParseJSON)
 	}
 
-	fmt.Printf("%+v", payload)
+	payload.ID = userInfo.UserID
 	err = u.db.UpdateUser(ctx, payload)
+	fmt.Printf("%+v", payload)
 	if err != nil {
 		return &res, err
 	}
