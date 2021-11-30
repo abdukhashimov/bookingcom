@@ -8,7 +8,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/google/uuid"
 )
@@ -25,7 +24,7 @@ func NewUserService(db *sqlc.Queries, jwt jwt.Jwt) *UserService {
 	}
 }
 
-func (u *UserService) UpdateMe(ctx context.Context, req *model.UpdateUser) (*model.UpdateResponse, error) {
+func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*model.UpdateResponse, error) {
 	var (
 		res     model.UpdateResponse
 		payload sqlc.UpdateUserParams
@@ -41,15 +40,14 @@ func (u *UserService) UpdateMe(ctx context.Context, req *model.UpdateUser) (*mod
 		return &res, errors.New(messages.ErrorFailedToParseJSON)
 	}
 
-	userDB, err := u.db.GetUser(ctx, userInfo.UserID)
+	payload.ID = userInfo.UserID
+	err = u.db.UpdateUser(ctx, payload)
+	fmt.Printf("%+v", payload)
 	if err != nil {
-		return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
+		return &res, err
 	}
 
-	fmt.Println(userDB)
-	fmt.Println(payload)
-	modelToStruct(userDB, &payload)
-	fmt.Println(payload)
+	res.ID = userInfo.UserID
 	return &res, nil
 }
 
@@ -122,10 +120,6 @@ func (u *UserService) Create(ctx context.Context, req model.NewUser) (*model.Use
 		response model.User
 	)
 
-	createdAt := time.Now()
-	updatedAt := time.Now()
-	payload.CreatedAt = &createdAt
-	payload.UpdatedAt = &updatedAt
 	payload.ID = uuid.NewString()
 
 	err := modelToStruct(req, &payload)
@@ -152,15 +146,14 @@ func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.New
 		response model.User
 	)
 
-	updatedAt := time.Now()
 	payload.ID = *id
-	payload.UpdatedAt = &updatedAt
 
 	err := modelToStruct(req, &payload)
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Printf("%+v", payload)
 	err = u.db.UpdateUser(ctx, payload)
 	if err != nil {
 		return nil, err

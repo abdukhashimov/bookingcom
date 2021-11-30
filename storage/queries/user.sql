@@ -31,15 +31,15 @@ RETURNING *;
 
 -- name: UpdateUser :exec
 UPDATE users
-SET first_name = $1,
-    last_name = $2,
-    phone_number = $3,
-    is_verified = $4,
-    long = $5,
-    lat = $6,
-    user_type = $7,
-    updated_at = $8
-WHERE id = $9;
+SET first_name = COALESCE(@first_name, first_name),
+    last_name = COALESCE(@second_name, last_name),
+    phone_number = COALESCE(NULLIF(@phone_number, ''), phone_number),
+    is_verified = COALESCE(@is_verified, is_verified),
+    long = COALESCE(@long, long),
+    lat = COALESCE(@lat, lat),
+    user_type = COALESCE(@user_type, user_type),
+    updated_at = COALESCE(@updated_at, updated_at)
+WHERE id = @id;
 
 -- name: DeleteUser :exec
 DELETE FROM users
