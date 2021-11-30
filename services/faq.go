@@ -41,7 +41,7 @@ func (f *faqService) CreateFaq(ctx context.Context, req model.CreateFaq) (*model
 	}
 
 	payload.ID = uuid.NewString()
-	payload.Slug = slug.Make(fmt.Sprintf("%s-%s", utils.FirstN(*payload.Question), shortId))
+	payload.Slug = slug.Make(fmt.Sprintf("%s-%s", utils.FirstN(payload.Question), shortId))
 
 	err = modelToStruct(req, payload)
 	if err != nil {
