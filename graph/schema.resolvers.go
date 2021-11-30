@@ -10,6 +10,7 @@ import (
 	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
+	"fmt"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
@@ -40,6 +41,18 @@ func (r *mutationResolver) UpdateMe(ctx context.Context, input model.UpdateUser)
 	return res, err
 }
 
+func (r *mutationResolver) CreateFaq(ctx context.Context, input model.CreateFaq) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateFaq(ctx context.Context, input model.UpdateFaq) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) DeleteFaq(ctx context.Context, input string) (string, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
 	return r.services.UserService().GetAll(ctx, sqlc.GetUsersParams{
 		Offset: int32(*offset),
@@ -53,6 +66,14 @@ func (r *queryResolver) UserMe(ctx context.Context) (*model.User, error) {
 	res, err := r.services.UserService().GetUserByID(ctx)
 	r.logErrorAndInfo(res, err)
 	return res, err
+}
+
+func (r *queryResolver) Faqs(ctx context.Context, page *int, offset *int) (*model.GetAllResp, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Faq(ctx context.Context, id *string) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Mutation returns generated.MutationResolver implementation.

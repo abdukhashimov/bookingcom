@@ -1,0 +1,30 @@
+input CreateFAQ {
+  question: String!
+  answer: String!
+  active: Boolean!
+}
+
+input UpdateFAQ {
+  question: String!
+  answer: String!
+  active: Boolean!
+  slug: String!
+  lang: String!
+}
+
+type FAQ {
+  id: String!
+  question: String!
+  answer: String!
+  active: Boolean!
+  slug: String!
+  lang: String!
+  created_at: String
+  updated_at: String
+}
+
+type GetAllResp {
+  faqs: [FAQ!]!
+  count: Int
+}
+
