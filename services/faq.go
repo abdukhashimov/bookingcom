@@ -112,6 +112,20 @@ func (f *faqService) UpdateFaq(ctx context.Context, req model.UpdateFaq) (*model
 	}
 
 	err = f.db.UpdateFaq(ctx, payload)
+	if err != nil {
+		return &response, err
+	}
+
+	faqDb, err := f.db.GetFaq(context.Background(), sqlc.GetFaqParams{
+		Slug: req.Slug,
+		Lang: req.Lang,
+	})
+
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(faqDb, &response)
 	return &response, err
 }
 

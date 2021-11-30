@@ -57,6 +57,19 @@ func TestGetAllFaq(t *testing.T) {
 	deleteFaq(t, faq.Slug)
 }
 
+func TestUpdateFaq(t *testing.T) {
+	faq := createFAQ(t)
+	err := servcesObj.FaqService().UpdateFaq(context.Background(), model.UpdateFaq{
+		Question: "updated",
+		Answer:   "updated",
+		Active:   false,
+		Slug:     faq.Slug,
+		Lang:     faq.Lang,
+	})
+
+	deleteFaq(t, faq.Slug)
+}
+
 func deleteFaq(t *testing.T, slug string) {
 	_, err := servcesObj.FaqService().DeleteFaq(context.Background(), slug)
 	assert.NoError(t, err, "failed to delete faq")
