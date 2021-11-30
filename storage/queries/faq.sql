@@ -27,8 +27,8 @@ RETURNING *;
 
 -- name: UpdateFaq :exec
 UPDATE faq
-SET question = COALESCE(@question, question),
-    answer = COALESCE(@answer, answer),
+SET question = COALESCE(NULLIF(@question, ''), question),
+    answer = COALESCE(NULLIF(@answer, ''), answer),
     active = COALESCE(@active, active),
     updated_at = COALESCE(@updated_at, updated_at)
 WHERE slug = @slug and lang = @lang;

@@ -145,20 +145,20 @@ func (q *Queries) GetFaq(ctx context.Context, arg GetFaqParams) (Faq, error) {
 
 const updateFaq = `-- name: UpdateFaq :exec
 UPDATE faq
-SET question = COALESCE($1, question),
-    answer = COALESCE($2, answer),
+SET question = COALESCE(NULLIF($1, ''), question),
+    answer = COALESCE(NULLIF($2, ''), answer),
     active = COALESCE($3, active),
     updated_at = COALESCE($4, updated_at)
 WHERE slug = $5 and lang = $6
 `
 
 type UpdateFaqParams struct {
-	Question  *string   `json:"question"`
-	Answer    *string   `json:"answer"`
-	Active    *bool     `json:"active"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Slug      string    `json:"slug"`
-	Lang      string    `json:"lang"`
+	Question  interface{} `json:"question"`
+	Answer    interface{} `json:"answer"`
+	Active    *bool       `json:"active"`
+	UpdatedAt time.Time   `json:"updated_at"`
+	Slug      string      `json:"slug"`
+	Lang      string      `json:"lang"`
 }
 
 func (q *Queries) UpdateFaq(ctx context.Context, arg UpdateFaqParams) error {
