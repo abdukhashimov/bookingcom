@@ -32,6 +32,18 @@ func TestCreateFAQ(t *testing.T) {
 	deleteFaq(t, faq.Slug)
 }
 
+func TestGetFAQ(t *testing.T) {
+	faq := createFAQ(t)
+	langs := []string{"ru", "en", "uz"}
+	for _, lang := range langs {
+		faqObj, err := servcesObj.FaqService().GetFAQ(context.Background(), faq.Slug, lang)
+		assert.NoErrorf(t, err, "failed to retreive obj in %s", lang)
+		assert.Equal(t, faqObj.Question, faq.Question)
+	}
+
+	deleteFaq(t, faq.Slug)
+}
+
 func deleteFaq(t *testing.T, slug string) {
 	_, err := servcesObj.FaqService().DeleteFaq(context.Background(), slug)
 	assert.NoError(t, err, "failed to delete faq")
