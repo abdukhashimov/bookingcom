@@ -12,6 +12,7 @@ const createCategory = `-- name: CreateCategory :one
 INSERT INTO category (
         id,
         parent_id,
+        name,
         image,
         active,
         slug,
@@ -20,13 +21,14 @@ INSERT INTO category (
         created_at,
         updated_at
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 RETURNING id, parent_id, name, image, active, slug, lang, information, created_at, updated_at
 `
 
 type CreateCategoryParams struct {
 	ID          string       `json:"id"`
 	ParentID    *string      `json:"parent_id"`
+	Name        string       `json:"name"`
 	Image       *string      `json:"image"`
 	Active      *bool        `json:"active"`
 	Slug        string       `json:"slug"`
@@ -40,6 +42,7 @@ func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) 
 	row := q.db.QueryRowContext(ctx, createCategory,
 		arg.ID,
 		arg.ParentID,
+		arg.Name,
 		arg.Image,
 		arg.Active,
 		arg.Slug,
@@ -157,16 +160,18 @@ UPDATE category
 SET parent_id = COALESCE(NULLIF($1, ''), parent_id),
     image = COALESCE(NULLIF($2, ''), image),
     active = COALESCE($3, active),
-    information = COALESCE($4, information),
-    created_at = COALESCE($5, created_at),
-    updated_at = COALESCE($6, updated_at)
-WHERE slug = $7 and lang = $8
+    name = COALESCE($4, name),
+    information = COALESCE($5, information),
+    created_at = COALESCE($6, created_at),
+    updated_at = COALESCE($7, updated_at)
+WHERE slug = $8 and lang = $9
 `
 
 type UpdateCategoryParams struct {
 	ParentID    interface{}  `json:"parent_id"`
 	Image       interface{}  `json:"image"`
 	Active      *bool        `json:"active"`
+	Name        string       `json:"name"`
 	Information *string      `json:"information"`
 	CreatedAt   sql.NullTime `json:"created_at"`
 	UpdatedAt   sql.NullTime `json:"updated_at"`
@@ -179,6 +184,7 @@ func (q *Queries) UpdateCategory(ctx context.Context, arg UpdateCategoryParams) 
 		arg.ParentID,
 		arg.Image,
 		arg.Active,
+		arg.Name,
 		arg.Information,
 		arg.CreatedAt,
 		arg.UpdatedAt,
