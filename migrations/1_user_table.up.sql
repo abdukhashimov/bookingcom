@@ -44,3 +44,20 @@ CREATE TABLE "status" (
   "id" INT PRIMARY KEY NOT NULL,
   "name" varchar not null
 );
+
+CREATE TABLE "book_object" (
+  "id" varchar PRIMARY KEY NOT NULL,
+  "category_id" varchar,
+  "title" varchar NOT NULL,
+  "location" varchar NOT NULL,
+  "about" varchar NOT NULL,
+  "lang" varchar NOT NULL,
+  "slug" varchar NOT NULL,
+  "discount" integer,
+  "discount_expires" timestamp,
+  "status" int,
+  "opens_at" timestamp NOT NULL,
+  "closes_at" timestamp NOT NULL,
+  "created_at" timestamp NOT NULL,
+  "updated_at" timestamp NOT NULL
+);
