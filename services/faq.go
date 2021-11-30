@@ -5,6 +5,8 @@ import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
+
+	"github.com/google/uuid"
 )
 
 type faqService struct {
@@ -20,5 +22,23 @@ func NewFaqService(db *sqlc.Queries, jwt jwt.Jwt) *faqService {
 }
 
 func (f *faqService) CreateFaq(ctx context.Context, req model.CreateFaq) (*model.Faq, error) {
-	return nil, nil
+	var (
+		payload  sqlc.CreateFaqParams
+		response model.Faq
+	)
+
+	payload.ID = uuid.NewString()
+	err := modelToStruct(req, payload)
+	if err != nil {
+		return &response, err
+	}
+
+	res, err := f.db.CreateFaq(ctx, payload)
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(res, &response)
+
+	return &response, err
 }
