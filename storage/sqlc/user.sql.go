@@ -172,14 +172,14 @@ func (q *Queries) GetUsers(ctx context.Context, arg GetUsersParams) ([]User, err
 
 const updateUser = `-- name: UpdateUser :exec
 UPDATE users
-SET first_name = $1,
-    last_name = $2,
-    phone_number = $3,
-    is_verified = $4,
-    long = $5,
-    lat = $6,
-    user_type = $7,
-    updated_at = $8
+SET first_name = COALESCE($1, first_name),
+    last_name = COALESCE($2, last_name),
+    phone_number = COALESCE($3, phone_number),
+    is_verified = COALESCE($4, is_verified),
+    long = COALESCE($5, long),
+    lat = COALESCE($6, lat),
+    user_type = COALESCE($7, user_type),
+    updated_at = COALESCE($8, updated_at)
 WHERE id = $9
 `
 
