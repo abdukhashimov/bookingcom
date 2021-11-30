@@ -22,7 +22,8 @@ func NewJwt(cfg *config.Config, log logger.Logger) Jwt {
 }
 
 type TokenPayload struct {
-	UserID string `json:"user_id"`
+	UserID   string `json:"user_id"`
+	UserType int    `json:"user_type"`
 }
 
 func (j *Jwt) GenerateToken(payload TokenPayload) (string, error) {
