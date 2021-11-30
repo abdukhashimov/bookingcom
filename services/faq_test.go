@@ -34,7 +34,6 @@ func TestCreateFAQ(t *testing.T) {
 
 func TestGetFAQ(t *testing.T) {
 	faq := createFAQ(t)
-	langs := []string{"ru", "en", "uz"}
 	for _, lang := range langs {
 		faqObj, err := servcesObj.FaqService().GetFAQ(context.Background(), faq.Slug, lang)
 		assert.NoErrorf(t, err, "failed to retreive obj in %s", lang)
@@ -45,6 +44,17 @@ func TestGetFAQ(t *testing.T) {
 }
 
 func TestGetAllFaq(t *testing.T) {
+	faq := createFAQ(t)
+	limit := 10
+	offset := 0
+
+	for _, lang := range langs {
+		faqsResp, err := servcesObj.FaqService().GetAllFAQ(context.Background(), &limit, &offset, lang)
+		assert.NoError(t, err, "failed to retreive faqs")
+		assert.GreaterOrEqual(t, len(faqsResp.Faqs), 1, "faqs array failed to be greater or equal to 1")
+	}
+
+	deleteFaq(t, faq.Slug)
 }
 
 func deleteFaq(t *testing.T, slug string) {

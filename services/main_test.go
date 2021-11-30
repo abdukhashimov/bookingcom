@@ -21,6 +21,7 @@ var (
 	cfg          *config.Config
 	servcesObj   *services.Services
 	log          logger.Logger
+	langs        []string = []string{"ru", "en", "uz"}
 )
 
 func TestMain(m *testing.M) {
