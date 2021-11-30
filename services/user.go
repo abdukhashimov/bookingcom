@@ -153,6 +153,7 @@ func (u *UserService) UpdateUser(ctx context.Context, id *string, req *model.New
 		return nil, err
 	}
 
+	fmt.Printf("%+v", payload)
 	err = u.db.UpdateUser(ctx, payload)
 	if err != nil {
 		return nil, err
