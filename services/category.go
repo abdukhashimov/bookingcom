@@ -119,7 +119,7 @@ func (c *categoryService) GetAllCategory(ctx context.Context, limit, offset *int
 		err      error
 	)
 
-	res, err := c.db.GetAllFaq(ctx, sqlc.GetAllFaqParams{
+	res, err := c.db.GetAllCategory(ctx, sqlc.GetAllCategoryParams{
 		Lang:   lang,
 		Limit:  int32(*limit),
 		Offset: int32(*offset),
