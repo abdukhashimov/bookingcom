@@ -10,7 +10,6 @@ import (
 	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
-	"fmt"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
@@ -84,7 +83,4 @@ func (r *queryResolver) logErrorAndInfo(res interface{}, err error) {
 	} else {
 		r.log.Info("request success", logger.Any("response", res))
 	}
-}
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewUser) (*model.User, error) {
-	panic(fmt.Errorf("not implemented"))
 }
