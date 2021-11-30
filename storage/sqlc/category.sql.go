@@ -29,8 +29,8 @@ type CreateCategoryParams struct {
 	ParentID    *string      `json:"parent_id"`
 	Image       *string      `json:"image"`
 	Active      *bool        `json:"active"`
-	Slug        *string      `json:"slug"`
-	Lang        *string      `json:"lang"`
+	Slug        string       `json:"slug"`
+	Lang        string       `json:"lang"`
 	Information *string      `json:"information"`
 	CreatedAt   sql.NullTime `json:"created_at"`
 	UpdatedAt   sql.NullTime `json:"updated_at"`
@@ -69,7 +69,7 @@ DELETE FROM category
 WHERE slug = $1
 `
 
-func (q *Queries) DeleteCategory(ctx context.Context, slug *string) error {
+func (q *Queries) DeleteCategory(ctx context.Context, slug string) error {
 	_, err := q.db.ExecContext(ctx, deleteCategory, slug)
 	return err
 }
@@ -83,9 +83,9 @@ LIMIT $3 OFFSET $2
 `
 
 type GetAllCategoryParams struct {
-	Lang   *string `json:"lang"`
-	Offset int32   `json:"offset_"`
-	Limit  int32   `json:"limit_"`
+	Lang   string `json:"lang"`
+	Offset int32  `json:"offset_"`
+	Limit  int32  `json:"limit_"`
 }
 
 func (q *Queries) GetAllCategory(ctx context.Context, arg GetAllCategoryParams) ([]Category, error) {
@@ -130,8 +130,8 @@ LIMIT 1
 `
 
 type GetCategoryParams struct {
-	Slug *string `json:"slug"`
-	Lang *string `json:"lang"`
+	Slug string `json:"slug"`
+	Lang string `json:"lang"`
 }
 
 func (q *Queries) GetCategory(ctx context.Context, arg GetCategoryParams) (Category, error) {
@@ -170,8 +170,8 @@ type UpdateCategoryParams struct {
 	Information *string      `json:"information"`
 	CreatedAt   sql.NullTime `json:"created_at"`
 	UpdatedAt   sql.NullTime `json:"updated_at"`
-	Slug        *string      `json:"slug"`
-	Lang        *string      `json:"lang"`
+	Slug        string       `json:"slug"`
+	Lang        string       `json:"lang"`
 }
 
 func (q *Queries) UpdateCategory(ctx context.Context, arg UpdateCategoryParams) error {

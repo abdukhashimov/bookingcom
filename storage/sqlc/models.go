@@ -13,8 +13,8 @@ type Category struct {
 	Name        string       `json:"name"`
 	Image       *string      `json:"image"`
 	Active      *bool        `json:"active"`
-	Slug        *string      `json:"slug"`
-	Lang        *string      `json:"lang"`
+	Slug        string       `json:"slug"`
+	Lang        string       `json:"lang"`
 	Information *string      `json:"information"`
 	CreatedAt   sql.NullTime `json:"created_at"`
 	UpdatedAt   sql.NullTime `json:"updated_at"`
