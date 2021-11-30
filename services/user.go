@@ -7,6 +7,7 @@ import (
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -39,10 +40,11 @@ func (u *UserService) UpdateMe(ctx context.Context, req model.UpdateUser) (*mode
 		return &res, errors.New(messages.ErrorFailedToParseJSON)
 	}
 
-	// userDB, err := u.db.GetUser(ctx, userInfo.UserID)
-	// if err != nil {
-	// 	return &res, errors.New(messages.ErrorFailedToRetreiveFromDB)
-	// }
+	fmt.Printf("%+v", payload)
+	err = u.db.UpdateUser(ctx, payload)
+	if err != nil {
+		return &res, err
+	}
 
 	res.ID = userInfo.UserID
 	return &res, nil
