@@ -68,7 +68,7 @@ func (r *queryResolver) UserMe(ctx context.Context) (*model.User, error) {
 	return res, err
 }
 
-func (r *queryResolver) Faqs(ctx context.Context, page *int, offset *int) (*model.GetAllResp, error) {
+func (r *queryResolver) Faqs(ctx context.Context, limit *int, offset *int) (*model.GetAllResp, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

@@ -76,7 +76,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Faq    func(childComplexity int, slug string, lang string) int
-		Faqs   func(childComplexity int, page *int, offset *int) int
+		Faqs   func(childComplexity int, limit *int, offset *int) int
 		UserMe func(childComplexity int) int
 		Users  func(childComplexity int, limit *int, offset *int) int
 	}
@@ -110,7 +110,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error)
 	UserMe(ctx context.Context) (*model.User, error)
-	Faqs(ctx context.Context, page *int, offset *int) (*model.GetAllResp, error)
+	Faqs(ctx context.Context, limit *int, offset *int) (*model.GetAllResp, error)
 	Faq(ctx context.Context, slug string, lang string) (*model.Faq, error)
 }
 
@@ -319,7 +319,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Faqs(childComplexity, args["page"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.Faqs(childComplexity, args["limit"].(*int), args["offset"].(*int)), true
 
 	case "Query.userMe":
 		if e.complexity.Query.UserMe == nil {
@@ -566,7 +566,7 @@ type Query {
   users(limit: Int = 10, offset: Int = 0): [User!]!
   userMe: User!
 
-  faqs(page: Int = 1, offset: Int = 10): GetAllResp!
+  faqs(limit: Int = 1, offset: Int = 10): GetAllResp!
   faq(slug: String!, lang: String!): FAQ!
 }
 `, BuiltIn: false},
@@ -734,14 +734,14 @@ func (ec *executionContext) field_Query_faqs_args(ctx context.Context, rawArgs m
 	var err error
 	args := map[string]interface{}{}
 	var arg0 *int
-	if tmp, ok := rawArgs["page"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("page"))
+	if tmp, ok := rawArgs["limit"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
 		arg0, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["page"] = arg0
+	args["limit"] = arg0
 	var arg1 *int
 	if tmp, ok := rawArgs["offset"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
@@ -1623,7 +1623,7 @@ func (ec *executionContext) _Query_faqs(ctx context.Context, field graphql.Colle
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Faqs(rctx, args["page"].(*int), args["offset"].(*int))
+		return ec.resolvers.Query().Faqs(rctx, args["limit"].(*int), args["offset"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
