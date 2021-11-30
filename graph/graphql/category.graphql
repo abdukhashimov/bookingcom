@@ -1,0 +1,31 @@
+type Category {
+    id: String!
+    parent_id: String
+    image: String!
+    active: Boolean!
+    slug: String!
+    lang: String!
+    information: String
+    created_at: String!
+    updated_at: String!
+}
+
+input CreateCategory {
+    parent_id: String
+    image: String!
+    active: Boolean!
+    information: String
+}
+
+input UpdateCategory {
+    id: String!
+    parent_id: String
+    image: String!
+    active: Boolean!
+    information: String
+}
+
+type GetAllCategory {
+    categories: [Category!]!
+    count: Int
+}

@@ -53,6 +53,18 @@ func (r *mutationResolver) DeleteFaq(ctx context.Context, slug string) (string, 
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *mutationResolver) CreateCategory(ctx context.Context, input model.CreateCategory) (*model.Category, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateCategory(ctx context.Context, input model.UpdateCategory) (*model.Category, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) DeleteCategory(ctx context.Context, slug string) (string, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
 	return r.services.UserService().GetAll(ctx, sqlc.GetUsersParams{
 		Offset: int32(*offset),
@@ -73,6 +85,14 @@ func (r *queryResolver) Faqs(ctx context.Context, lang string, limit *int, offse
 }
 
 func (r *queryResolver) Faq(ctx context.Context, slug string, lang string) (*model.Faq, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Categories(ctx context.Context, lang string, limit *int, offset *int) (*model.GetAllCategory, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Category(ctx context.Context, slug string, lang string) (*model.Category, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

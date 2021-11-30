@@ -2,6 +2,25 @@
 
 package model
 
+type Category struct {
+	ID          string  `json:"id"`
+	ParentID    *string `json:"parent_id"`
+	Image       string  `json:"image"`
+	Active      bool    `json:"active"`
+	Slug        string  `json:"slug"`
+	Lang        string  `json:"lang"`
+	Information *string `json:"information"`
+	CreatedAt   string  `json:"created_at"`
+	UpdatedAt   string  `json:"updated_at"`
+}
+
+type CreateCategory struct {
+	ParentID    *string `json:"parent_id"`
+	Image       string  `json:"image"`
+	Active      bool    `json:"active"`
+	Information *string `json:"information"`
+}
+
 type CreateFaq struct {
 	Question string `json:"question"`
 	Answer   string `json:"answer"`
@@ -17,6 +36,11 @@ type Faq struct {
 	Lang      string  `json:"lang"`
 	CreatedAt *string `json:"created_at"`
 	UpdatedAt *string `json:"updated_at"`
+}
+
+type GetAllCategory struct {
+	Categories []*Category `json:"categories"`
+	Count      *int        `json:"count"`
 }
 
 type GetAllResp struct {
@@ -41,6 +65,14 @@ type NewUser struct {
 	PhoneNumber string   `json:"phone_number"`
 	Long        *float64 `json:"long"`
 	Lat         *float64 `json:"lat"`
+}
+
+type UpdateCategory struct {
+	ID          string  `json:"id"`
+	ParentID    *string `json:"parent_id"`
+	Image       string  `json:"image"`
+	Active      bool    `json:"active"`
+	Information *string `json:"information"`
 }
 
 type UpdateFaq struct {
