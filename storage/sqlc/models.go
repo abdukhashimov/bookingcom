@@ -11,12 +11,12 @@ import (
 
 type BookObject struct {
 	ID              string        `json:"id"`
-	CategoryID      *string       `json:"category_id"`
+	CategoryID      string        `json:"category_id"`
 	Title           string        `json:"title"`
 	Location        string        `json:"location"`
+	Long            float64       `json:"long"`
+	Lat             float64       `json:"lat"`
 	About           string        `json:"about"`
-	Lang            string        `json:"lang"`
-	Slug            string        `json:"slug"`
 	Discount        sql.NullInt32 `json:"discount"`
 	DiscountExpires custom.Time   `json:"discount_expires"`
 	Status          sql.NullInt32 `json:"status"`
