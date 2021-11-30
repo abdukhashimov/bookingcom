@@ -6,5 +6,5 @@ var (
 		"en",
 		"uz",
 	}
-	SlugLength int = 6
+	SlugLength int = 12
 )
