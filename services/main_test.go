@@ -19,7 +19,7 @@ var (
 	err          error
 	queries      *sqlc.Queries
 	cfg          *config.Config
-	svs          *services.Services
+	servcesObj   *services.Services
 	log          logger.Logger
 )
 
@@ -42,6 +42,6 @@ func TestMain(m *testing.M) {
 	}
 
 	queries = sqlc.New(postgresConn)
-	svs = services.NewServices(queries, jwt.NewJwt(cfg, log))
+	servcesObj = services.NewServices(queries, jwt.NewJwt(cfg, log))
 	os.Exit(m.Run())
 }

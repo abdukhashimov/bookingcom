@@ -11,7 +11,7 @@ import (
 )
 
 func createFAQ(t *testing.T) *model.Faq {
-	res, err := svs.FaqService().CreateFaq(context.Background(), model.CreateFaq{
+	res, err := servcesObj.FaqService().CreateFaq(context.Background(), model.CreateFaq{
 		Question: faker.Sentence(),
 		Answer:   faker.Sentence(),
 		Active:   false,
