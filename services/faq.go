@@ -78,3 +78,8 @@ func (f *faqService) GetFAQ(ctx context.Context, slug, lang string) (*model.Faq,
 
 	return &response, err
 }
+
+func (f *faqService) DeleteFaq(ctx context.Context, slug string) (string, error) {
+	err := f.db.DeleteFaq(ctx, slug)
+	return "", err
+}
