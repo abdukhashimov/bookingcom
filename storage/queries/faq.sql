@@ -8,8 +8,8 @@ LIMIT 1;
 SELECT *
 FROM faq
 WHERE lang = @lang
-ORDER BY created_at desc OFFSET @offset
-LIMIT @limit;
+ORDER BY created_at desc
+LIMIT @limit_ OFFSET @offset_;
 
 -- name: CreateFaq :one
 INSERT INTO faq (

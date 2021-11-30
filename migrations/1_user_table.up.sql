@@ -24,5 +24,5 @@ CREATE TABLE "faq" (
   "lang" varchar,
   "active" bool DEFAULT 'false',
   "created_at" timestamp NOT NULL DEFAULT NOW(),
-  "udpated_at" timestamp NOT NULL DEFAULT NOW()
+  "updated_at" timestamp NOT NULL DEFAULT NOW()
 );
