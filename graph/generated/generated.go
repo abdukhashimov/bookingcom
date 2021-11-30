@@ -50,6 +50,7 @@ type ComplexityRoot struct {
 		Image       func(childComplexity int) int
 		Information func(childComplexity int) int
 		Lang        func(childComplexity int) int
+		Name        func(childComplexity int) int
 		ParentID    func(childComplexity int) int
 		Slug        func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
@@ -197,6 +198,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Category.Lang(childComplexity), true
+
+	case "Category.name":
+		if e.complexity.Category.Name == nil {
+			break
+		}
+
+		return e.complexity.Category.Name(childComplexity), true
 
 	case "Category.parent_id":
 		if e.complexity.Category.ParentID == nil {
@@ -641,6 +649,7 @@ var sources = []*ast.Source{
 	{Name: "graph/graphql/category.graphql", Input: `type Category {
     id: String!
     parent_id: String
+    name: String!
     image: String!
     active: Boolean!
     slug: String!
@@ -651,6 +660,7 @@ var sources = []*ast.Source{
 }
 
 input CreateCategory {
+    name: String!
     parent_id: String
     image: String!
     active: Boolean!
@@ -658,7 +668,9 @@ input CreateCategory {
 }
 
 input UpdateCategory {
-    id: String!
+    name: String!
+    slug: String!
+    lang: String!
     parent_id: String
     image: String!
     active: Boolean!
@@ -1192,6 +1204,41 @@ func (ec *executionContext) _Category_parent_id(ctx context.Context, field graph
 	res := resTmp.(*string)
 	fc.Result = res
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Category_name(ctx context.Context, field graphql.CollectedField, obj *model.Category) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Category",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Category_image(ctx context.Context, field graphql.CollectedField, obj *model.Category) (ret graphql.Marshaler) {
@@ -4110,6 +4157,14 @@ func (ec *executionContext) unmarshalInputCreateCategory(ctx context.Context, ob
 
 	for k, v := range asMap {
 		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "parent_id":
 			var err error
 
@@ -4290,11 +4345,27 @@ func (ec *executionContext) unmarshalInputUpdateCategory(ctx context.Context, ob
 
 	for k, v := range asMap {
 		switch k {
-		case "id":
+		case "name":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "slug":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("slug"))
+			it.Slug, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "lang":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lang"))
+			it.Lang, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4464,6 +4535,11 @@ func (ec *executionContext) _Category(ctx context.Context, sel ast.SelectionSet,
 			}
 		case "parent_id":
 			out.Values[i] = ec._Category_parent_id(ctx, field, obj)
+		case "name":
+			out.Values[i] = ec._Category_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "image":
 			out.Values[i] = ec._Category_image(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

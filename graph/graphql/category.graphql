@@ -1,6 +1,7 @@
 type Category {
     id: String!
     parent_id: String
+    name: String!
     image: String!
     active: Boolean!
     slug: String!
@@ -11,6 +12,7 @@ type Category {
 }
 
 input CreateCategory {
+    name: String!
     parent_id: String
     image: String!
     active: Boolean!
@@ -18,7 +20,9 @@ input CreateCategory {
 }
 
 input UpdateCategory {
-    id: String!
+    name: String!
+    slug: String!
+    lang: String!
     parent_id: String
     image: String!
     active: Boolean!
