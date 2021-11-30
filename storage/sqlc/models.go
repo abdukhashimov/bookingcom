@@ -3,21 +3,20 @@
 package sqlc
 
 import (
-	"database/sql"
 	"time"
 )
 
 type Category struct {
-	ID          string       `json:"id"`
-	ParentID    *string      `json:"parent_id"`
-	Name        string       `json:"name"`
-	Image       *string      `json:"image"`
-	Active      *bool        `json:"active"`
-	Slug        string       `json:"slug"`
-	Lang        string       `json:"lang"`
-	Information *string      `json:"information"`
-	CreatedAt   sql.NullTime `json:"created_at"`
-	UpdatedAt   sql.NullTime `json:"updated_at"`
+	ID          string    `json:"id"`
+	ParentID    *string   `json:"parent_id"`
+	Name        string    `json:"name"`
+	Image       *string   `json:"image"`
+	Active      *bool     `json:"active"`
+	Slug        string    `json:"slug"`
+	Lang        string    `json:"lang"`
+	Information *string   `json:"information"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type Faq struct {

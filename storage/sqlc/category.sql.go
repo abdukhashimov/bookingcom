@@ -5,7 +5,7 @@ package sqlc
 
 import (
 	"context"
-	"database/sql"
+	"time"
 )
 
 const createCategory = `-- name: CreateCategory :one
@@ -26,16 +26,16 @@ RETURNING id, parent_id, name, image, active, slug, lang, information, created_a
 `
 
 type CreateCategoryParams struct {
-	ID          string       `json:"id"`
-	ParentID    *string      `json:"parent_id"`
-	Name        string       `json:"name"`
-	Image       *string      `json:"image"`
-	Active      *bool        `json:"active"`
-	Slug        string       `json:"slug"`
-	Lang        string       `json:"lang"`
-	Information *string      `json:"information"`
-	CreatedAt   sql.NullTime `json:"created_at"`
-	UpdatedAt   sql.NullTime `json:"updated_at"`
+	ID          string    `json:"id"`
+	ParentID    *string   `json:"parent_id"`
+	Name        string    `json:"name"`
+	Image       *string   `json:"image"`
+	Active      *bool     `json:"active"`
+	Slug        string    `json:"slug"`
+	Lang        string    `json:"lang"`
+	Information *string   `json:"information"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error) {
@@ -168,15 +168,15 @@ WHERE slug = $8 and lang = $9
 `
 
 type UpdateCategoryParams struct {
-	ParentID    interface{}  `json:"parent_id"`
-	Image       interface{}  `json:"image"`
-	Active      *bool        `json:"active"`
-	Name        string       `json:"name"`
-	Information *string      `json:"information"`
-	CreatedAt   sql.NullTime `json:"created_at"`
-	UpdatedAt   sql.NullTime `json:"updated_at"`
-	Slug        string       `json:"slug"`
-	Lang        string       `json:"lang"`
+	ParentID    interface{} `json:"parent_id"`
+	Image       interface{} `json:"image"`
+	Active      *bool       `json:"active"`
+	Name        string      `json:"name"`
+	Information *string     `json:"information"`
+	CreatedAt   time.Time   `json:"created_at"`
+	UpdatedAt   time.Time   `json:"updated_at"`
+	Slug        string      `json:"slug"`
+	Lang        string      `json:"lang"`
 }
 
 func (q *Queries) UpdateCategory(ctx context.Context, arg UpdateCategoryParams) error {
