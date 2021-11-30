@@ -22,6 +22,10 @@ func (s *Services) UserService() *userService {
 	return s.userService
 }
 
+func (s *Services) FaqService() *faqService {
+	return s.faqService
+}
+
 func modelToStruct(input interface{}, output interface{}) error {
 	bytes, err := json.Marshal(input)
 	if err != nil {
