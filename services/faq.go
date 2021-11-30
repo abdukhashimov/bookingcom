@@ -60,6 +60,21 @@ func (f *faqService) CreateFaq(ctx context.Context, req model.CreateFaq) (*model
 	return &response, err
 }
 
-func (f *faqService) GetFAQ(ctx context.Context, id *string) (*model.Faq, error) {
-	return nil, nil
+func (f *faqService) GetFAQ(ctx context.Context, slug, lang string) (*model.Faq, error) {
+	var (
+		response model.Faq
+	)
+
+	res, err := f.db.GetFaq(ctx, sqlc.GetFaqParams{
+		Slug: slug,
+		Lang: lang,
+	})
+
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(res, &response)
+
+	return &response, err
 }
