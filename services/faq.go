@@ -79,14 +79,14 @@ func (f *faqService) GetFAQ(ctx context.Context, slug, lang string) (*model.Faq,
 	return &response, err
 }
 
-func (f *faqService) GetAllFAQ(ctx context.Context, limit, offset *int) (*model.GetAllResp, error) {
+func (f *faqService) GetAllFAQ(ctx context.Context, limit, offset *int, lang string) (*model.GetAllResp, error) {
 	var (
 		response model.GetAllResp
 		err      error
 	)
 
 	res, err := f.db.GetAllFaq(ctx, sqlc.GetAllFaqParams{
-		Lang:   "ru",
+		Lang:   lang,
 		Limit:  int32(*limit),
 		Offset: int32(*offset),
 	})
