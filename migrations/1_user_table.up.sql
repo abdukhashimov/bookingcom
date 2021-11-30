@@ -36,6 +36,6 @@ CREATE TABLE "category" (
   "slug" varchar NOT NULL,
   "lang" varchar NOT NULL,
   "information" varchar,
-  "created_at" timestamp NOT NULL DEFAULT NOW(),
-  "updated_at" timestamp NOT NULL DEFAULT NOW()
+  "created_at" timestamp,
+  "updated_at" timestamp
 );

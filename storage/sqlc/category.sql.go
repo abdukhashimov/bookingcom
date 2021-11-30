@@ -5,7 +5,8 @@ package sqlc
 
 import (
 	"context"
-	"time"
+
+	"abdukhashimov/mybron.uz/storage/custom"
 )
 
 const createCategory = `-- name: CreateCategory :one
@@ -26,16 +27,16 @@ RETURNING id, parent_id, name, image, active, slug, lang, information, created_a
 `
 
 type CreateCategoryParams struct {
-	ID          string    `json:"id"`
-	ParentID    *string   `json:"parent_id"`
-	Name        string    `json:"name"`
-	Image       *string   `json:"image"`
-	Active      *bool     `json:"active"`
-	Slug        string    `json:"slug"`
-	Lang        string    `json:"lang"`
-	Information *string   `json:"information"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          string      `json:"id"`
+	ParentID    *string     `json:"parent_id"`
+	Name        string      `json:"name"`
+	Image       *string     `json:"image"`
+	Active      *bool       `json:"active"`
+	Slug        string      `json:"slug"`
+	Lang        string      `json:"lang"`
+	Information *string     `json:"information"`
+	CreatedAt   custom.Time `json:"created_at"`
+	UpdatedAt   custom.Time `json:"updated_at"`
 }
 
 func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error) {
@@ -173,8 +174,8 @@ type UpdateCategoryParams struct {
 	Active      *bool       `json:"active"`
 	Name        string      `json:"name"`
 	Information *string     `json:"information"`
-	CreatedAt   time.Time   `json:"created_at"`
-	UpdatedAt   time.Time   `json:"updated_at"`
+	CreatedAt   custom.Time `json:"created_at"`
+	UpdatedAt   custom.Time `json:"updated_at"`
 	Slug        string      `json:"slug"`
 	Lang        string      `json:"lang"`
 }

@@ -4,19 +4,21 @@ package sqlc
 
 import (
 	"time"
+
+	"abdukhashimov/mybron.uz/storage/custom"
 )
 
 type Category struct {
-	ID          string    `json:"id"`
-	ParentID    *string   `json:"parent_id"`
-	Name        string    `json:"name"`
-	Image       *string   `json:"image"`
-	Active      *bool     `json:"active"`
-	Slug        string    `json:"slug"`
-	Lang        string    `json:"lang"`
-	Information *string   `json:"information"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          string      `json:"id"`
+	ParentID    *string     `json:"parent_id"`
+	Name        string      `json:"name"`
+	Image       *string     `json:"image"`
+	Active      *bool       `json:"active"`
+	Slug        string      `json:"slug"`
+	Lang        string      `json:"lang"`
+	Information *string     `json:"information"`
+	CreatedAt   custom.Time `json:"created_at"`
+	UpdatedAt   custom.Time `json:"updated_at"`
 }
 
 type Faq struct {
