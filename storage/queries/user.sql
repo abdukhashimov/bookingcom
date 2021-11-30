@@ -31,9 +31,9 @@ RETURNING *;
 
 -- name: UpdateUser :exec
 UPDATE users
-SET first_name = COALESCE(NULLIF($1,''), first_name),
-    last_name = COALESCE(NULLIF($2,''), last_name),
-    phone_number = COALESCE(NULLIF($3,''), phone_number),
+SET first_name = COALESCE(NULLIF($1, ''), first_name),
+    last_name = COALESCE(NULLIF($2, ''), last_name),
+    phone_number = COALESCE(NULLIF($3, ''), phone_number),
     is_verified = COALESCE($4, is_verified),
     long = COALESCE($5, long),
     lat = COALESCE($6, lat),
