@@ -47,12 +47,12 @@ CREATE TABLE "status" (
 
 CREATE TABLE "book_object" (
   "id" varchar PRIMARY KEY NOT NULL,
-  "category_id" varchar,
+  "category_id" varchar NOT NULL,
   "title" varchar NOT NULL,
   "location" varchar NOT NULL,
+  "long" FLOAT NOT NULL,
+  "lat" FLOAT NOT NULL,
   "about" varchar NOT NULL,
-  "lang" varchar NOT NULL,
-  "slug" varchar NOT NULL,
   "discount" integer,
   "discount_expires" timestamp,
   "status" int,

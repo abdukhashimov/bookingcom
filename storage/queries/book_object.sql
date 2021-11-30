@@ -13,28 +13,52 @@ LIMIT $2;
 -- name: CreateBookObject :one
 INSERT INTO book_object (
         id,
-        first_name,
-        last_name,
-        phone_number,
-        is_verified,
+        category_id,
+        title,
+        location,
+        about,
+        discount,
+        discount_expires,
+        status,
+        opens_at,
         long,
         lat,
-        user_type,
+        closes_at,
         created_at,
         updated_at
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+VALUES (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        $7,
+        $8,
+        $9,
+        $10,
+        $11,
+        $12,
+        $13,
+        $14,
+    )
 RETURNING *;
 
 -- name: UpdateBookObject :exec
 UPDATE book_object
-SET first_name = COALESCE(@first_name, first_name),
-    last_name = COALESCE(@second_name, last_name),
-    phone_number = COALESCE(NULLIF(@phone_number, ''), phone_number),
-    is_verified = COALESCE(@is_verified, is_verified),
+SET
+    category_id = COALESCE(@category_id, category_id),
+    title = COALESCE(@title, title),
+    location = COALESCE(@location, location),
     long = COALESCE(@long, long),
     lat = COALESCE(@lat, lat),
-    user_type = COALESCE(@user_type, user_type),
+    about = COALESCE(@about, about),
+    discount = COALESCE(@discount, discount),
+    discount_expires = COALESCE(@discount_expires, discount_expires),
+    status = COALESCE(@status, status),
+    opens_at = COALESCE(@opens_at, opens_at),
+    closes_at = COALESCE(@closes_at, closes_at),
     updated_at = COALESCE(@updated_at, updated_at)
 WHERE id = @id;
 

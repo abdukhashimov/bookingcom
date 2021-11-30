@@ -32,7 +32,7 @@ RETURNING *;
 -- name: UpdateUser :exec
 UPDATE users
 SET first_name = COALESCE(@first_name, first_name),
-    last_name = COALESCE(@second_name, last_name),
+    last_name = COALESCE(@last_name, last_name),
     phone_number = COALESCE(NULLIF(@phone_number, ''), phone_number),
     is_verified = COALESCE(@is_verified, is_verified),
     long = COALESCE(@long, long),
