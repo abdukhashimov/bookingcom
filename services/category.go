@@ -41,7 +41,7 @@ func (c *categoryService) CreateCategory(ctx context.Context, req model.CreateCa
 	}
 
 	payload.Slug = slug.Make(fmt.Sprintf("%s-%s", utils.FirstN(req.Name), shortId))
-
+	fmt.Printf("%+v", payload)
 	err = modelToStruct(req, &payload)
 	if err != nil {
 		return &response, err
@@ -113,7 +113,7 @@ func (c *categoryService) GetCategory(ctx context.Context, slug, lang string) (*
 	return &response, err
 }
 
-func (c *categoryService) GetAllCategory(ctx context.Context, lang string, limit, offset *int) (*model.GetAllCategory, error) {
+func (c *categoryService) GetAllCategory(ctx context.Context, limit, offset *int, lang string) (*model.GetAllCategory, error) {
 	var (
 		response model.GetAllCategory
 		err      error
