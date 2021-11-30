@@ -12,6 +12,13 @@ type faqService struct {
 	jwt jwt.Jwt
 }
 
+func NewFaqService(db *sqlc.Queries, jwt jwt.Jwt) *faqService {
+	return &faqService{
+		db:  db,
+		jwt: jwt,
+	}
+}
+
 func (f *faqService) CreateFaq(ctx context.Context, req model.CreateFaq) (*model.Faq, error) {
 	return nil, nil
 }

@@ -8,11 +8,13 @@ import (
 
 type Services struct {
 	userService *userService
+	faqService  *faqService
 }
 
 func NewServices(db *sqlc.Queries, jwt jwt.Jwt) *Services {
 	return &Services{
 		userService: NewUserService(db, jwt),
+		faqService:  NewFaqService(db, jwt),
 	}
 }
 
