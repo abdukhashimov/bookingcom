@@ -26,3 +26,15 @@ CREATE TABLE "faq" (
   "created_at" timestamp NOT NULL DEFAULT NOW(),
   "updated_at" timestamp NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE "category" (
+  "id" varchar PRIMARY KEY NOT NULL,
+  "parent_id" varchar,
+  "image" varchar,
+  "active" boolean DEFAULT 'true',
+  "slug" varchar,
+  "lang" varchar,
+  "information" varchar,
+  "created_at" timestamp,
+  "updated_at" timestamp
+);
