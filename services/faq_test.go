@@ -44,6 +44,9 @@ func TestGetFAQ(t *testing.T) {
 	deleteFaq(t, faq.Slug)
 }
 
+func TestGetAllFaq(t *testing.T) {
+}
+
 func deleteFaq(t *testing.T, slug string) {
 	_, err := servcesObj.FaqService().DeleteFaq(context.Background(), slug)
 	assert.NoError(t, err, "failed to delete faq")
