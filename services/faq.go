@@ -59,3 +59,7 @@ func (f *faqService) CreateFaq(ctx context.Context, req model.CreateFaq) (*model
 	err = modelToStruct(res, &response)
 	return &response, err
 }
+
+func (f *faqService) GetFAQ(ctx context.Context, id *string) (*model.Faq, error) {
+	return nil, nil
+}
