@@ -67,7 +67,7 @@ type ComplexityRoot struct {
 	Mutation struct {
 		CreateFaq  func(childComplexity int, input model.CreateFaq) int
 		CreateUser func(childComplexity int, input model.NewUser) int
-		DeleteFaq  func(childComplexity int, input string) int
+		DeleteFaq  func(childComplexity int, slug string) int
 		Login      func(childComplexity int, input *model.LoginParams) int
 		UpdateFaq  func(childComplexity int, input model.UpdateFaq) int
 		UpdateMe   func(childComplexity int, input model.UpdateUser) int
@@ -105,7 +105,7 @@ type MutationResolver interface {
 	UpdateMe(ctx context.Context, input model.UpdateUser) (*model.UpdateResponse, error)
 	CreateFaq(ctx context.Context, input model.CreateFaq) (*model.Faq, error)
 	UpdateFaq(ctx context.Context, input model.UpdateFaq) (*model.Faq, error)
-	DeleteFaq(ctx context.Context, input string) (string, error)
+	DeleteFaq(ctx context.Context, slug string) (string, error)
 }
 type QueryResolver interface {
 	Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error)
@@ -247,7 +247,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteFaq(childComplexity, args["input"].(string)), true
+		return e.complexity.Mutation.DeleteFaq(childComplexity, args["slug"].(string)), true
 
 	case "Mutation.login":
 		if e.complexity.Mutation.Login == nil {
@@ -559,7 +559,7 @@ type Mutation {
 
   createFaq(input: CreateFAQ!): FAQ!
   updateFaq(input: UpdateFAQ!): FAQ!
-  deleteFaq(input: String!): String!
+  deleteFaq(slug: String!): String!
 }
 
 type Query {
@@ -611,14 +611,14 @@ func (ec *executionContext) field_Mutation_deleteFaq_args(ctx context.Context, r
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["slug"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("slug"))
 		arg0, err = ec.unmarshalNString2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["input"] = arg0
+	args["slug"] = arg0
 	return args, nil
 }
 
@@ -1504,7 +1504,7 @@ func (ec *executionContext) _Mutation_deleteFaq(ctx context.Context, field graph
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteFaq(rctx, args["input"].(string))
+		return ec.resolvers.Mutation().DeleteFaq(rctx, args["slug"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

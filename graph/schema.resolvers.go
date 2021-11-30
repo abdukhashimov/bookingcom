@@ -49,7 +49,7 @@ func (r *mutationResolver) UpdateFaq(ctx context.Context, input model.UpdateFaq)
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *mutationResolver) DeleteFaq(ctx context.Context, input string) (string, error) {
+func (r *mutationResolver) DeleteFaq(ctx context.Context, slug string) (string, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

@@ -52,7 +52,7 @@ type Mutation {
 
   createFaq(input: CreateFAQ!): FAQ!
   updateFaq(input: UpdateFAQ!): FAQ!
-  deleteFaq(input: String!): String!
+  deleteFaq(slug: String!): String!
 }
 
 type Query {
