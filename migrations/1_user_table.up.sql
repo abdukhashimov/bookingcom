@@ -39,3 +39,8 @@ CREATE TABLE "category" (
   "created_at" timestamp,
   "updated_at" timestamp
 );
+
+CREATE TABLE "status" (
+  "id" INT PRIMARY KEY NOT NULL,
+  "name" varchar not null
+);
