@@ -30,10 +30,11 @@ CREATE TABLE "faq" (
 CREATE TABLE "category" (
   "id" varchar PRIMARY KEY NOT NULL,
   "parent_id" varchar,
+  "name" varchar NOT NULL,
   "image" varchar,
   "active" boolean DEFAULT 'true',
-  "slug" varchar,
-  "lang" varchar,
+  "slug" varchar NOT NULL,
+  "lang" varchar NOT NULL,
   "information" varchar,
   "created_at" timestamp,
   "updated_at" timestamp
