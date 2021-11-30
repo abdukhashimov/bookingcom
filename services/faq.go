@@ -40,15 +40,15 @@ func (f *faqService) CreateFaq(ctx context.Context, req model.CreateFaq) (*model
 		return &response, errors.New("internal server error")
 	}
 
-	payload.ID = uuid.NewString()
-	payload.Slug = slug.Make(fmt.Sprintf("%s-%s", utils.FirstN(payload.Question), shortId))
+	payload.Slug = slug.Make(fmt.Sprintf("%s-%s", utils.FirstN(req.Question), shortId))
 
-	err = modelToStruct(req, payload)
+	err = modelToStruct(req, &payload)
 	if err != nil {
 		return &response, err
 	}
 
 	for _, lang := range config.Langs {
+		payload.ID = uuid.NewString()
 		payload.Lang = lang
 		res, err = f.db.CreateFaq(ctx, payload)
 		if err != nil {

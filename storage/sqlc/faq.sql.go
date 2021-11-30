@@ -5,7 +5,6 @@ package sqlc
 
 import (
 	"context"
-	"database/sql"
 	"time"
 )
 
@@ -25,14 +24,14 @@ RETURNING id, question, answer, slug, lang, active, created_at, updated_at
 `
 
 type CreateFaqParams struct {
-	ID        string       `json:"id"`
-	Question  *string      `json:"question"`
-	Answer    *string      `json:"answer"`
-	Slug      string       `json:"slug"`
-	Lang      string       `json:"lang"`
-	Active    sql.NullBool `json:"active"`
-	CreatedAt time.Time    `json:"created_at"`
-	UpdatedAt time.Time    `json:"updated_at"`
+	ID        string    `json:"id"`
+	Question  *string   `json:"question"`
+	Answer    *string   `json:"answer"`
+	Slug      string    `json:"slug"`
+	Lang      string    `json:"lang"`
+	Active    *bool     `json:"active"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (q *Queries) CreateFaq(ctx context.Context, arg CreateFaqParams) (Faq, error) {
@@ -154,12 +153,12 @@ WHERE slug = $5 and lang = $6
 `
 
 type UpdateFaqParams struct {
-	Question  *string      `json:"question"`
-	Answer    *string      `json:"answer"`
-	Active    sql.NullBool `json:"active"`
-	UpdatedAt time.Time    `json:"updated_at"`
-	Slug      string       `json:"slug"`
-	Lang      string       `json:"lang"`
+	Question  *string   `json:"question"`
+	Answer    *string   `json:"answer"`
+	Active    *bool     `json:"active"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Slug      string    `json:"slug"`
+	Lang      string    `json:"lang"`
 }
 
 func (q *Queries) UpdateFaq(ctx context.Context, arg UpdateFaqParams) error {

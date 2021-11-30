@@ -22,7 +22,7 @@ CREATE TABLE "faq" (
   "answer" varchar,
   "slug" varchar NOT NULL,
   "lang" varchar NOT NULL,
-  "active" bool DEFAULT 'false',
+  "active" boolean DEFAULT 'false',
   "created_at" timestamp NOT NULL DEFAULT NOW(),
   "updated_at" timestamp NOT NULL DEFAULT NOW()
 );

@@ -3,19 +3,18 @@
 package sqlc
 
 import (
-	"database/sql"
 	"time"
 )
 
 type Faq struct {
-	ID        string       `json:"id"`
-	Question  *string      `json:"question"`
-	Answer    *string      `json:"answer"`
-	Slug      string       `json:"slug"`
-	Lang      string       `json:"lang"`
-	Active    sql.NullBool `json:"active"`
-	CreatedAt time.Time    `json:"created_at"`
-	UpdatedAt time.Time    `json:"updated_at"`
+	ID        string    `json:"id"`
+	Question  *string   `json:"question"`
+	Answer    *string   `json:"answer"`
+	Slug      string    `json:"slug"`
+	Lang      string    `json:"lang"`
+	Active    *bool     `json:"active"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type User struct {
