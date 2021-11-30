@@ -21,7 +21,7 @@ INSERT INTO category (
         updated_at
     )
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-RETURNING id, parent_id, image, active, slug, lang, information, created_at, updated_at
+RETURNING id, parent_id, name, image, active, slug, lang, information, created_at, updated_at
 `
 
 type CreateCategoryParams struct {
@@ -52,6 +52,7 @@ func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) 
 	err := row.Scan(
 		&i.ID,
 		&i.ParentID,
+		&i.Name,
 		&i.Image,
 		&i.Active,
 		&i.Slug,
@@ -74,7 +75,7 @@ func (q *Queries) DeleteCategory(ctx context.Context, slug *string) error {
 }
 
 const getAllCategory = `-- name: GetAllCategory :many
-SELECT id, parent_id, image, active, slug, lang, information, created_at, updated_at
+SELECT id, parent_id, name, image, active, slug, lang, information, created_at, updated_at
 FROM category
 WHERE lang = $1
 ORDER BY created_at desc
@@ -99,6 +100,7 @@ func (q *Queries) GetAllCategory(ctx context.Context, arg GetAllCategoryParams) 
 		if err := rows.Scan(
 			&i.ID,
 			&i.ParentID,
+			&i.Name,
 			&i.Image,
 			&i.Active,
 			&i.Slug,
@@ -121,7 +123,7 @@ func (q *Queries) GetAllCategory(ctx context.Context, arg GetAllCategoryParams) 
 }
 
 const getCategory = `-- name: GetCategory :one
-SELECT id, parent_id, image, active, slug, lang, information, created_at, updated_at
+SELECT id, parent_id, name, image, active, slug, lang, information, created_at, updated_at
 FROM category
 WHERE slug = $1 and lang = $2
 LIMIT 1
@@ -138,6 +140,7 @@ func (q *Queries) GetCategory(ctx context.Context, arg GetCategoryParams) (Categ
 	err := row.Scan(
 		&i.ID,
 		&i.ParentID,
+		&i.Name,
 		&i.Image,
 		&i.Active,
 		&i.Slug,

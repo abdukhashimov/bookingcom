@@ -10,6 +10,7 @@ import (
 type Category struct {
 	ID          string       `json:"id"`
 	ParentID    *string      `json:"parent_id"`
+	Name        string       `json:"name"`
 	Image       *string      `json:"image"`
 	Active      *bool        `json:"active"`
 	Slug        *string      `json:"slug"`
