@@ -100,6 +100,21 @@ func (f *faqService) GetAllFAQ(ctx context.Context, limit, offset *int, lang str
 	return &response, err
 }
 
+func (f *faqService) UpdateFaq(ctx context.Context, req model.UpdateFaq) (*model.Faq, error) {
+	var (
+		response model.Faq
+		payload  sqlc.UpdateFaqParams
+	)
+
+	err := modelToStruct(req, &payload)
+	if err != nil {
+		return &response, err
+	}
+
+	err = f.db.UpdateFaq(ctx, payload)
+	return &response, err
+}
+
 func (f *faqService) DeleteFaq(ctx context.Context, slug string) (string, error) {
 	err := f.db.DeleteFaq(ctx, slug)
 	return "", err
