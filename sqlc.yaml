@@ -28,6 +28,16 @@ overrides:
       type: "float64"
       pointer: true
     nullable: true
+  - db_type: "pg_catalog.int4"
+    go_type:
+      type: "int32"
+      pointer: true
+    nullable: true
+  - db_type: "pg_catalog.int8"
+    go_type:
+      type: "int64"
+      pointer: true
+    nullable: true
   - go_type: "abdukhashimov/mybron.uz/storage/custom.Time"
     db_type: "pg_catalog.timestamp"
     nullable: true
