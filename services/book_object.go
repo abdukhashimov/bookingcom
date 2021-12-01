@@ -115,7 +115,28 @@ func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req
 }
 
 func (b *bookObjecService) Delete(ctx context.Context, id string) (string, error) {
+	var (
+		payload sqlc.UpdateBookObjectParams
+		status  string = "deactivated"
+	)
+
 	bookObj, err := b.db.GetBookObject(ctx, id)
+	if err != nil {
+		return "", err
+	}
+
+	statusObj, err := b.db.GetStatusByName(ctx, status)
+	if err != nil {
+		return "", err
+	}
+
+	bookObj.Status = &statusObj.ID
+	err = modelToStruct(bookObj, &payload)
+	if err != nil {
+		return "", err
+	}
+
+	err = b.db.UpdateBookObject(ctx, payload)
 	if err != nil {
 		return "", err
 	}
