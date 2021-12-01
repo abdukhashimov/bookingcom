@@ -65,6 +65,18 @@ func (r *mutationResolver) DeleteCategory(ctx context.Context, slug string) (str
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *mutationResolver) CreateBookObject(ctx context.Context, input model.CreateBookObject) (*model.BookObject, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) UpdateBookObject(ctx context.Context, input model.UpdateBookObject) (*model.BookObject, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *mutationResolver) DeleteBookObject(ctx context.Context, id string) (string, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {
 	return r.services.UserService().GetAll(ctx, sqlc.GetUsersParams{
 		Offset: int32(*offset),
@@ -93,6 +105,14 @@ func (r *queryResolver) Categories(ctx context.Context, lang string, limit *int,
 }
 
 func (r *queryResolver) Category(ctx context.Context, slug string, lang string) (*model.Category, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) BookObjects(ctx context.Context, limit *int, offset *int) (*model.GetAllBookObject, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) BookObject(ctx context.Context, id string) (*model.BookObject, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
