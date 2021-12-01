@@ -7,7 +7,6 @@ import (
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -24,20 +23,20 @@ func NewBookObjectService(db *sqlc.Queries, jwt jwt.Jwt) *bookObjecService {
 	}
 }
 
-func (u *bookObjecService) Get(ctx context.Context) (*model.User, error) {
+func (u *bookObjecService) Get(ctx context.Context) (*model.BookObject, error) {
 	var (
-		res model.User
+		res model.BookObject
 	)
-	userInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
+	BookObjectInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
 	if !ok {
 		return &res, errors.New(messages.ErrorAuthFailed)
 	}
-	userDb, err := u.db.GetUser(ctx, userInfo.UserID)
+	BookObjectDb, err := u.db.GetBookObject(ctx, BookObjectInfo.UserID)
 	if err != nil {
 		return &res, err
 	}
 
-	err = modelToStruct(userDb, &res)
+	err = modelToStruct(BookObjectDb, &res)
 	if err != nil {
 		return &res, err
 	}
@@ -45,17 +44,17 @@ func (u *bookObjecService) Get(ctx context.Context) (*model.User, error) {
 	return &res, nil
 }
 
-func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetUsersParams) ([]*model.User, error) {
+func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetAllBookObjectParams) ([]*model.BookObject, error) {
 	var (
-		res []*model.User
+		res []*model.BookObject
 	)
 
-	users, err := u.db.GetUsers(ctx, req)
+	BookObjects, err := u.db.GetAllBookObject(ctx, req)
 	if err != nil {
 		return res, err
 	}
 
-	err = modelToStruct(users, &res)
+	err = modelToStruct(BookObjects, &res)
 	if err != nil {
 		return res, err
 	}
@@ -63,10 +62,10 @@ func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetUsersParams) 
 	return res, nil
 }
 
-func (u *bookObjecService) Create(ctx context.Context, req model.NewUser) (*model.User, error) {
+func (u *bookObjecService) Create(ctx context.Context, req model.BookObject) (*model.BookObject, error) {
 	var (
-		payload  sqlc.CreateUserParams
-		response model.User
+		payload  sqlc.CreateBookObjectParams
+		response model.BookObject
 	)
 
 	payload.ID = uuid.NewString()
@@ -76,7 +75,7 @@ func (u *bookObjecService) Create(ctx context.Context, req model.NewUser) (*mode
 		return nil, err
 	}
 
-	res, err := u.db.CreateUser(ctx, payload)
+	res, err := u.db.CreateBookObject(ctx, payload)
 	if err != nil {
 		return nil, err
 	}
@@ -89,10 +88,10 @@ func (u *bookObjecService) Create(ctx context.Context, req model.NewUser) (*mode
 	return &response, nil
 }
 
-func (u *bookObjecService) UpdateUser(ctx context.Context, id *string, req *model.NewUser) (*model.User, error) {
+func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req *model.UpdateBookObject) (*model.BookObject, error) {
 	var (
-		payload  sqlc.UpdateUserParams
-		response model.User
+		payload  sqlc.UpdateBookObjectParams
+		response model.BookObject
 	)
 
 	payload.ID = *id
@@ -102,18 +101,17 @@ func (u *bookObjecService) UpdateUser(ctx context.Context, id *string, req *mode
 		return nil, err
 	}
 
-	fmt.Printf("%+v", payload)
-	err = u.db.UpdateUser(ctx, payload)
+	err = u.db.UpdateBookObject(ctx, payload)
 	if err != nil {
 		return nil, err
 	}
 
-	userDb, err := u.db.GetUser(ctx, payload.ID)
+	BookObjectDb, err := u.db.GetBookObject(ctx, payload.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	err = modelToStruct(userDb, &response)
+	err = modelToStruct(BookObjectDb, &response)
 	if err != nil {
 		return nil, err
 	}
