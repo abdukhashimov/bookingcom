@@ -13,7 +13,7 @@ LIMIT $2;
 -- name: CreateBookObject :one
 INSERT INTO book_object (
         id,
-        category_id,
+        category,
         title,
         location,
         about,
@@ -48,7 +48,7 @@ RETURNING *;
 -- name: UpdateBookObject :exec
 UPDATE book_object
 SET
-    category_id = COALESCE(@category_id, category_id),
+    category = COALESCE(@category, category),
     title = COALESCE(@title, title),
     location = COALESCE(@location, location),
     long = COALESCE(@long, long),

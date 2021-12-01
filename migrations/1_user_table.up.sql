@@ -47,7 +47,7 @@ CREATE TABLE "status" (
 
 CREATE TABLE "book_object" (
   "id" varchar PRIMARY KEY NOT NULL,
-  "category_id" varchar NOT NULL,
+  "category" varchar NOT NULL,
   "title" varchar NOT NULL,
   "location" varchar NOT NULL,
   "long" FLOAT NOT NULL,
