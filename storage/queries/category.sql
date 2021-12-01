@@ -20,11 +20,9 @@ INSERT INTO category (
         active,
         slug,
         lang,
-        information,
-        created_at,
-        updated_at
+        information
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING *;
 
 -- name: UpdateCategory :exec
