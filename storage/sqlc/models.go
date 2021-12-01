@@ -10,7 +10,7 @@ import (
 
 type BookObject struct {
 	ID              string      `json:"id"`
-	CategoryID      string      `json:"category_id"`
+	Category        string      `json:"category"`
 	Title           string      `json:"title"`
 	Location        string      `json:"location"`
 	Long            float64     `json:"long"`

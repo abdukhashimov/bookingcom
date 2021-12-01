@@ -13,7 +13,7 @@ import (
 const createBookObject = `-- name: CreateBookObject :one
 INSERT INTO book_object (
         id,
-        category_id,
+        category,
         title,
         location,
         about,
@@ -43,12 +43,12 @@ VALUES (
         $13,
         $14
     )
-RETURNING id, category_id, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
+RETURNING id, category, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
 `
 
 type CreateBookObjectParams struct {
 	ID              string      `json:"id"`
-	CategoryID      string      `json:"category_id"`
+	Category        string      `json:"category"`
 	Title           string      `json:"title"`
 	Location        string      `json:"location"`
 	About           string      `json:"about"`
@@ -66,7 +66,7 @@ type CreateBookObjectParams struct {
 func (q *Queries) CreateBookObject(ctx context.Context, arg CreateBookObjectParams) (BookObject, error) {
 	row := q.db.QueryRowContext(ctx, createBookObject,
 		arg.ID,
-		arg.CategoryID,
+		arg.Category,
 		arg.Title,
 		arg.Location,
 		arg.About,
@@ -83,7 +83,7 @@ func (q *Queries) CreateBookObject(ctx context.Context, arg CreateBookObjectPara
 	var i BookObject
 	err := row.Scan(
 		&i.ID,
-		&i.CategoryID,
+		&i.Category,
 		&i.Title,
 		&i.Location,
 		&i.Long,
@@ -111,7 +111,7 @@ func (q *Queries) DeleteBookObject(ctx context.Context, id string) error {
 }
 
 const getAllBookObject = `-- name: GetAllBookObject :many
-SELECT id, category_id, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
+SELECT id, category, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
 FROM book_object
 ORDER BY created_at desc OFFSET $1
 LIMIT $2
@@ -133,7 +133,7 @@ func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectPara
 		var i BookObject
 		if err := rows.Scan(
 			&i.ID,
-			&i.CategoryID,
+			&i.Category,
 			&i.Title,
 			&i.Location,
 			&i.Long,
@@ -161,7 +161,7 @@ func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectPara
 }
 
 const getBookObject = `-- name: GetBookObject :one
-SELECT id, category_id, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
+SELECT id, category, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
 FROM book_object
 WHERE id = $1
 LIMIT 1
@@ -172,7 +172,7 @@ func (q *Queries) GetBookObject(ctx context.Context, id string) (BookObject, err
 	var i BookObject
 	err := row.Scan(
 		&i.ID,
-		&i.CategoryID,
+		&i.Category,
 		&i.Title,
 		&i.Location,
 		&i.Long,
@@ -192,7 +192,7 @@ func (q *Queries) GetBookObject(ctx context.Context, id string) (BookObject, err
 const updateBookObject = `-- name: UpdateBookObject :exec
 UPDATE book_object
 SET
-    category_id = COALESCE($1, category_id),
+    category = COALESCE($1, category),
     title = COALESCE($2, title),
     location = COALESCE($3, location),
     long = COALESCE($4, long),
@@ -208,7 +208,7 @@ WHERE id = $13
 `
 
 type UpdateBookObjectParams struct {
-	CategoryID      string      `json:"category_id"`
+	Category        string      `json:"category"`
 	Title           string      `json:"title"`
 	Location        string      `json:"location"`
 	Long            float64     `json:"long"`
@@ -225,7 +225,7 @@ type UpdateBookObjectParams struct {
 
 func (q *Queries) UpdateBookObject(ctx context.Context, arg UpdateBookObjectParams) error {
 	_, err := q.db.ExecContext(ctx, updateBookObject,
-		arg.CategoryID,
+		arg.Category,
 		arg.Title,
 		arg.Location,
 		arg.Long,
