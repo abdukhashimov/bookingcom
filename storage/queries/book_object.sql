@@ -56,8 +56,8 @@ SET category = COALESCE(NULLIF(@category, ''), category),
     discount = COALESCE(@discount, discount),
     discount_expires = COALESCE(NULLIF(@discount_expires, ''), discount_expires),
     status = COALESCE(NULLIF(@status, ''), status),
-    opens_at = COALESCE(NULLIF(@opens_at, ''), opens_at),
-    closes_at = COALESCE(NULLIF(@closes_at, ''), closes_at),
+    opens_at = COALESCE(@opens_at, '', opens_at),
+    closes_at = COALESCE(@closes_at, '', closes_at),
     updated_at = COALESCE(@updated_at, updated_at)
 WHERE id = @id;
 

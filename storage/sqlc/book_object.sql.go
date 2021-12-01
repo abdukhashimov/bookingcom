@@ -200,8 +200,8 @@ SET category = COALESCE(NULLIF($1, ''), category),
     discount = COALESCE($7, discount),
     discount_expires = COALESCE(NULLIF($8, ''), discount_expires),
     status = COALESCE(NULLIF($9, ''), status),
-    opens_at = COALESCE(NULLIF($10, ''), opens_at),
-    closes_at = COALESCE(NULLIF($11, ''), closes_at),
+    opens_at = COALESCE($10, '', opens_at),
+    closes_at = COALESCE($11, '', closes_at),
     updated_at = COALESCE($12, updated_at)
 WHERE id = $13
 `
@@ -216,8 +216,8 @@ type UpdateBookObjectParams struct {
 	Discount        *int32      `json:"discount"`
 	DiscountExpires interface{} `json:"discount_expires"`
 	Status          interface{} `json:"status"`
-	OpensAt         interface{} `json:"opens_at"`
-	ClosesAt        interface{} `json:"closes_at"`
+	OpensAt         time.Time   `json:"opens_at"`
+	ClosesAt        time.Time   `json:"closes_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	ID              string      `json:"id"`
 }
