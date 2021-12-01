@@ -36,8 +36,8 @@ CREATE TABLE "category" (
   "slug" varchar NOT NULL,
   "lang" varchar NOT NULL,
   "information" varchar,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  "created_at" timestamp NOT NULL DEFAULT NOW(),
+  "updated_at" timestamp NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE "status" (
@@ -58,6 +58,6 @@ CREATE TABLE "book_object" (
   "status" int,
   "opens_at" timestamp NOT NULL,
   "closes_at" timestamp NOT NULL,
-  "created_at" timestamp NOT NULL,
-  "updated_at" timestamp NOT NULL
+  "created_at" timestamp NOT NULL NOT NULL DEFAULT NOW(),
+  "updated_at" timestamp NOT NULL NOT NULL DEFAULT NOW()
 );
