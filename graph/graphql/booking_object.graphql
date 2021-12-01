@@ -1,6 +1,6 @@
 type BookObject {
   id: String!
-  category: Category!
+  category: String!
   title: String!
   location: String!
   long: Float!
