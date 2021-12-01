@@ -36,14 +36,14 @@ input CreateBookObject {
 
 input UpdateBookObject {
   id: String!
-  category: String!
-  title: String!
-  location: Float!
-  long: Float!
-  about: String!
+  category: String
+  title: String
+  location: Float
+  long: Float
+  about: String
   discount: Int
   discount_expires: String
   status: String
-  opens_at: String!
-  closes_at: String!
+  opens_at: String
+  closes_at: String
 }

@@ -888,16 +888,16 @@ input CreateBookObject {
 
 input UpdateBookObject {
   id: String!
-  category: String!
-  title: String!
-  location: Float!
-  long: Float!
-  about: String!
+  category: String
+  title: String
+  location: Float
+  long: Float
+  about: String
   discount: Int
   discount_expires: String
   status: String
-  opens_at: String!
-  closes_at: String!
+  opens_at: String
+  closes_at: String
 }
 `, BuiltIn: false},
 	{Name: "graph/graphql/category.graphql", Input: `type Category {
@@ -5571,7 +5571,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
-			it.Category, err = ec.unmarshalNString2string(ctx, v)
+			it.Category, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5579,7 +5579,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-			it.Title, err = ec.unmarshalNString2string(ctx, v)
+			it.Title, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5587,7 +5587,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("location"))
-			it.Location, err = ec.unmarshalNFloat2float64(ctx, v)
+			it.Location, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5595,7 +5595,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("long"))
-			it.Long, err = ec.unmarshalNFloat2float64(ctx, v)
+			it.Long, err = ec.unmarshalOFloat2ᚖfloat64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5603,7 +5603,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("about"))
-			it.About, err = ec.unmarshalNString2string(ctx, v)
+			it.About, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5635,7 +5635,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("opens_at"))
-			it.OpensAt, err = ec.unmarshalNString2string(ctx, v)
+			it.OpensAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5643,7 +5643,7 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("closes_at"))
-			it.ClosesAt, err = ec.unmarshalNString2string(ctx, v)
+			it.ClosesAt, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
