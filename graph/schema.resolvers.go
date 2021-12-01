@@ -10,7 +10,6 @@ import (
 	"abdukhashimov/mybron.uz/pkg/logger"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
-	"fmt"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
@@ -120,27 +119,30 @@ func (r *queryResolver) UserMe(ctx context.Context) (*model.User, error) {
 }
 
 func (r *queryResolver) Faqs(ctx context.Context, lang string, limit *int, offset *int) (*model.GetAllResp, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.services.FaqService().GetAllFAQ(ctx, limit, offset, lang)
 }
 
 func (r *queryResolver) Faq(ctx context.Context, slug string, lang string) (*model.Faq, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.services.FaqService().GetFAQ(ctx, slug, lang)
 }
 
 func (r *queryResolver) Categories(ctx context.Context, lang string, limit *int, offset *int) (*model.GetAllCategory, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.services.CategoryService().GetAllCategory(ctx, limit, offset, lang)
 }
 
 func (r *queryResolver) Category(ctx context.Context, slug string, lang string) (*model.Category, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.services.CategoryService().GetCategory(ctx, slug, lang)
 }
 
 func (r *queryResolver) BookObjects(ctx context.Context, limit *int, offset *int) (*model.GetAllBookObject, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.services.BookObjectService().GetAll(ctx, sqlc.GetAllBookObjectParams{
+		Offset: int32(*offset),
+		Limit:  int32(*limit),
+	})
 }
 
 func (r *queryResolver) BookObject(ctx context.Context, id string) (*model.BookObject, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.services.BookObjectService().Get(ctx, id)
 }
 
 // Mutation returns generated.MutationResolver implementation.
