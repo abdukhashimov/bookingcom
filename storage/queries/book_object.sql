@@ -1,7 +1,20 @@
 -- name: GetBookObject :one
-SELECT *
-FROM book_object
-WHERE id = $1
+SELECT book.id,
+    cat.name as "category",
+    book.title,
+    book.location,
+    book.about,
+    st.name as "status",
+    book.opens_at,
+    book.long,
+    book.lat,
+    book.closes_at,
+    book.created_at,
+    book.updated_at
+FROM book_object as book
+    LEFT JOIN category as cat ON book.category = cat.slug
+    LEFT JOIN status as st ON book.status = st.id
+WHERE book.id = $1
 LIMIT 1;
 
 -- name: GetAllBookObject :many
@@ -55,6 +68,11 @@ SET category = COALESCE(NULLIF(@category, ''), category),
     closes_at = COALESCE(NULLIF(@closes_at, ''), closes_at),
     updated_at = COALESCE(@updated_at, updated_at)
 WHERE id = @id;
+
+-- name: UpdateStatus :exec
+UPDATE book_object
+SET status = $1
+WHERE id = $2;
 
 -- name: DeleteBookObject :exec
 DELETE FROM book_object

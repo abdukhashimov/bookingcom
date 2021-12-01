@@ -5,6 +5,7 @@ import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -30,7 +31,7 @@ func (u *bookObjecService) Get(ctx context.Context, id string) (*model.BookObjec
 	if err != nil {
 		return &res, err
 	}
-
+	fmt.Println("DB: ", BookObjectDb)
 	err = modelToStruct(BookObjectDb, &res)
 	if err != nil {
 		return &res, err
@@ -120,30 +121,18 @@ func (u *bookObjecService) UpdateBookObject(ctx context.Context, req model.Updat
 
 func (b *bookObjecService) Delete(ctx context.Context, id string) (string, error) {
 	var (
-		payload sqlc.UpdateBookObjectParams
-		status  string = "deactivated"
+		status string = "deactivated"
 	)
-
-	bookObj, err := b.db.GetBookObject(ctx, id)
-	if err != nil {
-		return "", err
-	}
 
 	statusObj, err := b.db.GetStatusByName(ctx, status)
 	if err != nil {
 		return "", err
 	}
 
-	bookObj.Status = &statusObj.ID
-	err = modelToStruct(bookObj, &payload)
-	if err != nil {
-		return "", err
-	}
+	err = b.db.UpdateStatus(ctx, sqlc.UpdateStatusParams{
+		Status: &statusObj.ID,
+		ID:     id,
+	})
 
-	err = b.db.UpdateBookObject(ctx, payload)
-	if err != nil {
-		return "", err
-	}
-
-	return bookObj.ID, err
+	return "deleted...", err
 }

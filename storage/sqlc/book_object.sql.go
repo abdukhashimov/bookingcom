@@ -149,25 +149,53 @@ func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectPara
 }
 
 const getBookObject = `-- name: GetBookObject :one
-SELECT id, category, title, location, long, lat, about, status, opens_at, closes_at, created_at, updated_at
-FROM book_object
-WHERE id = $1
+SELECT book.id,
+    cat.name as "category",
+    book.title,
+    book.location,
+    book.about,
+    st.name as "status",
+    book.opens_at,
+    book.long,
+    book.lat,
+    book.closes_at,
+    book.created_at,
+    book.updated_at
+FROM book_object as book
+    LEFT JOIN category as cat ON book.category = cat.slug
+    LEFT JOIN status as st ON book.status = st.id
+WHERE book.id = $1
 LIMIT 1
 `
 
-func (q *Queries) GetBookObject(ctx context.Context, id string) (BookObject, error) {
+type GetBookObjectRow struct {
+	ID        string    `json:"id"`
+	Category  *string   `json:"category"`
+	Title     string    `json:"title"`
+	Location  string    `json:"location"`
+	About     string    `json:"about"`
+	Status    *string   `json:"status"`
+	OpensAt   string    `json:"opens_at"`
+	Long      float64   `json:"long"`
+	Lat       float64   `json:"lat"`
+	ClosesAt  string    `json:"closes_at"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func (q *Queries) GetBookObject(ctx context.Context, id string) (GetBookObjectRow, error) {
 	row := q.db.QueryRowContext(ctx, getBookObject, id)
-	var i BookObject
+	var i GetBookObjectRow
 	err := row.Scan(
 		&i.ID,
 		&i.Category,
 		&i.Title,
 		&i.Location,
-		&i.Long,
-		&i.Lat,
 		&i.About,
 		&i.Status,
 		&i.OpensAt,
+		&i.Long,
+		&i.Lat,
 		&i.ClosesAt,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -218,5 +246,21 @@ func (q *Queries) UpdateBookObject(ctx context.Context, arg UpdateBookObjectPara
 		arg.UpdatedAt,
 		arg.ID,
 	)
+	return err
+}
+
+const updateStatus = `-- name: UpdateStatus :exec
+UPDATE book_object
+SET status = $1
+WHERE id = $2
+`
+
+type UpdateStatusParams struct {
+	Status *int32 `json:"status"`
+	ID     string `json:"id"`
+}
+
+func (q *Queries) UpdateStatus(ctx context.Context, arg UpdateStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateStatus, arg.Status, arg.ID)
 	return err
 }
