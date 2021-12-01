@@ -42,27 +42,45 @@ func (r *mutationResolver) UpdateMe(ctx context.Context, input model.UpdateUser)
 }
 
 func (r *mutationResolver) CreateFaq(ctx context.Context, input model.CreateFaq) (*model.Faq, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("create request", logger.Any("payload", input))
+	res, err := r.services.FaqService().CreateFaq(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) UpdateFaq(ctx context.Context, input model.UpdateFaq) (*model.Faq, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("update request", logger.Any("payload", input))
+	res, err := r.services.FaqService().UpdateFaq(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) DeleteFaq(ctx context.Context, slug string) (string, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("delete request", logger.Any("payload", slug))
+	res, err := r.services.FaqService().DeleteFaq(ctx, slug)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) CreateCategory(ctx context.Context, input model.CreateCategory) (*model.Category, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("create request", logger.Any("payload", input))
+	res, err := r.services.CategoryService().CreateCategory(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) UpdateCategory(ctx context.Context, input model.UpdateCategory) (*model.Category, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("update request", logger.Any("payload", input))
+	res, err := r.services.CategoryService().UpdateCategory(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) DeleteCategory(ctx context.Context, slug string) (string, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("delete request", logger.Any("payload", slug))
+	res, err := r.services.CategoryService().DeleteCategory(ctx, slug)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) CreateBookObject(ctx context.Context, input model.CreateBookObject) (*model.BookObject, error) {
