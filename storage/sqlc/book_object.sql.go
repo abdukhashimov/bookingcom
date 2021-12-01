@@ -112,7 +112,7 @@ SELECT book.id,
     book.created_at,
     book.updated_at
 FROM book_object as book
-    LEFT JOIN category as cat ON book.category = cat.slug
+    LEFT JOIN category as cat ON book.category = cat.slug and cat.lang = 'ru'
     LEFT JOIN status as st ON book.status = st.id
 WHERE status = $1
 ORDER BY created_at desc OFFSET $2
