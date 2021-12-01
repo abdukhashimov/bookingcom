@@ -6,8 +6,6 @@ type BookObject {
   long: Float!
   lat: Float!
   about: String!
-  discount: Int!
-  discount_expires: String!
   status: String
   opens_at: String!
   closes_at: String!
@@ -27,8 +25,6 @@ input CreateBookObject {
   long: Float!
   lat: Float!
   about: String!
-  discount: Int
-  discount_expires: String
   status: String
   opens_at: String!
   closes_at: String!
@@ -41,8 +37,6 @@ input UpdateBookObject {
   location: Float
   long: Float
   about: String
-  discount: Int
-  discount_expires: String
   status: String
   opens_at: String
   closes_at: String

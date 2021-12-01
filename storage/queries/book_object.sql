@@ -17,8 +17,6 @@ INSERT INTO book_object (
         title,
         location,
         about,
-        discount,
-        discount_expires,
         status,
         opens_at,
         long,
@@ -39,9 +37,7 @@ VALUES (
         $9,
         $10,
         $11,
-        $12,
-        $13,
-        $14
+        $12
     )
 RETURNING *;
 
@@ -53,8 +49,6 @@ SET category = COALESCE(NULLIF(@category, ''), category),
     long = COALESCE(@long, long),
     lat = COALESCE(@lat, lat),
     about = COALESCE(NULLIF(@about, ''), about),
-    discount = COALESCE(@discount, discount),
-    discount_expires = COALESCE(NULLIF(@discount_expires, ''), discount_expires),
     status = COALESCE(NULLIF(@status, ''), status),
     opens_at = COALESCE(NULLIF(@opens_at, ''), opens_at),
     closes_at = COALESCE(NULLIF(@closes_at, ''), closes_at),

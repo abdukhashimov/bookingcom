@@ -44,20 +44,18 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	BookObject struct {
-		About           func(childComplexity int) int
-		Category        func(childComplexity int) int
-		ClosesAt        func(childComplexity int) int
-		CreatedAt       func(childComplexity int) int
-		Discount        func(childComplexity int) int
-		DiscountExpires func(childComplexity int) int
-		ID              func(childComplexity int) int
-		Lat             func(childComplexity int) int
-		Location        func(childComplexity int) int
-		Long            func(childComplexity int) int
-		OpensAt         func(childComplexity int) int
-		Status          func(childComplexity int) int
-		Title           func(childComplexity int) int
-		UpdatedAt       func(childComplexity int) int
+		About     func(childComplexity int) int
+		Category  func(childComplexity int) int
+		ClosesAt  func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		ID        func(childComplexity int) int
+		Lat       func(childComplexity int) int
+		Location  func(childComplexity int) int
+		Long      func(childComplexity int) int
+		OpensAt   func(childComplexity int) int
+		Status    func(childComplexity int) int
+		Title     func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
 	}
 
 	Category struct {
@@ -216,20 +214,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.BookObject.CreatedAt(childComplexity), true
-
-	case "BookObject.discount":
-		if e.complexity.BookObject.Discount == nil {
-			break
-		}
-
-		return e.complexity.BookObject.Discount(childComplexity), true
-
-	case "BookObject.discount_expires":
-		if e.complexity.BookObject.DiscountExpires == nil {
-			break
-		}
-
-		return e.complexity.BookObject.DiscountExpires(childComplexity), true
 
 	case "BookObject.id":
 		if e.complexity.BookObject.ID == nil {
@@ -858,8 +842,6 @@ var sources = []*ast.Source{
   long: Float!
   lat: Float!
   about: String!
-  discount: Int!
-  discount_expires: String!
   status: String
   opens_at: String!
   closes_at: String!
@@ -879,8 +861,6 @@ input CreateBookObject {
   long: Float!
   lat: Float!
   about: String!
-  discount: Int
-  discount_expires: String
   status: String
   opens_at: String!
   closes_at: String!
@@ -893,8 +873,6 @@ input UpdateBookObject {
   location: Float
   long: Float
   about: String
-  discount: Int
-  discount_expires: String
   status: String
   opens_at: String
   closes_at: String
@@ -1715,76 +1693,6 @@ func (ec *executionContext) _BookObject_about(ctx context.Context, field graphql
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.About, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _BookObject_discount(ctx context.Context, field graphql.CollectedField, obj *model.BookObject) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "BookObject",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Discount, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _BookObject_discount_expires(ctx context.Context, field graphql.CollectedField, obj *model.BookObject) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "BookObject",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DiscountExpires, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5316,22 +5224,6 @@ func (ec *executionContext) unmarshalInputCreateBookObject(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
-		case "discount":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("discount"))
-			it.Discount, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "discount_expires":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("discount_expires"))
-			it.DiscountExpires, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "status":
 			var err error
 
@@ -5607,22 +5499,6 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
-		case "discount":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("discount"))
-			it.Discount, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "discount_expires":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("discount_expires"))
-			it.DiscountExpires, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "status":
 			var err error
 
@@ -5877,16 +5753,6 @@ func (ec *executionContext) _BookObject(ctx context.Context, sel ast.SelectionSe
 			}
 		case "about":
 			out.Values[i] = ec._BookObject_about(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "discount":
-			out.Values[i] = ec._BookObject_discount(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "discount_expires":
-			out.Values[i] = ec._BookObject_discount_expires(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -6979,21 +6845,6 @@ func (ec *executionContext) marshalNGetAllResp2ᚖabdukhashimovᚋmybronᚗuzᚋ
 		return graphql.Null
 	}
 	return ec._GetAllResp(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
-	res, err := graphql.UnmarshalInt(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
-	res := graphql.MarshalInt(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-	}
-	return res
 }
 
 func (ec *executionContext) marshalNLoginResponse2abdukhashimovᚋmybronᚗuzᚋgraphᚋmodelᚐLoginResponse(ctx context.Context, sel ast.SelectionSet, v model.LoginResponse) graphql.Marshaler {

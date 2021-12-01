@@ -3,20 +3,18 @@
 package model
 
 type BookObject struct {
-	ID              string  `json:"id"`
-	Category        string  `json:"category"`
-	Title           string  `json:"title"`
-	Location        string  `json:"location"`
-	Long            float64 `json:"long"`
-	Lat             float64 `json:"lat"`
-	About           string  `json:"about"`
-	Discount        int     `json:"discount"`
-	DiscountExpires string  `json:"discount_expires"`
-	Status          *string `json:"status"`
-	OpensAt         string  `json:"opens_at"`
-	ClosesAt        string  `json:"closes_at"`
-	CreatedAt       string  `json:"created_at"`
-	UpdatedAt       string  `json:"updated_at"`
+	ID        string  `json:"id"`
+	Category  string  `json:"category"`
+	Title     string  `json:"title"`
+	Location  string  `json:"location"`
+	Long      float64 `json:"long"`
+	Lat       float64 `json:"lat"`
+	About     string  `json:"about"`
+	Status    *string `json:"status"`
+	OpensAt   string  `json:"opens_at"`
+	ClosesAt  string  `json:"closes_at"`
+	CreatedAt string  `json:"created_at"`
+	UpdatedAt string  `json:"updated_at"`
 }
 
 type Category struct {
@@ -33,17 +31,15 @@ type Category struct {
 }
 
 type CreateBookObject struct {
-	Category        string  `json:"category"`
-	Title           string  `json:"title"`
-	Location        string  `json:"location"`
-	Long            float64 `json:"long"`
-	Lat             float64 `json:"lat"`
-	About           string  `json:"about"`
-	Discount        *int    `json:"discount"`
-	DiscountExpires *string `json:"discount_expires"`
-	Status          *string `json:"status"`
-	OpensAt         string  `json:"opens_at"`
-	ClosesAt        string  `json:"closes_at"`
+	Category string  `json:"category"`
+	Title    string  `json:"title"`
+	Location string  `json:"location"`
+	Long     float64 `json:"long"`
+	Lat      float64 `json:"lat"`
+	About    string  `json:"about"`
+	Status   *string `json:"status"`
+	OpensAt  string  `json:"opens_at"`
+	ClosesAt string  `json:"closes_at"`
 }
 
 type CreateCategory struct {
@@ -106,17 +102,15 @@ type NewUser struct {
 }
 
 type UpdateBookObject struct {
-	ID              string   `json:"id"`
-	Category        *string  `json:"category"`
-	Title           *string  `json:"title"`
-	Location        *float64 `json:"location"`
-	Long            *float64 `json:"long"`
-	About           *string  `json:"about"`
-	Discount        *int     `json:"discount"`
-	DiscountExpires *string  `json:"discount_expires"`
-	Status          *string  `json:"status"`
-	OpensAt         *string  `json:"opens_at"`
-	ClosesAt        *string  `json:"closes_at"`
+	ID       string   `json:"id"`
+	Category *string  `json:"category"`
+	Title    *string  `json:"title"`
+	Location *float64 `json:"location"`
+	Long     *float64 `json:"long"`
+	About    *string  `json:"about"`
+	Status   *string  `json:"status"`
+	OpensAt  *string  `json:"opens_at"`
+	ClosesAt *string  `json:"closes_at"`
 }
 
 type UpdateCategory struct {

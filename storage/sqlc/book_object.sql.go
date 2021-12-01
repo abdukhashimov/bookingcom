@@ -6,8 +6,6 @@ package sqlc
 import (
 	"context"
 	"time"
-
-	"abdukhashimov/mybron.uz/storage/custom"
 )
 
 const createBookObject = `-- name: CreateBookObject :one
@@ -17,8 +15,6 @@ INSERT INTO book_object (
         title,
         location,
         about,
-        discount,
-        discount_expires,
         status,
         opens_at,
         long,
@@ -39,28 +35,24 @@ VALUES (
         $9,
         $10,
         $11,
-        $12,
-        $13,
-        $14
+        $12
     )
-RETURNING id, category, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
+RETURNING id, category, title, location, long, lat, about, status, opens_at, closes_at, created_at, updated_at
 `
 
 type CreateBookObjectParams struct {
-	ID              string      `json:"id"`
-	Category        string      `json:"category"`
-	Title           string      `json:"title"`
-	Location        string      `json:"location"`
-	About           string      `json:"about"`
-	Discount        *int32      `json:"discount"`
-	DiscountExpires custom.Time `json:"discount_expires"`
-	Status          *int32      `json:"status"`
-	OpensAt         string      `json:"opens_at"`
-	Long            float64     `json:"long"`
-	Lat             float64     `json:"lat"`
-	ClosesAt        string      `json:"closes_at"`
-	CreatedAt       time.Time   `json:"created_at"`
-	UpdatedAt       time.Time   `json:"updated_at"`
+	ID        string    `json:"id"`
+	Category  string    `json:"category"`
+	Title     string    `json:"title"`
+	Location  string    `json:"location"`
+	About     string    `json:"about"`
+	Status    *int32    `json:"status"`
+	OpensAt   string    `json:"opens_at"`
+	Long      float64   `json:"long"`
+	Lat       float64   `json:"lat"`
+	ClosesAt  string    `json:"closes_at"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (q *Queries) CreateBookObject(ctx context.Context, arg CreateBookObjectParams) (BookObject, error) {
@@ -70,8 +62,6 @@ func (q *Queries) CreateBookObject(ctx context.Context, arg CreateBookObjectPara
 		arg.Title,
 		arg.Location,
 		arg.About,
-		arg.Discount,
-		arg.DiscountExpires,
 		arg.Status,
 		arg.OpensAt,
 		arg.Long,
@@ -89,8 +79,6 @@ func (q *Queries) CreateBookObject(ctx context.Context, arg CreateBookObjectPara
 		&i.Long,
 		&i.Lat,
 		&i.About,
-		&i.Discount,
-		&i.DiscountExpires,
 		&i.Status,
 		&i.OpensAt,
 		&i.ClosesAt,
@@ -111,7 +99,7 @@ func (q *Queries) DeleteBookObject(ctx context.Context, id string) error {
 }
 
 const getAllBookObject = `-- name: GetAllBookObject :many
-SELECT id, category, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
+SELECT id, category, title, location, long, lat, about, status, opens_at, closes_at, created_at, updated_at
 FROM book_object
 ORDER BY created_at desc OFFSET $1
 LIMIT $2
@@ -139,8 +127,6 @@ func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectPara
 			&i.Long,
 			&i.Lat,
 			&i.About,
-			&i.Discount,
-			&i.DiscountExpires,
 			&i.Status,
 			&i.OpensAt,
 			&i.ClosesAt,
@@ -161,7 +147,7 @@ func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectPara
 }
 
 const getBookObject = `-- name: GetBookObject :one
-SELECT id, category, title, location, long, lat, about, discount, discount_expires, status, opens_at, closes_at, created_at, updated_at
+SELECT id, category, title, location, long, lat, about, status, opens_at, closes_at, created_at, updated_at
 FROM book_object
 WHERE id = $1
 LIMIT 1
@@ -178,8 +164,6 @@ func (q *Queries) GetBookObject(ctx context.Context, id string) (BookObject, err
 		&i.Long,
 		&i.Lat,
 		&i.About,
-		&i.Discount,
-		&i.DiscountExpires,
 		&i.Status,
 		&i.OpensAt,
 		&i.ClosesAt,
@@ -197,29 +181,25 @@ SET category = COALESCE(NULLIF($1, ''), category),
     long = COALESCE($4, long),
     lat = COALESCE($5, lat),
     about = COALESCE(NULLIF($6, ''), about),
-    discount = COALESCE($7, discount),
-    discount_expires = COALESCE(NULLIF($8, ''), discount_expires),
-    status = COALESCE(NULLIF($9, ''), status),
-    opens_at = COALESCE(NULLIF($10, ''), opens_at),
-    closes_at = COALESCE(NULLIF($11, ''), closes_at),
-    updated_at = COALESCE($12, updated_at)
-WHERE id = $13
+    status = COALESCE(NULLIF($7, ''), status),
+    opens_at = COALESCE(NULLIF($8, ''), opens_at),
+    closes_at = COALESCE(NULLIF($9, ''), closes_at),
+    updated_at = COALESCE($10, updated_at)
+WHERE id = $11
 `
 
 type UpdateBookObjectParams struct {
-	Category        interface{} `json:"category"`
-	Title           interface{} `json:"title"`
-	Location        interface{} `json:"location"`
-	Long            float64     `json:"long"`
-	Lat             float64     `json:"lat"`
-	About           interface{} `json:"about"`
-	Discount        *int32      `json:"discount"`
-	DiscountExpires interface{} `json:"discount_expires"`
-	Status          interface{} `json:"status"`
-	OpensAt         interface{} `json:"opens_at"`
-	ClosesAt        interface{} `json:"closes_at"`
-	UpdatedAt       time.Time   `json:"updated_at"`
-	ID              string      `json:"id"`
+	Category  interface{} `json:"category"`
+	Title     interface{} `json:"title"`
+	Location  interface{} `json:"location"`
+	Long      float64     `json:"long"`
+	Lat       float64     `json:"lat"`
+	About     interface{} `json:"about"`
+	Status    interface{} `json:"status"`
+	OpensAt   interface{} `json:"opens_at"`
+	ClosesAt  interface{} `json:"closes_at"`
+	UpdatedAt time.Time   `json:"updated_at"`
+	ID        string      `json:"id"`
 }
 
 func (q *Queries) UpdateBookObject(ctx context.Context, arg UpdateBookObjectParams) error {
@@ -230,8 +210,6 @@ func (q *Queries) UpdateBookObject(ctx context.Context, arg UpdateBookObjectPara
 		arg.Long,
 		arg.Lat,
 		arg.About,
-		arg.Discount,
-		arg.DiscountExpires,
 		arg.Status,
 		arg.OpensAt,
 		arg.ClosesAt,

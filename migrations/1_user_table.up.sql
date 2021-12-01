@@ -53,8 +53,6 @@ CREATE TABLE "book_object" (
   "long" FLOAT NOT NULL,
   "lat" FLOAT NOT NULL,
   "about" varchar NOT NULL,
-  "discount" integer,
-  "discount_expires" timestamp,
   "status" int,
   "opens_at" varchar NOT NULL,
   "closes_at" varchar NOT NULL,
