@@ -877,6 +877,7 @@ input CreateBookObject {
   title: String!
   location: Float!
   long: Float!
+  lat: Float!
   about: String!
   discount: Int
   discount_expires: String
@@ -5296,6 +5297,14 @@ func (ec *executionContext) unmarshalInputCreateBookObject(ctx context.Context, 
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("long"))
 			it.Long, err = ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "lat":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lat"))
+			it.Lat, err = ec.unmarshalNFloat2float64(ctx, v)
 			if err != nil {
 				return it, err
 			}

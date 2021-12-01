@@ -25,6 +25,7 @@ input CreateBookObject {
   title: String!
   location: Float!
   long: Float!
+  lat: Float!
   about: String!
   discount: Int
   discount_expires: String

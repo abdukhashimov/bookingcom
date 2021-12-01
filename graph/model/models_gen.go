@@ -37,6 +37,7 @@ type CreateBookObject struct {
 	Title           string  `json:"title"`
 	Location        float64 `json:"location"`
 	Long            float64 `json:"long"`
+	Lat             float64 `json:"lat"`
 	About           string  `json:"about"`
 	Discount        *int    `json:"discount"`
 	DiscountExpires *string `json:"discount_expires"`
