@@ -47,18 +47,17 @@ RETURNING *;
 
 -- name: UpdateBookObject :exec
 UPDATE book_object
-SET
-    category = COALESCE(@category, category),
-    title = COALESCE(@title, title),
-    location = COALESCE(@location, location),
-    long = COALESCE(@long, long),
-    lat = COALESCE(@lat, lat),
-    about = COALESCE(@about, about),
-    discount = COALESCE(@discount, discount),
-    discount_expires = COALESCE(@discount_expires, discount_expires),
-    status = COALESCE(@status, status),
-    opens_at = COALESCE(@opens_at, opens_at),
-    closes_at = COALESCE(@closes_at, closes_at),
+SET category = COALESCE(NULLIF(@category, ''), category),
+    title = COALESCE(NULLIF(@title, ''), title),
+    location = COALESCE(NULLIF(@location, ''), location),
+    long = COALESCE(NULLIF(@long, ''), long),
+    lat = COALESCE(NULLIF(@lat, ''), lat),
+    about = COALESCE(NULLIF(@about, ''), about),
+    discount = COALESCE(NULLIF(@discount, ''), discount),
+    discount_expires = COALESCE(NULLIF(@discount_expires, ''), discount_expires),
+    status = COALESCE(NULLIF(@status, ''), status),
+    opens_at = COALESCE(NULLIF(@opens_at, ''), opens_at),
+    closes_at = COALESCE(NULLIF(@closes_at, ''), closes_at),
     updated_at = COALESCE(@updated_at, updated_at)
 WHERE id = @id;
 
