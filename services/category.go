@@ -129,7 +129,6 @@ func (c *categoryService) GetAllCategory(ctx context.Context, limit, offset *int
 		return &response, err
 	}
 
-	fmt.Println(res)
 	err = modelToStruct(res, &response.Categories)
 
 	return &response, err
