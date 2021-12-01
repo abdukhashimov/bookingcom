@@ -1,7 +1,7 @@
 -- name: GetBookObject :one
 SELECT *
 FROM book_object
-WHERE id = $1
+WHERE id = $1 AND status = 8
 LIMIT 1;
 
 -- name: GetAllBookObject :many
