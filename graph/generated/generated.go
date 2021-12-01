@@ -852,7 +852,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 var sources = []*ast.Source{
 	{Name: "graph/graphql/booking_object.graphql", Input: `type BookObject {
   id: String!
-  category: Category!
+  category: String!
   title: String!
   location: String!
   long: Float!
@@ -1551,9 +1551,9 @@ func (ec *executionContext) _BookObject_category(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Category)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNCategory2ᚖabdukhashimovᚋmybronᚗuzᚋgraphᚋmodelᚐCategory(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _BookObject_title(ctx context.Context, field graphql.CollectedField, obj *model.BookObject) (ret graphql.Marshaler) {
