@@ -875,7 +875,7 @@ type GetAllBookObject {
 input CreateBookObject {
   category: String!
   title: String!
-  location: Float!
+  location: String!
   long: Float!
   lat: Float!
   about: String!
@@ -5288,7 +5288,7 @@ func (ec *executionContext) unmarshalInputCreateBookObject(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("location"))
-			it.Location, err = ec.unmarshalNFloat2float64(ctx, v)
+			it.Location, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}

@@ -23,7 +23,7 @@ type GetAllBookObject {
 input CreateBookObject {
   category: String!
   title: String!
-  location: Float!
+  location: String!
   long: Float!
   lat: Float!
   about: String!

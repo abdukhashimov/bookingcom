@@ -35,7 +35,7 @@ type Category struct {
 type CreateBookObject struct {
 	Category        string  `json:"category"`
 	Title           string  `json:"title"`
-	Location        float64 `json:"location"`
+	Location        string  `json:"location"`
 	Long            float64 `json:"long"`
 	Lat             float64 `json:"lat"`
 	About           string  `json:"about"`
