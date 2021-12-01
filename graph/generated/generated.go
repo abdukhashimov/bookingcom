@@ -873,7 +873,7 @@ type GetAllBookObject {
 }
 
 input CreateBookObject {
-  category_id: String!
+  category: String!
   title: String!
   location: Float!
   long: Float!
@@ -887,7 +887,7 @@ input CreateBookObject {
 
 input UpdateBookObject {
   id: String!
-  category_id: String!
+  category: String!
   title: String!
   location: Float!
   long: Float!
@@ -5267,11 +5267,11 @@ func (ec *executionContext) unmarshalInputCreateBookObject(ctx context.Context, 
 
 	for k, v := range asMap {
 		switch k {
-		case "category_id":
+		case "category":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category_id"))
-			it.CategoryID, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+			it.Category, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5558,11 +5558,11 @@ func (ec *executionContext) unmarshalInputUpdateBookObject(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
-		case "category_id":
+		case "category":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category_id"))
-			it.CategoryID, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
+			it.Category, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}

@@ -33,7 +33,7 @@ type Category struct {
 }
 
 type CreateBookObject struct {
-	CategoryID      string  `json:"category_id"`
+	Category        string  `json:"category"`
 	Title           string  `json:"title"`
 	Location        float64 `json:"location"`
 	Long            float64 `json:"long"`
@@ -106,7 +106,7 @@ type NewUser struct {
 
 type UpdateBookObject struct {
 	ID              string  `json:"id"`
-	CategoryID      string  `json:"category_id"`
+	Category        string  `json:"category"`
 	Title           string  `json:"title"`
 	Location        float64 `json:"location"`
 	Long            float64 `json:"long"`
