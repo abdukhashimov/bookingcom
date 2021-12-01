@@ -191,34 +191,33 @@ func (q *Queries) GetBookObject(ctx context.Context, id string) (BookObject, err
 
 const updateBookObject = `-- name: UpdateBookObject :exec
 UPDATE book_object
-SET
-    category = COALESCE($1, category),
-    title = COALESCE($2, title),
-    location = COALESCE($3, location),
-    long = COALESCE($4, long),
-    lat = COALESCE($5, lat),
-    about = COALESCE($6, about),
-    discount = COALESCE($7, discount),
-    discount_expires = COALESCE($8, discount_expires),
-    status = COALESCE($9, status),
-    opens_at = COALESCE($10, opens_at),
-    closes_at = COALESCE($11, closes_at),
+SET category = COALESCE(NULLIF($1, ''), category),
+    title = COALESCE(NULLIF($2, ''), title),
+    location = COALESCE(NULLIF($3, ''), location),
+    long = COALESCE(NULLIF($4, ''), long),
+    lat = COALESCE(NULLIF($5, ''), lat),
+    about = COALESCE(NULLIF($6, ''), about),
+    discount = COALESCE(NULLIF($7, ''), discount),
+    discount_expires = COALESCE(NULLIF($8, ''), discount_expires),
+    status = COALESCE(NULLIF($9, ''), status),
+    opens_at = COALESCE(NULLIF($10, ''), opens_at),
+    closes_at = COALESCE(NULLIF($11, ''), closes_at),
     updated_at = COALESCE($12, updated_at)
 WHERE id = $13
 `
 
 type UpdateBookObjectParams struct {
-	Category        string      `json:"category"`
-	Title           string      `json:"title"`
-	Location        string      `json:"location"`
-	Long            float64     `json:"long"`
-	Lat             float64     `json:"lat"`
-	About           string      `json:"about"`
-	Discount        *int32      `json:"discount"`
-	DiscountExpires custom.Time `json:"discount_expires"`
-	Status          *int32      `json:"status"`
-	OpensAt         time.Time   `json:"opens_at"`
-	ClosesAt        time.Time   `json:"closes_at"`
+	Category        interface{} `json:"category"`
+	Title           interface{} `json:"title"`
+	Location        interface{} `json:"location"`
+	Long            interface{} `json:"long"`
+	Lat             interface{} `json:"lat"`
+	About           interface{} `json:"about"`
+	Discount        interface{} `json:"discount"`
+	DiscountExpires interface{} `json:"discount_expires"`
+	Status          interface{} `json:"status"`
+	OpensAt         interface{} `json:"opens_at"`
+	ClosesAt        interface{} `json:"closes_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 	ID              string      `json:"id"`
 }
