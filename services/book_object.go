@@ -41,8 +41,13 @@ func (u *bookObjecService) Get(ctx context.Context, id string) (*model.BookObjec
 
 func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetAllBookObjectParams) (*model.GetAllBookObject, error) {
 	var (
-		res model.GetAllBookObject
+		res           model.GetAllBookObject
+		defaultStatus int32 = 8
 	)
+
+	if req.Status == nil {
+		req.Status = &defaultStatus
+	}
 
 	bookObjects, err := u.db.GetAllBookObject(ctx, req)
 	if err != nil {
