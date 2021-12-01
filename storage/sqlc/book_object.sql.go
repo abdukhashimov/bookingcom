@@ -194,10 +194,10 @@ UPDATE book_object
 SET category = COALESCE(NULLIF($1, ''), category),
     title = COALESCE(NULLIF($2, ''), title),
     location = COALESCE(NULLIF($3, ''), location),
-    long = COALESCE(NULLIF($4, ''), long),
-    lat = COALESCE(NULLIF($5, ''), lat),
+    long = COALESCE($4, long),
+    lat = COALESCE($5, lat),
     about = COALESCE(NULLIF($6, ''), about),
-    discount = COALESCE(NULLIF($7, ''), discount),
+    discount = COALESCE($7, discount),
     discount_expires = COALESCE(NULLIF($8, ''), discount_expires),
     status = COALESCE(NULLIF($9, ''), status),
     opens_at = COALESCE(NULLIF($10, ''), opens_at),
@@ -210,10 +210,10 @@ type UpdateBookObjectParams struct {
 	Category        interface{} `json:"category"`
 	Title           interface{} `json:"title"`
 	Location        interface{} `json:"location"`
-	Long            interface{} `json:"long"`
-	Lat             interface{} `json:"lat"`
+	Long            float64     `json:"long"`
+	Lat             float64     `json:"lat"`
 	About           interface{} `json:"about"`
-	Discount        interface{} `json:"discount"`
+	Discount        *int32      `json:"discount"`
 	DiscountExpires interface{} `json:"discount_expires"`
 	Status          interface{} `json:"status"`
 	OpensAt         interface{} `json:"opens_at"`
