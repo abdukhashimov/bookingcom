@@ -115,6 +115,10 @@ func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req
 }
 
 func (b *bookObjecService) Delete(ctx context.Context, id string) (string, error) {
-	err := b.db.DeleteBookObject(ctx, id)
+	bookObj, err := b.db.GetBookObject(ctx, id)
+	if err != nil {
+		return "", err
+	}
+
 	return "", err
 }
