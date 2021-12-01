@@ -21,7 +21,7 @@ type GetAllBookObject {
 }
 
 input CreateBookObject {
-  category_id: String!
+  category: String!
   title: String!
   location: Float!
   long: Float!
@@ -35,7 +35,7 @@ input CreateBookObject {
 
 input UpdateBookObject {
   id: String!
-  category_id: String!
+  category: String!
   title: String!
   location: Float!
   long: Float!
