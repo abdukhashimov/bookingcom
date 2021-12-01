@@ -84,15 +84,24 @@ func (r *mutationResolver) DeleteCategory(ctx context.Context, slug string) (str
 }
 
 func (r *mutationResolver) CreateBookObject(ctx context.Context, input model.CreateBookObject) (*model.BookObject, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("create request", logger.Any("payload", input))
+	res, err := r.services.BookObjectService().Create(ctx, input)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) UpdateBookObject(ctx context.Context, input model.UpdateBookObject) (*model.BookObject, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("update request", logger.Any("payload", update))
+	res, err := r.services.BookObjectService().UpdateBookObject(ctx, update)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *mutationResolver) DeleteBookObject(ctx context.Context, id string) (string, error) {
-	panic(fmt.Errorf("not implemented"))
+	r.log.Info("delete request", logger.Any("payload", id))
+	res, err := r.services.BookObjectService().Delete(ctx, id)
+	r.logErrorAndInfo(res, err)
+	return res, err
 }
 
 func (r *queryResolver) Users(ctx context.Context, limit *int, offset *int) ([]*model.User, error) {

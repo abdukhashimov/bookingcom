@@ -57,7 +57,7 @@ func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetAllBookObject
 	return &res, nil
 }
 
-func (u *bookObjecService) Create(ctx context.Context, req model.BookObject) (*model.BookObject, error) {
+func (u *bookObjecService) Create(ctx context.Context, req model.CreateBookObject) (*model.BookObject, error) {
 	var (
 		payload  sqlc.CreateBookObjectParams
 		response model.BookObject
@@ -83,7 +83,7 @@ func (u *bookObjecService) Create(ctx context.Context, req model.BookObject) (*m
 	return &response, nil
 }
 
-func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req *model.UpdateBookObject) (*model.BookObject, error) {
+func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req model.UpdateBookObject) (*model.BookObject, error) {
 	var (
 		payload  sqlc.UpdateBookObjectParams
 		response model.BookObject
