@@ -101,17 +101,19 @@ func (q *Queries) DeleteBookObject(ctx context.Context, id string) error {
 const getAllBookObject = `-- name: GetAllBookObject :many
 SELECT id, category, title, location, long, lat, about, status, opens_at, closes_at, created_at, updated_at
 FROM book_object
-ORDER BY created_at desc OFFSET $1
-LIMIT $2
+WHERE status = $1
+ORDER BY created_at desc OFFSET $2
+LIMIT $3
 `
 
 type GetAllBookObjectParams struct {
-	Offset int32 `json:"offset"`
-	Limit  int32 `json:"limit"`
+	Status *int32 `json:"status"`
+	Offset int32  `json:"offset"`
+	Limit  int32  `json:"limit"`
 }
 
 func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectParams) ([]BookObject, error) {
-	rows, err := q.db.QueryContext(ctx, getAllBookObject, arg.Offset, arg.Limit)
+	rows, err := q.db.QueryContext(ctx, getAllBookObject, arg.Status, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}

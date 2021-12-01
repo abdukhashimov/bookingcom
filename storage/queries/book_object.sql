@@ -1,14 +1,15 @@
 -- name: GetBookObject :one
 SELECT *
 FROM book_object
-WHERE id = $1 AND status = 8
+WHERE id = $1
 LIMIT 1;
 
 -- name: GetAllBookObject :many
 SELECT *
 FROM book_object
-ORDER BY created_at desc OFFSET $1
-LIMIT $2;
+WHERE status = $1
+ORDER BY created_at desc OFFSET $2
+LIMIT $3;
 
 -- name: CreateBookObject :one
 INSERT INTO book_object (
