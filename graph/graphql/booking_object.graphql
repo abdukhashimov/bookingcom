@@ -1,0 +1,43 @@
+type BookObject {
+  id: String!
+  category: Category!
+  title: String!
+  location: String!
+  long: Float!
+  lat: Float!
+  about: String!
+  discount: Int!
+  discount_expires: String!
+  status: String
+  opens_at: String!
+  closes_at: String!
+  created_at: String!
+  updated_at: String!
+}
+
+input CreateBookObject {
+  category_id: String!
+  title: String!
+  location: Float!
+  long: Float!
+  about: String!
+  discount: Int
+  discount_expires: String
+  status: String
+  opens_at: String!
+  closes_at: String!
+}
+
+input UpdateBookObject {
+  id: String!
+  category_id: String!
+  title: String!
+  location: Float!
+  long: Float!
+  about: String!
+  discount: Int
+  discount_expires: String
+  status: String
+  opens_at: String!
+  closes_at: String!
+}
