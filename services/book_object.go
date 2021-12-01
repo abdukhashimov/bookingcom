@@ -5,6 +5,7 @@ import (
 	"abdukhashimov/mybron.uz/pkg/jwt"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -53,6 +54,8 @@ func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetAllBookObject
 	if err != nil {
 		return &res, err
 	}
+
+	fmt.Println(len(bookObjects))
 
 	err = modelToStruct(bookObjects, &res.Objects)
 	if err != nil {

@@ -236,8 +236,8 @@ UPDATE book_object
 SET category = COALESCE(NULLIF($1, ''), category),
     title = COALESCE(NULLIF($2, ''), title),
     location = COALESCE(NULLIF($3, ''), location),
-    long = COALESCE($4, long),
-    lat = COALESCE($5, lat),
+    long = COALESCE(NULLIF($4, 0), long),
+    lat = COALESCE(NULLIF($5, 0), lat),
     about = COALESCE(NULLIF($6, ''), about),
     status = COALESCE(NULLIF($7, 0), status),
     opens_at = COALESCE(NULLIF($8, ''), opens_at),
@@ -250,8 +250,8 @@ type UpdateBookObjectParams struct {
 	Category  interface{} `json:"category"`
 	Title     interface{} `json:"title"`
 	Location  interface{} `json:"location"`
-	Long      float64     `json:"long"`
-	Lat       float64     `json:"lat"`
+	Long      interface{} `json:"long"`
+	Lat       interface{} `json:"lat"`
 	About     interface{} `json:"about"`
 	Status    interface{} `json:"status"`
 	OpensAt   interface{} `json:"opens_at"`
