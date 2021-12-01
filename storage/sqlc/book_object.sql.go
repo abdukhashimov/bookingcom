@@ -5,7 +5,6 @@ package sqlc
 
 import (
 	"context"
-	"database/sql"
 	"time"
 
 	"abdukhashimov/mybron.uz/storage/custom"
@@ -48,20 +47,20 @@ RETURNING id, category_id, title, location, long, lat, about, discount, discount
 `
 
 type CreateBookObjectParams struct {
-	ID              string        `json:"id"`
-	CategoryID      string        `json:"category_id"`
-	Title           string        `json:"title"`
-	Location        string        `json:"location"`
-	About           string        `json:"about"`
-	Discount        sql.NullInt32 `json:"discount"`
-	DiscountExpires custom.Time   `json:"discount_expires"`
-	Status          sql.NullInt32 `json:"status"`
-	OpensAt         time.Time     `json:"opens_at"`
-	Long            float64       `json:"long"`
-	Lat             float64       `json:"lat"`
-	ClosesAt        time.Time     `json:"closes_at"`
-	CreatedAt       time.Time     `json:"created_at"`
-	UpdatedAt       time.Time     `json:"updated_at"`
+	ID              string      `json:"id"`
+	CategoryID      string      `json:"category_id"`
+	Title           string      `json:"title"`
+	Location        string      `json:"location"`
+	About           string      `json:"about"`
+	Discount        *int32      `json:"discount"`
+	DiscountExpires custom.Time `json:"discount_expires"`
+	Status          *int32      `json:"status"`
+	OpensAt         time.Time   `json:"opens_at"`
+	Long            float64     `json:"long"`
+	Lat             float64     `json:"lat"`
+	ClosesAt        time.Time   `json:"closes_at"`
+	CreatedAt       time.Time   `json:"created_at"`
+	UpdatedAt       time.Time   `json:"updated_at"`
 }
 
 func (q *Queries) CreateBookObject(ctx context.Context, arg CreateBookObjectParams) (BookObject, error) {
@@ -209,19 +208,19 @@ WHERE id = $13
 `
 
 type UpdateBookObjectParams struct {
-	CategoryID      string        `json:"category_id"`
-	Title           string        `json:"title"`
-	Location        string        `json:"location"`
-	Long            float64       `json:"long"`
-	Lat             float64       `json:"lat"`
-	About           string        `json:"about"`
-	Discount        sql.NullInt32 `json:"discount"`
-	DiscountExpires custom.Time   `json:"discount_expires"`
-	Status          sql.NullInt32 `json:"status"`
-	OpensAt         time.Time     `json:"opens_at"`
-	ClosesAt        time.Time     `json:"closes_at"`
-	UpdatedAt       time.Time     `json:"updated_at"`
-	ID              string        `json:"id"`
+	CategoryID      string      `json:"category_id"`
+	Title           string      `json:"title"`
+	Location        string      `json:"location"`
+	Long            float64     `json:"long"`
+	Lat             float64     `json:"lat"`
+	About           string      `json:"about"`
+	Discount        *int32      `json:"discount"`
+	DiscountExpires custom.Time `json:"discount_expires"`
+	Status          *int32      `json:"status"`
+	OpensAt         time.Time   `json:"opens_at"`
+	ClosesAt        time.Time   `json:"closes_at"`
+	UpdatedAt       time.Time   `json:"updated_at"`
+	ID              string      `json:"id"`
 }
 
 func (q *Queries) UpdateBookObject(ctx context.Context, arg UpdateBookObjectParams) error {

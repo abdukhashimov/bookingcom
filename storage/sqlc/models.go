@@ -3,27 +3,26 @@
 package sqlc
 
 import (
-	"database/sql"
 	"time"
 
 	"abdukhashimov/mybron.uz/storage/custom"
 )
 
 type BookObject struct {
-	ID              string        `json:"id"`
-	CategoryID      string        `json:"category_id"`
-	Title           string        `json:"title"`
-	Location        string        `json:"location"`
-	Long            float64       `json:"long"`
-	Lat             float64       `json:"lat"`
-	About           string        `json:"about"`
-	Discount        sql.NullInt32 `json:"discount"`
-	DiscountExpires custom.Time   `json:"discount_expires"`
-	Status          sql.NullInt32 `json:"status"`
-	OpensAt         time.Time     `json:"opens_at"`
-	ClosesAt        time.Time     `json:"closes_at"`
-	CreatedAt       time.Time     `json:"created_at"`
-	UpdatedAt       time.Time     `json:"updated_at"`
+	ID              string      `json:"id"`
+	CategoryID      string      `json:"category_id"`
+	Title           string      `json:"title"`
+	Location        string      `json:"location"`
+	Long            float64     `json:"long"`
+	Lat             float64     `json:"lat"`
+	About           string      `json:"about"`
+	Discount        *int32      `json:"discount"`
+	DiscountExpires custom.Time `json:"discount_expires"`
+	Status          *int32      `json:"status"`
+	OpensAt         time.Time   `json:"opens_at"`
+	ClosesAt        time.Time   `json:"closes_at"`
+	CreatedAt       time.Time   `json:"created_at"`
+	UpdatedAt       time.Time   `json:"updated_at"`
 }
 
 type Category struct {
