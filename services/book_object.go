@@ -61,21 +61,16 @@ func (u *bookObjecService) Create(ctx context.Context, req model.CreateBookObjec
 	var (
 		payload  sqlc.CreateBookObjectParams
 		response model.BookObject
+		status   int32 = 1
 	)
 
 	payload.ID = uuid.NewString()
-
+	payload.Status = &status
 	err := modelToStruct(req, &payload)
 	if err != nil {
 		return nil, err
 	}
 
-	statusDb, err := u.db.GetStatusByName(ctx, *req.Status)
-	if err != nil {
-		statusDb.ID = 1
-	}
-
-	payload.Status = &statusDb.ID
 	res, err := u.db.CreateBookObject(ctx, payload)
 	if err != nil {
 		return nil, err

@@ -19,8 +19,8 @@ type BookObject struct {
 	Discount        *int32      `json:"discount"`
 	DiscountExpires custom.Time `json:"discount_expires"`
 	Status          *int32      `json:"status"`
-	OpensAt         time.Time   `json:"opens_at"`
-	ClosesAt        time.Time   `json:"closes_at"`
+	OpensAt         string      `json:"opens_at"`
+	ClosesAt        string      `json:"closes_at"`
 	CreatedAt       time.Time   `json:"created_at"`
 	UpdatedAt       time.Time   `json:"updated_at"`
 }

@@ -56,8 +56,8 @@ CREATE TABLE "book_object" (
   "discount" integer,
   "discount_expires" timestamp,
   "status" int,
-  "opens_at" time NOT NULL,
-  "closes_at" time NOT NULL,
+  "opens_at" varchar NOT NULL,
+  "closes_at" varchar NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT NOW(),
   "updated_at" timestamp NOT NULL DEFAULT NOW()
 );
