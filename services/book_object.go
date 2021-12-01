@@ -39,22 +39,22 @@ func (u *bookObjecService) Get(ctx context.Context, id string) (*model.BookObjec
 	return &res, nil
 }
 
-func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetAllBookObjectParams) ([]*model.BookObject, error) {
+func (u *bookObjecService) GetAll(ctx context.Context, req sqlc.GetAllBookObjectParams) (*model.GetAllBookObject, error) {
 	var (
-		res []*model.BookObject
+		res model.GetAllBookObject
 	)
 
-	BookObjects, err := u.db.GetAllBookObject(ctx, req)
+	bookObjects, err := u.db.GetAllBookObject(ctx, req)
 	if err != nil {
-		return res, err
+		return &res, err
 	}
 
-	err = modelToStruct(BookObjects, &res)
+	err = modelToStruct(bookObjects, &res.Objects)
 	if err != nil {
-		return res, err
+		return &res, err
 	}
 
-	return res, nil
+	return &res, nil
 }
 
 func (u *bookObjecService) Create(ctx context.Context, req model.BookObject) (*model.BookObject, error) {
@@ -101,12 +101,12 @@ func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req
 		return nil, err
 	}
 
-	BookObjectDb, err := u.db.GetBookObject(ctx, payload.ID)
+	bookObjectDb, err := u.db.GetBookObject(ctx, payload.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	err = modelToStruct(BookObjectDb, &response)
+	err = modelToStruct(bookObjectDb, &response)
 	if err != nil {
 		return nil, err
 	}
