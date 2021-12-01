@@ -2,6 +2,21 @@
 
 package model
 
+type BookObject struct {
+	ID        string  `json:"id"`
+	Category  string  `json:"category"`
+	Title     string  `json:"title"`
+	Location  string  `json:"location"`
+	Long      float64 `json:"long"`
+	Lat       float64 `json:"lat"`
+	About     string  `json:"about"`
+	Status    *string `json:"status"`
+	OpensAt   string  `json:"opens_at"`
+	ClosesAt  string  `json:"closes_at"`
+	CreatedAt string  `json:"created_at"`
+	UpdatedAt string  `json:"updated_at"`
+}
+
 type Category struct {
 	ID          string  `json:"id"`
 	ParentID    *string `json:"parent_id"`
@@ -13,6 +28,18 @@ type Category struct {
 	Information *string `json:"information"`
 	CreatedAt   string  `json:"created_at"`
 	UpdatedAt   string  `json:"updated_at"`
+}
+
+type CreateBookObject struct {
+	Category string  `json:"category"`
+	Title    string  `json:"title"`
+	Location string  `json:"location"`
+	Long     float64 `json:"long"`
+	Lat      float64 `json:"lat"`
+	About    string  `json:"about"`
+	Status   *string `json:"status"`
+	OpensAt  string  `json:"opens_at"`
+	ClosesAt string  `json:"closes_at"`
 }
 
 type CreateCategory struct {
@@ -38,6 +65,11 @@ type Faq struct {
 	Lang      string  `json:"lang"`
 	CreatedAt *string `json:"created_at"`
 	UpdatedAt *string `json:"updated_at"`
+}
+
+type GetAllBookObject struct {
+	Objects []*BookObject `json:"objects"`
+	Count   *int          `json:"count"`
 }
 
 type GetAllCategory struct {
@@ -67,6 +99,18 @@ type NewUser struct {
 	PhoneNumber string   `json:"phone_number"`
 	Long        *float64 `json:"long"`
 	Lat         *float64 `json:"lat"`
+}
+
+type UpdateBookObject struct {
+	ID       string   `json:"id"`
+	Category *string  `json:"category"`
+	Title    *string  `json:"title"`
+	Location *float64 `json:"location"`
+	Long     *float64 `json:"long"`
+	About    *string  `json:"about"`
+	Status   *string  `json:"status"`
+	OpensAt  *string  `json:"opens_at"`
+	ClosesAt *string  `json:"closes_at"`
 }
 
 type UpdateCategory struct {

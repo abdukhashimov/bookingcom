@@ -1,0 +1,43 @@
+type BookObject {
+  id: String!
+  category: String!
+  title: String!
+  location: String!
+  long: Float!
+  lat: Float!
+  about: String!
+  status: String
+  opens_at: String!
+  closes_at: String!
+  created_at: String!
+  updated_at: String!
+}
+
+type GetAllBookObject {
+  objects: [BookObject!]!
+  count: Int
+}
+
+input CreateBookObject {
+  category: String!
+  title: String!
+  location: String!
+  long: Float!
+  lat: Float!
+  about: String!
+  status: String
+  opens_at: String!
+  closes_at: String!
+}
+
+input UpdateBookObject {
+  id: String!
+  category: String
+  title: String
+  location: Float
+  long: Float
+  about: String
+  status: String
+  opens_at: String
+  closes_at: String
+}

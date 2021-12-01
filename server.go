@@ -16,6 +16,7 @@ import (
 	"database/sql"
 
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/apollotracing"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -37,6 +38,8 @@ func graphqlHandler(queries *sqlc.Queries, jwt jwt.Jwt) gin.HandlerFunc {
 			Resolvers: &resolver,
 		}),
 	)
+
+	h.Use(apollotracing.Tracer{})
 
 	return func(c *gin.Context) {
 		h.ServeHTTP(c.Writer, c.Request)

@@ -5,8 +5,7 @@ package sqlc
 
 import (
 	"context"
-
-	"abdukhashimov/mybron.uz/storage/custom"
+	"time"
 )
 
 const createCategory = `-- name: CreateCategory :one
@@ -18,25 +17,21 @@ INSERT INTO category (
         active,
         slug,
         lang,
-        information,
-        created_at,
-        updated_at
+        information
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 RETURNING id, parent_id, name, image, active, slug, lang, information, created_at, updated_at
 `
 
 type CreateCategoryParams struct {
-	ID          string      `json:"id"`
-	ParentID    *string     `json:"parent_id"`
-	Name        string      `json:"name"`
-	Image       *string     `json:"image"`
-	Active      *bool       `json:"active"`
-	Slug        string      `json:"slug"`
-	Lang        string      `json:"lang"`
-	Information *string     `json:"information"`
-	CreatedAt   custom.Time `json:"created_at"`
-	UpdatedAt   custom.Time `json:"updated_at"`
+	ID          string  `json:"id"`
+	ParentID    *string `json:"parent_id"`
+	Name        string  `json:"name"`
+	Image       *string `json:"image"`
+	Active      *bool   `json:"active"`
+	Slug        string  `json:"slug"`
+	Lang        string  `json:"lang"`
+	Information *string `json:"information"`
 }
 
 func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) (Category, error) {
@@ -49,8 +44,6 @@ func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) 
 		arg.Slug,
 		arg.Lang,
 		arg.Information,
-		arg.CreatedAt,
-		arg.UpdatedAt,
 	)
 	var i Category
 	err := row.Scan(
@@ -174,8 +167,8 @@ type UpdateCategoryParams struct {
 	Active      *bool       `json:"active"`
 	Name        string      `json:"name"`
 	Information *string     `json:"information"`
-	CreatedAt   custom.Time `json:"created_at"`
-	UpdatedAt   custom.Time `json:"updated_at"`
+	CreatedAt   time.Time   `json:"created_at"`
+	UpdatedAt   time.Time   `json:"updated_at"`
 	Slug        string      `json:"slug"`
 	Lang        string      `json:"lang"`
 }

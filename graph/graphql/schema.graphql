@@ -53,9 +53,14 @@ type Mutation {
   createFaq(input: CreateFAQ!): FAQ!
   updateFaq(input: UpdateFAQ!): FAQ!
   deleteFaq(slug: String!): String!
+
   createCategory(input: CreateCategory!): Category!
   updateCategory(input: UpdateCategory!): Category!
   deleteCategory(slug: String!): String!
+
+  createBookObject(input: CreateBookObject!): BookObject!
+  updateBookObject(input: UpdateBookObject!): BookObject!
+  deleteBookObject(id: String!): String!
 }
 
 type Query {
@@ -64,6 +69,10 @@ type Query {
 
   faqs(lang: String!, limit: Int = 1, offset: Int = 10): GetAllResp!
   faq(slug: String!, lang: String!): FAQ!
+
   categories(lang: String!, limit: Int = 1, offset: Int = 10): GetAllCategory!
   category(slug: String!, lang: String!): Category!
+
+  book_objects(limit: Int = 1, offset: Int = 10): GetAllBookObject!
+  book_object(id: String!): BookObject!
 }

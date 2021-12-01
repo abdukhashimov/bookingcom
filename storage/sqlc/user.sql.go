@@ -185,7 +185,7 @@ WHERE id = $9
 
 type UpdateUserParams struct {
 	FirstName   *string     `json:"first_name"`
-	SecondName  *string     `json:"second_name"`
+	LastName    *string     `json:"last_name"`
 	PhoneNumber interface{} `json:"phone_number"`
 	IsVerified  *bool       `json:"is_verified"`
 	Long        *float64    `json:"long"`
@@ -198,7 +198,7 @@ type UpdateUserParams struct {
 func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
 	_, err := q.db.ExecContext(ctx, updateUser,
 		arg.FirstName,
-		arg.SecondName,
+		arg.LastName,
 		arg.PhoneNumber,
 		arg.IsVerified,
 		arg.Long,
