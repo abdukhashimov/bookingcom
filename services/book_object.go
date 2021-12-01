@@ -3,10 +3,8 @@ package services
 import (
 	"abdukhashimov/mybron.uz/graph/model"
 	"abdukhashimov/mybron.uz/pkg/jwt"
-	"abdukhashimov/mybron.uz/pkg/messages"
 	"abdukhashimov/mybron.uz/storage/sqlc"
 	"context"
-	"errors"
 
 	"github.com/google/uuid"
 )
@@ -23,15 +21,12 @@ func NewBookObjectService(db *sqlc.Queries, jwt jwt.Jwt) *bookObjecService {
 	}
 }
 
-func (u *bookObjecService) Get(ctx context.Context) (*model.BookObject, error) {
+func (u *bookObjecService) Get(ctx context.Context, id string) (*model.BookObject, error) {
 	var (
 		res model.BookObject
 	)
-	BookObjectInfo, ok := ctx.Value("auth").(jwt.TokenPayload)
-	if !ok {
-		return &res, errors.New(messages.ErrorAuthFailed)
-	}
-	BookObjectDb, err := u.db.GetBookObject(ctx, BookObjectInfo.UserID)
+
+	BookObjectDb, err := u.db.GetBookObject(ctx, id)
 	if err != nil {
 		return &res, err
 	}
