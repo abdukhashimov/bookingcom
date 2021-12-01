@@ -141,5 +141,5 @@ func (b *bookObjecService) Delete(ctx context.Context, id string) (string, error
 		return "", err
 	}
 
-	return "", err
+	return bookObj.ID, err
 }
