@@ -70,6 +70,12 @@ func (u *bookObjecService) Create(ctx context.Context, req model.CreateBookObjec
 		return nil, err
 	}
 
+	statusDb, err := u.db.GetStatusByName(ctx, *req.Status)
+	if err != nil {
+		return nil, err
+	}
+
+	payload.Status = &statusDb.ID
 	res, err := u.db.CreateBookObject(ctx, payload)
 	if err != nil {
 		return nil, err
