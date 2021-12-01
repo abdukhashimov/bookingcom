@@ -83,13 +83,11 @@ func (u *bookObjecService) Create(ctx context.Context, req model.CreateBookObjec
 	return &response, nil
 }
 
-func (u *bookObjecService) UpdateBookObject(ctx context.Context, id *string, req model.UpdateBookObject) (*model.BookObject, error) {
+func (u *bookObjecService) UpdateBookObject(ctx context.Context, req model.UpdateBookObject) (*model.BookObject, error) {
 	var (
 		payload  sqlc.UpdateBookObjectParams
 		response model.BookObject
 	)
-
-	payload.ID = *id
 
 	err := modelToStruct(req, &payload)
 	if err != nil {

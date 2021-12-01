@@ -91,8 +91,8 @@ func (r *mutationResolver) CreateBookObject(ctx context.Context, input model.Cre
 }
 
 func (r *mutationResolver) UpdateBookObject(ctx context.Context, input model.UpdateBookObject) (*model.BookObject, error) {
-	r.log.Info("update request", logger.Any("payload", update))
-	res, err := r.services.BookObjectService().UpdateBookObject(ctx, update)
+	r.log.Info("update request", logger.Any("payload", input))
+	res, err := r.services.BookObjectService().UpdateBookObject(ctx, input)
 	r.logErrorAndInfo(res, err)
 	return res, err
 }
