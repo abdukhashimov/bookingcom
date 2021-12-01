@@ -95,11 +95,17 @@ func (u *bookObjecService) UpdateBookObject(ctx context.Context, req model.Updat
 		response model.BookObject
 	)
 
-	err := modelToStruct(req, &payload)
+	statusObj, err := u.db.GetStatusByName(ctx, *req.Status)
+	if err != nil {
+		return &response, err
+	}
+
+	err = modelToStruct(req, &payload)
 	if err != nil {
 		return nil, err
 	}
 
+	payload.Status = statusObj.ID
 	err = u.db.UpdateBookObject(ctx, payload)
 	if err != nil {
 		return nil, err

@@ -18,8 +18,21 @@ WHERE book.id = $1
 LIMIT 1;
 
 -- name: GetAllBookObject :many
-SELECT *
-FROM book_object
+SELECT book.id,
+    cat.name as "category",
+    book.title,
+    book.location,
+    book.about,
+    st.name as "status",
+    book.opens_at,
+    book.long,
+    book.lat,
+    book.closes_at,
+    book.created_at,
+    book.updated_at
+FROM book_object as book
+    LEFT JOIN category as cat ON book.category = cat.slug
+    LEFT JOIN status as st ON book.status = st.id
 WHERE status = $1
 ORDER BY created_at desc OFFSET $2
 LIMIT $3;

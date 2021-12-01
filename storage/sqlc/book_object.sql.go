@@ -99,8 +99,21 @@ func (q *Queries) DeleteBookObject(ctx context.Context, id string) error {
 }
 
 const getAllBookObject = `-- name: GetAllBookObject :many
-SELECT id, category, title, location, long, lat, about, status, opens_at, closes_at, created_at, updated_at
-FROM book_object
+SELECT book.id,
+    cat.name as "category",
+    book.title,
+    book.location,
+    book.about,
+    st.name as "status",
+    book.opens_at,
+    book.long,
+    book.lat,
+    book.closes_at,
+    book.created_at,
+    book.updated_at
+FROM book_object as book
+    LEFT JOIN category as cat ON book.category = cat.slug
+    LEFT JOIN status as st ON book.status = st.id
 WHERE status = $1
 ORDER BY created_at desc OFFSET $2
 LIMIT $3
@@ -112,25 +125,40 @@ type GetAllBookObjectParams struct {
 	Limit  int32  `json:"limit"`
 }
 
-func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectParams) ([]BookObject, error) {
+type GetAllBookObjectRow struct {
+	ID        string    `json:"id"`
+	Category  *string   `json:"category"`
+	Title     string    `json:"title"`
+	Location  string    `json:"location"`
+	About     string    `json:"about"`
+	Status    *string   `json:"status"`
+	OpensAt   string    `json:"opens_at"`
+	Long      float64   `json:"long"`
+	Lat       float64   `json:"lat"`
+	ClosesAt  string    `json:"closes_at"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func (q *Queries) GetAllBookObject(ctx context.Context, arg GetAllBookObjectParams) ([]GetAllBookObjectRow, error) {
 	rows, err := q.db.QueryContext(ctx, getAllBookObject, arg.Status, arg.Offset, arg.Limit)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []BookObject
+	var items []GetAllBookObjectRow
 	for rows.Next() {
-		var i BookObject
+		var i GetAllBookObjectRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Category,
 			&i.Title,
 			&i.Location,
-			&i.Long,
-			&i.Lat,
 			&i.About,
 			&i.Status,
 			&i.OpensAt,
+			&i.Long,
+			&i.Lat,
 			&i.ClosesAt,
 			&i.CreatedAt,
 			&i.UpdatedAt,
